@@ -10,6 +10,8 @@ import CloudKit
 import SwiftUI
 import Observation
 
+@Observable
+@MainActor
 class CloudKitViewModel {
     private var userID: String = ""
     var name: String = ""
@@ -45,6 +47,12 @@ class CloudKitViewModel {
             }
         }
     }
+    
+//    func isLogged(idUser: String) {
+//        let predicate = NSPredicate(value: true)
+//        let query = CKQuery(recordType: "preferences", predicate: predicate)
+//        let queryOperation = CKQueryOperation(query: query)
+//    }
     
     func sendUserToDB(record: CKRecord) {
         container.privateCloudDatabase.save(record) { [weak self] returnedRecord, returnedError in
