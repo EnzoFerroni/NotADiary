@@ -13,22 +13,58 @@ struct JournalEntryView: View {
     @State var image1: UIImage?
     @State var image2: UIImage?
     @State var day: Date = Date()
+    @State var mood: Double = 0
     @Binding var entryList: [JournalEntry]
+    
+    var moodFace: String {
+        switch mood {
+        case 0:
+            return "☹️"
+        case 1:
+            return "🙁"
+        case 2:
+            return "😑"
+        case 3:
+            return "🙂"
+        case 4:
+            return "😃"
+        default:
+            return "😑"
+        }
+    }
     
     var body: some View {
         NavigationStack {
-            VStack {
-                DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
-                HStack {
-                    Text("Texto:")
-                    Spacer()
-                }
-                TextField("O que você está pensando?", text: $text, axis: .vertical)
+            ScrollView {
+                VStack {
+                    Text(moodFace)
+                        .font(.largeTitle)
+                    Slider(value: $mood, in: 0...4, step: 1){}
+                        .padding(.horizontal)
                     
-                PhotoPickerView(image: $image1)
-                PhotoPickerView(image: $image2)
+                    DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
+                        .padding(.horizontal)
+                    
+                    HStack {
+                        Text("Text:")
+                            .font(.title)
+                            .padding(.horizontal)
+                        Spacer()
+                    }
+                    TextField("Write here...", text: $text, axis: .vertical)
+                        .padding(.horizontal)
+                    
+                    HStack {
+                        Text("Photo:")
+                            .font(.title)
+                            .padding(.horizontal)
+                        Spacer()
+                    }
+                    PhotoPickerView(image: $image1)
+                    PhotoPickerView(image: $image2)
+                }
+                ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day, mood: moodFace)
             }
-            ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day)
         }
     }
 }

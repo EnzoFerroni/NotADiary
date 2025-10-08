@@ -14,6 +14,7 @@ struct ToolbarEntryView: View {
     var image1: UIImage?
     var image2: UIImage?
     var day: Date
+    var mood: String
     
     var toolbarConfirmation: String {
         if text.isEmpty || image1 == nil || image2 == nil {
@@ -30,7 +31,7 @@ struct ToolbarEntryView: View {
                 ToolbarItem (placement: .confirmationAction){
                     Button {
                         if toolbarConfirmation == "checkmark" {
-                            entryList.append(JournalEntry(text: text, image1: image1!, image2: image2!, date: day))
+                            entryList.append(JournalEntry(text: text, image1: image1!, image2: image2!, date: day, mood: mood))
                             dismiss()
                         }
                         else {

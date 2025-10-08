@@ -20,14 +20,16 @@ struct JournalView: View {
             HStack {
                 Image(uiImage: entry.image1)
                     .resizable()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 180, height: 180)
                 Image(uiImage: entry.image2)
                     .resizable()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 180, height: 180)
             }
             
             Text(entry.text)
                 .lineLimit(7)
+            Text(entry.mood)
+                .font(.largeTitle)
         }
         .padding(.horizontal)
     }

@@ -11,28 +11,26 @@ struct HomeScreenView: View {
     @State var toggleSheet = false
     @State var entryList: [JournalEntry] = []
     var body: some View {
-        NavigationStack {
-            VStack {
-                Button {
-                    toggleSheet.toggle()
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle")
-                        Text("Add Jounal Entry")
-                    }
-                }
-                .font(.largeTitle)
-                Divider()
-                ScrollView(showsIndicators: false) {
-                    ForEach(entryList) { entry in
-                        JournalView(entry: entry)
-                        Divider()
-                    }
+        VStack {
+            Button {
+                toggleSheet.toggle()
+            } label: {
+                HStack {
+                    Image(systemName: "plus.circle")
+                    Text("Add Jounal Entry")
                 }
             }
-            .sheet(isPresented: $toggleSheet){
-                JournalEntryView(entryList: $entryList)
+            .font(.largeTitle)
+            Divider()
+            ScrollView {
+                ForEach(entryList) { entry in
+                    JournalView(entry: entry)
+                    Divider()
+                }
             }
+        }
+        .fullScreenCover(isPresented: $toggleSheet){
+            JournalEntryView(entryList: $entryList)
         }
     }
 }

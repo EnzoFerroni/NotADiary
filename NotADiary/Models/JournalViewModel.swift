@@ -13,5 +13,6 @@ struct JournalEntry: Identifiable {
     var image1: UIImage
     var image2: UIImage
     var date: Date
+    var mood: String
     let id: UUID = UUID()
 }
