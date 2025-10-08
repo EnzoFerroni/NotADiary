@@ -16,60 +16,58 @@ struct EntryView: View {
     @State private var ckViewModel = CloudKitViewModel()
     
     @State private var isLoading: Bool = true
+    @State private var wasClicked: Bool = false
     
     var body: some View {
         if isLoading {
             ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                .progressViewStyle(CircularProgressViewStyle(tint: .primary))
                 .scaleEffect(2.0, anchor: .center)
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         isLoading = false
                     }
                 }
         } else {
-            NavigationStack {
-                if ckViewModel.isLogged {
-                    VStack {
-                        Text("Oi, \(ckViewModel.preference?.name ?? "") você está logado!!!!")
+            if viewModel.isSignedInToiCloud.description.uppercased() != "FALSE" {
+                ZStack {
+                    Form {
+                        Text("Opa, parece que você não está logado")
                             .font(.title)
-                        Button {
-                            
+                        
+                        LabeledContent {
+                            TextField("", text: $ckViewModel.name)
                         } label: {
-                            Text("Entrar")
+                            Text("Digite seu nome:")
                         }
+                        
+                        Button {
+                            if !ckViewModel.name.isEmpty {
+                                ckViewModel.loginButtonPressed()
+                                wasClicked = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    dismiss()
+                                }
+                            }
+                        } label: {
+                            Text("Cadastrar")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(wasClicked)
+                    }
+                    if wasClicked {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .primary))
+                            .scaleEffect(2.0, anchor: .center)
                     }
                 }
-                else {
-                    if viewModel.isSignedInToiCloud.description.uppercased() != "FALSE" {
-                        Form {
-                            Text("Opa, parece que você não está logado")
-                                .font(.title)
-                            
-                            LabeledContent {
-                                TextField("", text: $ckViewModel.name)
-                            } label: {
-                                Text("Digite seu nome:")
-                            }
-                            
-                            Button {
-                                if !ckViewModel.name.isEmpty {
-                                    ckViewModel.loginButtonPressed()
-                                }
-                            } label: {
-                                Text("Cadastrar")
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
-                    }
-                    else {
-                        VStack {
-                            Text("Infelizmente você não está logado em uma conta do iCloud")
-                                .font(.title)
-                            Text("Vá para as configurações do celular, clique em iCloud e faça seu login!")
-                                .font(.title2)
-                        }
-                    }
+            }
+            else {
+                VStack {
+                    Text("Infelizmente você não está logado em uma conta do iCloud")
+                        .font(.title)
+                    Text("Vá para as configurações do celular, clique em iCloud e faça seu login!")
+                        .font(.title2)
                 }
             }
         }
