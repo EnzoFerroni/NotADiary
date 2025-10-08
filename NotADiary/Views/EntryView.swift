@@ -8,8 +8,16 @@
 import SwiftUI
 import CloudKit
 
+struct SaveDetails: Identifiable {
+    let name: String
+    let error: String
+    let id = UUID()
+}
+
 struct EntryView: View {
     @Environment(\.dismiss) var dismiss
+    
+    @State private var details: SaveDetails?
     
     @StateObject var viewModel = EntryViewModel()
     
@@ -17,62 +25,84 @@ struct EntryView: View {
     
     @State private var isLoading: Bool = true
     @State private var wasClicked: Bool = false
+    @State private var showingAlert: Bool = false
+    @State private var isLoadingLocal: Bool = false
+    
+    @State private var state: Int = 0
+    
+    @ViewBuilder func loadingView() -> some View {
+        ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: .primary))
+            .scaleEffect(2.0, anchor: .center)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    isLoading = false
+                }
+            }
+    }
     
     var body: some View {
         if isLoading {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .primary))
-                .scaleEffect(2.0, anchor: .center)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        isLoading = false
-                    }
-                }
-        } else {
-            if viewModel.isSignedInToiCloud.description.uppercased() != "FALSE" {
-                ZStack {
-                    Form {
-                        Text("Opa, parece que você não está logado")
-                            .font(.title)
+            loadingView()
+        }
+        else {
+            if state == 0 {
+                NavigationStack {
+                    VStack {
+                        Text("Já tem uma conta ou deseja criar uma?")
+                            .font(.title2)
                         
-                        LabeledContent {
-                            TextField("", text: $ckViewModel.name)
-                        } label: {
-                            Text("Digite seu nome:")
-                        }
-                        
-                        Button {
-                            if !ckViewModel.name.isEmpty {
-                                ckViewModel.loginButtonPressed()
-                                wasClicked = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                    dismiss()
+                        HStack {
+                            Button {
+                                if ckViewModel.isLogged {
+                                    showingAlert = true
                                 }
+                                else {
+                                    state = 1
+                                    isLoading = true
+                                }
+                            } label: {
+                                Text("Já tenho")
                             }
-                        } label: {
-                            Text("Cadastrar")
+                            .buttonStyle(.bordered)
+                            .alert("Já possui conta", isPresented: $showingAlert) {
+                                Button("OK", role: .confirm) {}
+                            } message: {
+                                Text("Você já possui uma conta no NotADiary, tente entrar na sua conta!")
+                            }
+                            
+                            Button {
+                                state = 2
+                                isLoading = true
+                            } label: {
+                                Text("Ainda não tenho")
+                            }
+                            .buttonStyle(.bordered)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(wasClicked)
                     }
-                    if wasClicked {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .primary))
-                            .scaleEffect(2.0, anchor: .center)
-                    }
+                    .navigationTitle("Boas vindas")
                 }
             }
-            else {
-                VStack {
-                    Text("Infelizmente você não está logado em uma conta do iCloud")
-                        .font(.title)
-                    Text("Vá para as configurações do celular, clique em iCloud e faça seu login!")
-                        .font(.title2)
+            else if state == 1 {
+                if isLoading {
+                    loadingView()
+                }
+                else {
+                    ContentView()
+                }
+            }
+            else if state == 2 {
+                if isLoading {
+                    loadingView()
+                }
+                else {
+                    // Próxima View
                 }
             }
         }
     }
 }
+
 
 #Preview {
     EntryView()
