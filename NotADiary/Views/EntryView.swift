@@ -8,16 +8,8 @@
 import SwiftUI
 import CloudKit
 
-struct SaveDetails: Identifiable {
-    let name: String
-    let error: String
-    let id = UUID()
-}
-
 struct EntryView: View {
     @Environment(\.dismiss) var dismiss
-    
-    @State private var details: SaveDetails?
     
     @StateObject var viewModel = EntryViewModel()
     
@@ -54,7 +46,7 @@ struct EntryView: View {
                         
                         HStack {
                             Button {
-                                if ckViewModel.isLogged {
+                                if !ckViewModel.isLogged {
                                     showingAlert = true
                                 }
                                 else {
