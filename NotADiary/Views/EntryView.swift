@@ -13,7 +13,7 @@ struct EntryView: View {
     
     @StateObject var viewModel = EntryViewModel()
     
-    @State private var ckViewModel = CloudKitViewModel()
+    @State var ckViewModel = CloudKitViewModel()
     
     @State private var isLoading: Bool = true
     @State private var wasClicked: Bool = false
@@ -81,6 +81,7 @@ struct EntryView: View {
                 }
                 else {
                     ContentView()
+                        .environment(ckViewModel)
                 }
             }
             else if state == 2 {
@@ -88,7 +89,8 @@ struct EntryView: View {
                     loadingView()
                 }
                 else {
-                    // Próxima View
+                    OnboardingView()
+                        .environment(ckViewModel)
                 }
             }
         }

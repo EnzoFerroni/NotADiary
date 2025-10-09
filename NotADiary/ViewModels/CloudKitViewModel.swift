@@ -22,10 +22,12 @@ class CloudKitViewModel {
     
     var preference: Preference? = nil
     
+    var entriesDictionary: [CKRecord.ID: Entry] = [:]
+    
     func loginButtonPressed() {
         guard !name.isEmpty else { return }
         
-        registerPreference(name: name)
+        createPreference(name: name)
     }
     
     init() {
@@ -36,7 +38,7 @@ class CloudKitViewModel {
         }
     }
     
-    func registerPreference(name: String) {
+    func createPreference(name: String) {
         let newPreference = CKRecord(recordType: "preferences")
         
         getPreferenceRecordID { (recordID: CKRecord.ID?, error: NSError?) in
@@ -50,6 +52,18 @@ class CloudKitViewModel {
                 print("Fetched iCloudID returned nil")
             }
         }
+    }
+    
+    func createDiaryEntry(entry: Entry) throws {
+        let newEntry = CKRecord(recordType: "entries")
+        let image = try CKAsset(image: entry.image)
+        
+        newEntry["ID"] = newEntry.recordID.recordName
+        newEntry["title"] = entry.title
+        newEntry["text"] = entry.text
+        newEntry["image"] = image
+        newEntry["date"] = entry.date
+        newEntry["humor"] = entry.humor
     }
     
     func getPreferenceRecordID(complete: @escaping (_ instance: CKRecord.ID?, _ error: NSError?) -> ()) {
