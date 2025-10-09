@@ -24,7 +24,7 @@ struct HomeScreenView: View {
                 }
                 Divider()
                 ScrollView {
-                    ForEach(Array(entryList.enumerated()), id: \.offset) { index, entry in
+                    ForEach(Array(entryList.sorted(by: {$0.date < $1.date}).enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             JournalEntryFullView(entry: $entryList[index])
                         } label: {
