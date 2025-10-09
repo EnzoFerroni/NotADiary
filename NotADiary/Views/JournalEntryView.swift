@@ -14,6 +14,7 @@ struct JournalEntryView: View {
     @State var image2: UIImage?
     @State var day: Date = Date()
     @State var mood: Double = 0
+    @State var title: String = ""
     @Binding var entryList: [JournalEntry]
     
     var moodFace: String {
@@ -37,6 +38,16 @@ struct JournalEntryView: View {
         NavigationStack {
             ScrollView {
                 VStack {
+                    HStack {
+                        Text("Title:")
+                            .font(.title)
+                            .padding(.horizontal)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    TextField("Write here...", text: $title, axis: .vertical)
+                        .padding(.horizontal)
+                    
                     Text(moodFace)
                         .font(.largeTitle)
                     Slider(value: $mood, in: 0...4, step: 1){}
@@ -63,7 +74,7 @@ struct JournalEntryView: View {
                     PhotoPickerView(image: $image1)
                     PhotoPickerView(image: $image2)
                 }
-                ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day, mood: moodFace)
+                ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day, mood: moodFace, title: title)
             }
         }
     }

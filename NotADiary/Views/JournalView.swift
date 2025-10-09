@@ -13,15 +13,21 @@ struct JournalView: View {
     var body: some View {
         VStack {
             HStack {
+                Text(entry.title)
+                    .font(.largeTitle)
+                    .lineLimit(1)
+                Spacer()
+            }
+            HStack {
                 Text("\(entry.date, format: .dateTime.day().month().year())")
                     .font(.largeTitle)
                 Spacer()
             }
             HStack {
-                Image(uiImage: entry.image1)
+                Image(uiImage: entry.image1!)
                     .resizable()
                     .frame(width: 180, height: 180)
-                Image(uiImage: entry.image2)
+                Image(uiImage: entry.image2!)
                     .resizable()
                     .frame(width: 180, height: 180)
             }
@@ -33,7 +39,7 @@ struct JournalView: View {
         }
         .padding(.horizontal)
     }
-}
+} 
 
 //#Preview {
 //    JournalView()
