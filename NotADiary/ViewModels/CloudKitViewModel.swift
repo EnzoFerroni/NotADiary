@@ -22,10 +22,12 @@ class CloudKitViewModel {
     
     var preference: Preference? = nil
     
+    var entriesDictionary: [CKRecord.ID: Entry] = [:]
+    
     func loginButtonPressed() {
         guard !name.isEmpty else { return }
         
-        registerPreference(name: name)
+        createPreference(name: name)
     }
     
     init() {
@@ -36,10 +38,10 @@ class CloudKitViewModel {
         }
     }
     
-    func registerPreference(name: String) {
+    func createPreference(name: String) {
         let newPreference = CKRecord(recordType: "preferences")
         
-        getPreferenceRecordID { (recordID: CKRecord.ID?, error: NSError?) in
+        getPreferenceRecordID { recordID, error in
             if let userID = recordID?.recordName {
                 newPreference["name"] = name
                 newPreference["ID"] = userID
@@ -50,6 +52,23 @@ class CloudKitViewModel {
                 print("Fetched iCloudID returned nil")
             }
         }
+    }
+    
+    func createDiaryEntry(entry: Entry) throws {
+        let newEntry = CKRecord(recordType: "entries")
+        let image = try CKAsset(image: entry.image)
+        
+        newEntry["ID"] = newEntry.recordID.recordName
+        newEntry["title"] = entry.title
+        newEntry["text"] = entry.text
+        newEntry["image"] = image
+        newEntry["date"] = entry.date
+        newEntry["humor"] = entry.humor
+        
+        let entrySet = Entry(id: newEntry.recordID, title: entry.title, text: entry.text, date: entry.date, image: entry.image, humor: entry.humor)
+        
+        entriesDictionary[newEntry.recordID] = entrySet
+        sendEntryToDB(record: newEntry)
     }
     
     func getPreferenceRecordID(complete: @escaping (_ instance: CKRecord.ID?, _ error: NSError?) -> ()) {
@@ -110,6 +129,13 @@ class CloudKitViewModel {
             DispatchQueue.main.async {
                 self?.name = ""
             }
+        }
+    }
+    
+    func sendEntryToDB(record: CKRecord) {
+        container.privateCloudDatabase.save(record) { returnedRecord, returnedError in
+            print(returnedError ?? "")
+            print(returnedRecord ?? "")
         }
     }
     

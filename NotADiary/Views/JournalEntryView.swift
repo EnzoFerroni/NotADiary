@@ -16,6 +16,10 @@ struct JournalEntryView: View {
     @State var mood: Double = 0
     @Binding var entryList: [JournalEntry]
     
+    @State var wasClicked: Bool = false
+    
+    @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+    
     var moodFace: String {
         switch mood {
         case 0:
@@ -62,6 +66,17 @@ struct JournalEntryView: View {
                     }
                     PhotoPickerView(image: $image1)
                     PhotoPickerView(image: $image2)
+                    
+                    Button {
+                        do {
+                            try ckViewModel.createDiaryEntry(entry: Entry(id: nil, title: "Titulo", text: text, date: day, image: image1!, humor: Int(mood)))
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    } label: {
+                        Text("Confirmar")
+                    }
+                    .disabled(wasClicked)
                 }
                 ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day, mood: moodFace)
             }
