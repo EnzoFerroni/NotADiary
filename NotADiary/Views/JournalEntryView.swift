@@ -68,11 +68,15 @@ struct JournalEntryView: View {
                     PhotoPickerView(image: $image2)
                     
                     Button {
-                        ckViewModel.createPreference(name: text)
+                        do {
+                            try ckViewModel.createDiaryEntry(entry: Entry(id: nil, title: "Titulo", text: text, date: day, image: image1!, humor: Int(mood)))
+                        } catch {
+                            print(error.localizedDescription)
+                        }
                     } label: {
                         Text("Confirmar")
                     }
-                    .disabled(!wasClicked)
+                    .disabled(wasClicked)
                 }
                 ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day, mood: moodFace)
             }

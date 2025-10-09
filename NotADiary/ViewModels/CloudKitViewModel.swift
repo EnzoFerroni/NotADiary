@@ -41,7 +41,7 @@ class CloudKitViewModel {
     func createPreference(name: String) {
         let newPreference = CKRecord(recordType: "preferences")
         
-        getPreferenceRecordID { (recordID: CKRecord.ID?, error: NSError?) in
+        getPreferenceRecordID { recordID, error in
             if let userID = recordID?.recordName {
                 newPreference["name"] = name
                 newPreference["ID"] = userID
@@ -64,6 +64,11 @@ class CloudKitViewModel {
         newEntry["image"] = image
         newEntry["date"] = entry.date
         newEntry["humor"] = entry.humor
+        
+        let entrySet = Entry(id: newEntry.recordID, title: entry.title, text: entry.text, date: entry.date, image: entry.image, humor: entry.humor)
+        
+        entriesDictionary[newEntry.recordID] = entrySet
+        sendEntryToDB(record: newEntry)
     }
     
     func getPreferenceRecordID(complete: @escaping (_ instance: CKRecord.ID?, _ error: NSError?) -> ()) {
@@ -124,6 +129,13 @@ class CloudKitViewModel {
             DispatchQueue.main.async {
                 self?.name = ""
             }
+        }
+    }
+    
+    func sendEntryToDB(record: CKRecord) {
+        container.privateCloudDatabase.save(record) { returnedRecord, returnedError in
+            print(returnedError ?? "")
+            print(returnedRecord ?? "")
         }
     }
     
