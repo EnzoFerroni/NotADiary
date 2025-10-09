@@ -40,9 +40,6 @@ struct JournalEntryEdit: View {
                         Spacer()
                     }
                     PhotoPickerView(image: $entry.image1)
-                    Divider()
-                    PhotoPickerView(image: $entry.image2)
-                    
                 }
             }
             .toolbar {

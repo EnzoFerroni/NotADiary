@@ -30,10 +30,6 @@ struct JournalEntryFullView: View {
                             Image(uiImage: entry.image1!)
                                 .resizable()
                                 .frame(width: 180, height: 180)
-                            Divider()
-                            Image(uiImage: entry.image2!)
-                                .resizable()
-                                .frame(width: 180, height: 180)
                         }
                     }
                 }

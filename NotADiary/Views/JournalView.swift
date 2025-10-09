@@ -26,10 +26,7 @@ struct JournalView: View {
             HStack {
                 Image(uiImage: entry.image1!)
                     .resizable()
-                    .frame(width: 180, height: 180)
-                Image(uiImage: entry.image2!)
-                    .resizable()
-                    .frame(width: 180, height: 180)
+                    .frame(width: 280, height: 180)
             }
             
             Text(entry.text)

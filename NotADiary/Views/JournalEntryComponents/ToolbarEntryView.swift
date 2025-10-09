@@ -12,13 +12,12 @@ struct ToolbarEntryView: View {
     @Binding var entryList: [JournalEntry]
     var text: String
     var image1: UIImage?
-    var image2: UIImage?
     var day: Date
     var mood: String
     var title: String
     
     var toolbarConfirmation: String {
-        if text.isEmpty || image1 == nil || image2 == nil {
+        if text.isEmpty || image1 == nil || title.isEmpty {
             return "xmark"
         }
         else {
@@ -32,7 +31,7 @@ struct ToolbarEntryView: View {
                 ToolbarItem (placement: .confirmationAction){
                     Button {
                         if toolbarConfirmation == "checkmark" {
-                            entryList.append(JournalEntry(title: title, text: text, image1: image1!, image2: image2!, date: day, mood: mood))
+                            entryList.append(JournalEntry(title: title, text: text, image1: image1!, date: day, mood: mood))
                             dismiss()
                         }
                         else {

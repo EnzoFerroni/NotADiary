@@ -11,7 +11,6 @@ import PhotosUI
 struct JournalEntryView: View {
     @State var text: String = ""
     @State var image1: UIImage?
-    @State var image2: UIImage?
     @State var day: Date = Date()
     @State var mood: Double = 0
     @State var title: String = ""
@@ -72,9 +71,8 @@ struct JournalEntryView: View {
                         Spacer()
                     }
                     PhotoPickerView(image: $image1)
-                    PhotoPickerView(image: $image2)
                 }
-                ToolbarEntryView(entryList: $entryList, text: text, image1: image1, image2: image2, day: day, mood: moodFace, title: title)
+                ToolbarEntryView(entryList: $entryList, text: text, image1: image1, day: day, mood: moodFace, title: title)
             }
         }
     }
