@@ -8,29 +8,39 @@
 import SwiftUI
 
 struct HomeScreenView: View {
-    @State var toggleSheet = false
+    @State var toggleSheet: Bool = false
     @State var entryList: [JournalEntry] = []
+    @State var teste: String = ""
+    
     var body: some View {
-        VStack {
-            Button {
-                toggleSheet.toggle()
-            } label: {
+        NavigationStack {
+            VStack {
                 HStack {
-                    Image(systemName: "plus.circle")
-                    Text("Add Jounal Entry")
+                    Text("Boas Vindas, <Pessoa>!")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.horizontal)
+                    Spacer()
+                }
+                
+                ScrollView {
+                    ForEach(Array(entryList.enumerated()), id: \.offset) { index, entry in
+                        NavigationLink {
+                            JournalEntryFullView(entry: $entryList[index])
+                        } label: {
+                            VStack {
+                                JournalView(entry: entry)
+                                Divider()
+                            }
+                        }
+                    }
                 }
             }
-            .font(.largeTitle)
-            Divider()
-            ScrollView {
-                ForEach(entryList) { entry in
-                    JournalView(entry: entry)
-                    Divider()
-                }
+            .fullScreenCover(isPresented: $toggleSheet){
+                JournalEntryView(entryList: $entryList)
             }
-        }
-        .fullScreenCover(isPresented: $toggleSheet){
-            JournalEntryView(entryList: $entryList)
+            
+            ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $teste)
         }
     }
 }

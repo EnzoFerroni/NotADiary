@@ -15,28 +15,40 @@ struct JournalView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("\(entry.date, format: .dateTime.day().month().year())")
-                    .font(.largeTitle)
+                Text(entry.title)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .lineLimit(1)
                 Spacer()
             }
             HStack {
-                Image(uiImage: entry.image1)
-                    .resizable()
-                    .frame(width: 180, height: 180)
-                Image(uiImage: entry.image2)
-                    .resizable()
-                    .frame(width: 180, height: 180)
+                Text("\(entry.date, format: .dateTime.day().month().year())")
+                    .font(.title3)
+                Spacer()
+            }
+            HStack {
+                Text(entry.text)
+                    .lineLimit(7)
+                    .font(.headline)
+                    .fontWeight(.regular)
+                    .multilineTextAlignment(.leading)
+                Spacer()
             }
             
-            Text(entry.text)
-                .lineLimit(7)
-            Text(entry.mood)
-                .font(.largeTitle)
+            if entry.image1 != nil {
+                Image(uiImage: entry.image1!)
+                    .resizable()
+                    .frame(width: 240.0, height: 236)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .scaledToFit()
+            }
+            
         }
+        .foregroundStyle(.black)
         .padding(.horizontal)
     }
 }
 
-//#Preview {
-//    JournalView()
-//}
+#Preview {
+    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
+}

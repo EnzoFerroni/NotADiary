@@ -9,9 +9,10 @@ import Foundation
 import SwiftUI
 
 struct JournalEntry: Identifiable {
+    var title: String
     var text: String
-    var image1: UIImage
-    var image2: UIImage
+    var image1: UIImage?
+    //var image2: UIImage?
     var date: Date
     var mood: String
     let id: UUID = UUID()

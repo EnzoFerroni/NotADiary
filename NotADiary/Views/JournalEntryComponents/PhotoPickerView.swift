@@ -10,14 +10,18 @@ import PhotosUI
 
 struct PhotoPickerView: View {
     @State var pickerImage: PhotosPickerItem?
+    
     @Binding var image: UIImage?
+    
+    var isEdit: Bool
     
     var body: some View {
         VStack {
             PhotosPicker(selection: $pickerImage, matching: .images){
                 Label("Adicione uma foto", systemImage: "photo")
             }
-            if image != nil{
+            
+            if image != nil && isEdit {
                 Image(uiImage: image!)
                     .resizable()
                     .frame(width: 240.0, height: 236)
