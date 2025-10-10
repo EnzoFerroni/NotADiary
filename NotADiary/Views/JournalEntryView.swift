@@ -16,6 +16,10 @@ struct JournalEntryView: View {
     @State var title: String = ""
     @Binding var entryList: [JournalEntry]
     
+    @State var wasClicked: Bool = false
+    
+    @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+    
     var moodFace: String {
         switch mood {
         case 0:

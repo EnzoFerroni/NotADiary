@@ -10,6 +10,8 @@ import SwiftUI
 struct JournalView: View {
     var entry: JournalEntry
     
+    @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+
     var body: some View {
         VStack {
             HStack {

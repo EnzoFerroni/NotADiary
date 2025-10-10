@@ -22,10 +22,13 @@ class CloudKitViewModel {
     
     var preference: Preference? = nil
     
+    var entriesDictionary: [CKRecord.ID: Entry] = [:]
+    var entries: [Entry] = []
+    
     func loginButtonPressed() {
         guard !name.isEmpty else { return }
         
-        registerPreference(name: name)
+        createPreference(name: name)
     }
     
     init() {
@@ -36,10 +39,10 @@ class CloudKitViewModel {
         }
     }
     
-    func registerPreference(name: String) {
+    func createPreference(name: String) {
         let newPreference = CKRecord(recordType: "preferences")
         
-        getPreferenceRecordID { (recordID: CKRecord.ID?, error: NSError?) in
+        getPreferenceRecordID { recordID, error in
             if let userID = recordID?.recordName {
                 newPreference["name"] = name
                 newPreference["ID"] = userID
@@ -48,6 +51,86 @@ class CloudKitViewModel {
             }
             else {
                 print("Fetched iCloudID returned nil")
+            }
+        }
+    }
+    
+    func removePreference(preference: Preference) async throws {
+        let record = preference.record
+        do {
+            try await container.publicCloudDatabase.deleteRecord(withID: record.recordID)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func createDiaryEntry(entry: Entry) throws {
+        let newEntry = CKRecord(recordType: "entries")
+        let image = try CKAsset(image: entry.image)
+        
+        newEntry["ID"] = newEntry.recordID.recordName
+        newEntry["title"] = entry.title
+        newEntry["text"] = entry.text
+        newEntry["image"] = image
+        newEntry["date"] = entry.date
+        newEntry["humor"] = entry.humor
+        
+        let entrySet = Entry(id: newEntry.recordID, title: entry.title, text: entry.text, date: entry.date, image: entry.image, humor: entry.humor)
+        
+        entriesDictionary[newEntry.recordID] = entrySet
+        sendEntryToDB(record: newEntry)
+    }
+    
+    func editDiaryEntry(entry: Entry) async throws {
+        do {
+            let record = try await container.privateCloudDatabase.record(for: entry.id!)
+            let asset = try CKAsset(image: entry.image)
+
+            record["title"] = entry.title
+            record["text"] = entry.text
+            record["image"] = asset
+            record["date"] = entry.date
+            record["humor"] = entry.humor
+            
+            sendEntryToDB(record: record)
+        }
+    }
+    
+    func fetchDiaryEntries() async throws {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "entries", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let result = try await container.privateCloudDatabase.records(matching: query)
+        entries = []
+        
+        let records = result.matchResults.compactMap { try? $0.1.get() }
+        
+        records.forEach { record in
+            guard let title = record["title"] as? String else { return }
+            guard let text = record["text"] as? String else { return }
+            guard let asset = record["image"] as? CKAsset else { return }
+            guard let date = record["date"] as? Date else { return }
+            guard let humor = record["humor"] as? Int else { return }
+            
+            if let data = try? Data(contentsOf: (asset.fileURL!)), let image = UIImage(data: data) {
+                let entry = Entry(id: record.recordID, title: title, text: text, date: date, image: image, humor: humor)
+                
+                entriesDictionary[record.recordID] = entry
+                entries.append(entry)
+            }
+        }
+    }
+    
+    func removeDiaryEntry(entry: Entry) async throws {
+        do {
+            if let recordID = entry.id {
+                try await container.privateCloudDatabase.deleteRecord(withID: recordID)
+            }
+        }
+        catch {
+            if let recordID = entry.id {
+                entriesDictionary.removeValue(forKey: recordID)
             }
         }
     }
@@ -102,6 +185,25 @@ class CloudKitViewModel {
         addOperationToPrivateDB(operation: queryOperation)
     }
     
+    func fetchAndDeletePreference() {
+        getPreferenceRecordID { recordID, error in
+            if let returnedPreferenceID = recordID?.recordName {
+                self.isLogged(idUser: returnedPreferenceID)
+                
+                Task {
+                    if let _preference = self.preference {
+                        try await self.removePreference(preference: _preference)
+                        
+                        for entry in self.entries {
+                            try await self.removeDiaryEntry(entry: entry)
+                        }
+                        self.isLogged = false
+                    }
+                }
+            }
+        }
+    }
+    
     func sendPreferenceToDB(record: CKRecord) {
         container.privateCloudDatabase.save(record) { [weak self] returnedRecord, returnedError in
             print(returnedError ?? "")
@@ -110,6 +212,13 @@ class CloudKitViewModel {
             DispatchQueue.main.async {
                 self?.name = ""
             }
+        }
+    }
+    
+    func sendEntryToDB(record: CKRecord) {
+        container.privateCloudDatabase.save(record) { returnedRecord, returnedError in
+            print(returnedError ?? "")
+            print(returnedRecord ?? "")
         }
     }
     
