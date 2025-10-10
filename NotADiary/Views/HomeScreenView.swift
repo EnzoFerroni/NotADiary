@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeScreenView: View {
-    @State var toggleSheet = false
+    @State var toggleSheet: Bool = false
     @State var entryList: [JournalEntry] = []
     @State var teste: String = ""
     
@@ -39,18 +39,8 @@ struct HomeScreenView: View {
             .fullScreenCover(isPresented: $toggleSheet){
                 JournalEntryView(entryList: $entryList)
             }
-            .toolbar {
-                DefaultToolbarItem(kind: .search, placement: .bottomBar)
-                ToolbarSpacer(.flexible, placement: .bottomBar)
-                ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        toggleSheet.toggle()
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                    }
-                }
-            }
-            .searchable(text: $teste)
+            
+            ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $teste)
         }
     }
 }

@@ -13,7 +13,7 @@ struct ToolbarEntryView: View {
     @Binding var entryList: [JournalEntry]
     @Binding var image1: UIImage?
     
-    let imagePlaceholder: UIImage = UIImage(named: "amiguinho")!
+    //let imagePlaceholder: UIImage = UIImage(named: "amiguinho")!
 
     var text: String
     var day: Date
@@ -53,7 +53,7 @@ struct ToolbarEntryView: View {
                     
                     ToolbarItem (placement: .bottomBar){
                         Button {
-                            entryList.append(JournalEntry(title: title, text: text, image1: image1 ?? imagePlaceholder, date: day, mood: mood))
+                            entryList.append(JournalEntry(title: title, text: text, image1: image1 ?? nil, date: day, mood: mood))
                             dismiss()
                         } label: {
                             Image(systemName: "checkmark")

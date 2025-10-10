@@ -33,11 +33,13 @@ struct JournalView: View {
                 Spacer()
             }
             
-            Image(uiImage: entry.image1!)
-                .resizable()
-                .frame(width: 280, height: 180)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .scaledToFit()
+            if entry.image1 != nil {
+                Image(uiImage: entry.image1!)
+                    .resizable()
+                    .frame(width: 240.0, height: 236)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .scaledToFit()
+            }
             
         }
         .foregroundStyle(.black)
