@@ -27,6 +27,7 @@ struct JournalView: View {
                 Image(uiImage: entry.image1!)
                     .resizable()
                     .frame(width: 280, height: 180)
+                    .scaledToFit()
             }
             
             Text(entry.text)
@@ -38,6 +39,6 @@ struct JournalView: View {
     }
 } 
 
-//#Preview {
-//    JournalView()
-//}
+#Preview {
+    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
+}

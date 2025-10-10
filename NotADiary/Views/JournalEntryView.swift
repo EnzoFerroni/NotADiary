@@ -70,9 +70,16 @@ struct JournalEntryView: View {
                             .padding(.horizontal)
                         Spacer()
                     }
-                    PhotoPickerView(image: $image1)
+                    if image1 != nil{
+                        Image(uiImage: image1!)
+                            .resizable()
+                            .frame(width: 240.0, height: 236)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .scaledToFill()
+                    }
+                    //PhotoPickerView(image: $image1)
                 }
-                ToolbarEntryView(entryList: $entryList, text: text, image1: image1, day: day, mood: moodFace, title: title)
+                ToolbarEntryView(entryList: $entryList, image1: $image1, text: text, day: day, mood: moodFace, title: title)
             }
         }
     }

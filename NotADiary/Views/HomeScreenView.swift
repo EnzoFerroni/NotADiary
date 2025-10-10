@@ -10,18 +10,11 @@ import SwiftUI
 struct HomeScreenView: View {
     @State var toggleSheet = false
     @State var entryList: [JournalEntry] = []
+    @State var teste: String = ""
+    
     var body: some View {
         NavigationStack {
             VStack {
-                Button {
-                    toggleSheet.toggle()
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle")
-                        Text("Add Jounal Entry")
-                    }
-                    .font(.largeTitle)
-                }
                 Divider()
                 ScrollView {
                     ForEach(Array(entryList.sorted(by: {$0.date < $1.date}).enumerated()), id: \.offset) { index, entry in
@@ -39,6 +32,18 @@ struct HomeScreenView: View {
             .fullScreenCover(isPresented: $toggleSheet){
                 JournalEntryView(entryList: $entryList)
             }
+            .toolbar {
+                DefaultToolbarItem(kind: .search, placement: .bottomBar)
+                ToolbarSpacer(.flexible, placement: .bottomBar)
+                ToolbarItem(placement: .bottomBar) {
+                    Button {
+                        toggleSheet.toggle()
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
+                }
+            }
+            .searchable(text: $teste)
         }
     }
 }
