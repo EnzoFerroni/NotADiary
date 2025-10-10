@@ -64,12 +64,6 @@ struct JournalEntryView: View {
                     TextField("Write here...", text: $text, axis: .vertical)
                         .padding(.horizontal)
                     
-                    HStack {
-                        Text("Photo:")
-                            .font(.title)
-                            .padding(.horizontal)
-                        Spacer()
-                    }
                     if image1 != nil{
                         Image(uiImage: image1!)
                             .resizable()
@@ -77,7 +71,6 @@ struct JournalEntryView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                             .scaledToFill()
                     }
-                    //PhotoPickerView(image: $image1)
                 }
                 ToolbarEntryView(entryList: $entryList, image1: $image1, text: text, day: day, mood: moodFace, title: title)
             }

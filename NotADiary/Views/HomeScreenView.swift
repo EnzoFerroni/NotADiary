@@ -15,9 +15,16 @@ struct HomeScreenView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Divider()
+                HStack {
+                    Text("Boas Vindas, <Pessoa>!")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.horizontal)
+                    Spacer()
+                }
+                
                 ScrollView {
-                    ForEach(Array(entryList.sorted(by: {$0.date < $1.date}).enumerated()), id: \.offset) { index, entry in
+                    ForEach(Array(entryList.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             JournalEntryFullView(entry: $entryList[index])
                         } label: {
