@@ -7,16 +7,23 @@
 
 import SwiftUI
 
-struct Onboarding: View {
+struct OnboardingView: View {
     @State var name: String = ""
+    
+    
     var body: some View {
         Text("Bem vindo ao NotADiary!")
         Text("Coloque o seu nome:")
         TextField("escreva aqui...", text: $name)
             .padding()
+        Button {
+            
+        } label: {
+            Text("Confirmar")
+        }
     }
 }
 
 #Preview {
-    Onboarding()
+    OnboardingView()
 }
