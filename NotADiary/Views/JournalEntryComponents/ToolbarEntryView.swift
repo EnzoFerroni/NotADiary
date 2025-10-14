@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct ToolbarEntryView: View {
     @Environment(\.dismiss) var dismiss
@@ -14,12 +15,18 @@ struct ToolbarEntryView: View {
     @Binding var image1: UIImage?
     
     //let imagePlaceholder: UIImage = UIImage(named: "amiguinho")!
-
+    
     var text: String
     var day: Date
-    var mood: String
     var title: String
-        
+    var userValence: Double
+    var whereToSave: Bool
+    var userLabel: HKStateOfMind.Label
+    var userAssociation: HKStateOfMind.Association
+    
+    //I NEEDS TO HAVE DEFAULT VALUES!!!!!!!!!!
+    @State private var relato: HKStateOfMind?
+    
     var body: some View {
         NavigationStack {
             Text("")
@@ -53,7 +60,13 @@ struct ToolbarEntryView: View {
                     
                     ToolbarItem (placement: .bottomBar){
                         Button {
-                            entryList.append(JournalEntry(title: title, text: text, image1: image1 ?? nil, date: day, mood: mood))
+                            entryList.append(JournalEntry(title: title, text: text, image1: image1 ?? nil, date: day,userValence: userValence))
+                            relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
+                            Task{
+                                if whereToSave{
+                                    await HealthManager.shared.save(sample: relato!)
+                                }
+                            }
                             dismiss()
                         } label: {
                             Image(systemName: "checkmark")

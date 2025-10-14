@@ -38,9 +38,9 @@ struct JournalView: View {
             if entry.image1 != nil {
                 Image(uiImage: entry.image1!)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: 240.0, height: 236)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .scaledToFit()
             }
             
         }
@@ -49,6 +49,6 @@ struct JournalView: View {
     }
 }
 
-#Preview {
-    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
-}
+//#Preview {
+//    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
+//}
