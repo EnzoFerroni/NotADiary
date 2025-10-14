@@ -75,22 +75,19 @@ struct EntryView: View {
                     .navigationTitle("Boas vindas")
                 }
             }
-            else if state == 1 {
+            else {
                 if isLoading {
                     loadingView()
                 }
                 else {
-                    ContentView()
-                        .environment(ckViewModel)
-                }
-            }
-            else if state == 2 {
-                if isLoading {
-                    loadingView()
-                }
-                else {
-                    OnboardingView()
-                        .environment(ckViewModel)
+                    if state == 1 {
+                        HomeScreenView()
+                            .environment(ckViewModel)
+                    }
+                    else if state == 2 {
+                        OnboardingView(state: $state, isLoading: $isLoading)
+                            .environment(ckViewModel)
+                    }
                 }
             }
         }
