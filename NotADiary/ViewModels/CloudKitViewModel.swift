@@ -14,7 +14,7 @@ import Observation
 @MainActor
 class CloudKitViewModel {
     private var userID: String = ""
-    var name: String = ""
+    var name: String? = ""
     
     var isLogged: Bool = false
     
@@ -22,13 +22,13 @@ class CloudKitViewModel {
     
     var preference: Preference? = nil
     
-    var entriesDictionary: [CKRecord.ID: Entry] = [:]
-    var entries: [Entry] = []
+    var entriesDictionary: [CKRecord.ID: JournalEntry] = [:]
+    var entries: [JournalEntry] = []
     
     func loginButtonPressed() {
-        guard !name.isEmpty else { return }
+        guard name != nil, !name!.isEmpty else { return }
         
-        createPreference(name: name)
+        createPreference(name: name!)
     }
     
     init() {
@@ -74,33 +74,34 @@ class CloudKitViewModel {
         }
     }
     
-    func createDiaryEntry(entry: Entry) throws {
+    func createDiaryEntry(entry: JournalEntry) throws {
         let newEntry = CKRecord(recordType: "entries")
-        let image = try CKAsset(image: entry.image)
+        
+        let image = try CKAsset(image: entry.image1!)
         
         newEntry["ID"] = newEntry.recordID.recordName
         newEntry["title"] = entry.title
         newEntry["text"] = entry.text
         newEntry["image"] = image
         newEntry["date"] = entry.date
-        newEntry["humor"] = entry.humor
+        newEntry["mood"] = entry.mood
         
-        let entrySet = Entry(id: newEntry.recordID, title: entry.title, text: entry.text, date: entry.date, image: entry.image, humor: entry.humor)
+        let entrySet = JournalEntry(id: newEntry.recordID, title: entry.title, text: entry.text, image1: entry.image1, date: entry.date, mood: entry.mood)
         
         entriesDictionary[newEntry.recordID] = entrySet
         sendEntryToDB(record: newEntry)
     }
     
-    func editDiaryEntry(entry: Entry) async throws {
+    func editDiaryEntry(entry: JournalEntry) async throws {
         do {
             let record = try await container.privateCloudDatabase.record(for: entry.id!)
-            let asset = try CKAsset(image: entry.image)
+            let asset = try CKAsset(image: entry.image1!)
 
             record["title"] = entry.title
             record["text"] = entry.text
             record["image"] = asset
             record["date"] = entry.date
-            record["humor"] = entry.humor
+            record["mood"] = entry.mood
             
             sendEntryToDB(record: record)
         }
@@ -120,10 +121,10 @@ class CloudKitViewModel {
             guard let text = record["text"] as? String else { return }
             guard let asset = record["image"] as? CKAsset else { return }
             guard let date = record["date"] as? Date else { return }
-            guard let humor = record["humor"] as? Int else { return }
+            guard let mood = record["mood"] as? Int else { return }
             
             if let data = try? Data(contentsOf: (asset.fileURL!)), let image = UIImage(data: data) {
-                let entry = Entry(id: record.recordID, title: title, text: text, date: date, image: image, humor: humor)
+                let entry = JournalEntry(id: record.recordID, title: title, text: text, image1: image, date: date, mood: mood)
                 
                 entriesDictionary[record.recordID] = entry
                 entries.append(entry)
@@ -131,7 +132,7 @@ class CloudKitViewModel {
         }
     }
     
-    func removeDiaryEntry(entry: Entry) async throws {
+    func removeDiaryEntry(entry: JournalEntry) async throws {
         do {
             if let recordID = entry.id {
                 try await container.privateCloudDatabase.deleteRecord(withID: recordID)
