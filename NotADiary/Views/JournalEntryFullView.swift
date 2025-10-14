@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct JournalEntryFullView: View {
-    @Binding var entry: JournalEntry
+    @State var entry: JournalEntry
     @State var isEdit: Bool = false
     var body: some View {
         NavigationStack {
@@ -24,7 +24,7 @@ struct JournalEntryFullView: View {
                         Divider()
                         Text(entry.text)
                         Divider()
-                        Text(entry.mood)
+                        Text(String(entry.mood))
                         Divider()
                         HStack {
                             if entry.image1 != nil {

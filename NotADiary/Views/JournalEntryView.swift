@@ -76,7 +76,7 @@ struct JournalEntryView: View {
                             .scaledToFill()
                     }
                 }
-                ToolbarEntryView(entryList: $entryList, image1: $image1, text: text, day: day, mood: moodFace, title: title)
+                ToolbarEntryView(entryList: $entryList, image1: $image1, text: text, day: day, mood: Int(mood), title: title)
             }
         }
     }

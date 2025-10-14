@@ -49,6 +49,6 @@ struct JournalView: View {
     }
 }
 
-#Preview {
-    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
-}
+//#Preview {
+//    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
+//}

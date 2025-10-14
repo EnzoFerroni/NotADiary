@@ -10,6 +10,8 @@ import SwiftUI
 struct ToolbarEntryView: View {
     @Environment(\.dismiss) var dismiss
     
+    @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+
     @Binding var entryList: [JournalEntry]
     @Binding var image1: UIImage?
     
@@ -17,7 +19,7 @@ struct ToolbarEntryView: View {
 
     var text: String
     var day: Date
-    var mood: String
+    var mood: Int
     var title: String
         
     var body: some View {
@@ -51,9 +53,14 @@ struct ToolbarEntryView: View {
                     }
                     ToolbarSpacer(.fixed, placement: .bottomBar)
                     
-                    ToolbarItem (placement: .bottomBar){
+                    ToolbarItem (placement: .bottomBar) {
                         Button {
-                            entryList.append(JournalEntry(title: title, text: text, image1: image1 ?? nil, date: day, mood: mood))
+                            do {
+                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image1: image1, date: day, mood: mood))
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
                             dismiss()
                         } label: {
                             Image(systemName: "checkmark")
