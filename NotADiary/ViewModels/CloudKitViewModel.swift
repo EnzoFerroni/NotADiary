@@ -29,6 +29,8 @@ class CloudKitViewModel {
     }
     
     init() {
+        
+        
         getPreferenceRecordID { recordID, error in
             if let returnedPreferenceID = recordID?.recordName {
                 self.isLogged(idUser: returnedPreferenceID)
