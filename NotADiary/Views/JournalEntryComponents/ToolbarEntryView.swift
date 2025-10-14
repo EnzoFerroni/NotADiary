@@ -64,7 +64,6 @@ struct ToolbarEntryView: View {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
                             Task{
                                 if whereToSave{
-                                    await HealthManager.shared.requestHealthAuthorization()
                                     await HealthManager.shared.save(sample: relato!)
                                 }
                             }

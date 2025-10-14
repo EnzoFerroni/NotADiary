@@ -108,7 +108,7 @@ struct JournalEntryView: View {
                         //                    }
                         //Association
                         var angry = HKStateOfMind.Label.angry
-                        Text("\(angry)")
+                        Text("\(angry)").tag(0)
                     }
                         Picker("Por favor escolha a que o seu sentimento está associado.", selection: $userAssociation){
                         //                        Estudar logica do picker
@@ -117,7 +117,7 @@ struct JournalEntryView: View {
                         //                        }
                         //                    }
                         var education = HKStateOfMind.Association.education
-                        Text("\(education)")
+                            Text("\(education)").tag(0)
                     }
                         //endDate picker
                         DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))

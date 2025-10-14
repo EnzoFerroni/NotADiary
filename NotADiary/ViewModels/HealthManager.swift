@@ -45,7 +45,7 @@ class HealthManager{
             try await HKHealthStore().save(sample)
         }
         catch {
-            // Handle error here.
+            print(error.localizedDescription)
         }
     }
     
@@ -67,7 +67,7 @@ class HealthManager{
             // Launch the query and wait for the results.
             results = try await descriptor.result(for: HKHealthStore())
         } catch {
-            // Handle error here.
+            print(error.localizedDescription)
         }
         return results
     }
