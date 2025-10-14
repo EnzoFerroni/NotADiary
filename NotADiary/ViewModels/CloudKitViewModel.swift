@@ -32,7 +32,14 @@ class CloudKitViewModel {
     }
     
     init() {
-        
+        Task {
+            do {
+                try await fetchDiaryEntries()
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
         
         getPreferenceRecordID { recordID, error in
             if let returnedPreferenceID = recordID?.recordName {
