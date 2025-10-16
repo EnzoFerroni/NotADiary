@@ -27,8 +27,8 @@ struct JournalEntryFullView: View {
                         Text(String(entry.mood))
                         Divider()
                         HStack {
-                            if entry.image1 != nil {
-                                Image(uiImage: entry.image1!)
+                            if entry.image != nil {
+                                Image(uiImage: entry.image!)
                                     .resizable()
                                     .frame(width: 240.0, height: 236)
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
