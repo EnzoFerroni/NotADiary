@@ -44,7 +44,6 @@ struct JournalView: View {
             }
             
         }
-        .foregroundStyle(.black)
         .padding(.horizontal)
     }
 }
