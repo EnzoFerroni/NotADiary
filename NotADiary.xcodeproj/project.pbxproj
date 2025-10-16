@@ -268,7 +268,7 @@
 				DEVELOPMENT_TEAM = 539HYZPTH8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "mmmmmmmmm mm m mmmmm mmmmmmm";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "mmmmmmmmm mm m mmmmm mmmmmmm";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "mmmmmmmmm mm m mmmmm mmmmmmm";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -304,7 +304,7 @@
 				DEVELOPMENT_TEAM = 539HYZPTH8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "mmmmmmmmm mm m mmmmm mmmmmmm";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "mmmmmmmmm mm m mmmmm mmmmmmm";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "mmmmmmmmm mm m mmmmm mmmmmmm";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
