@@ -8,6 +8,7 @@
 import SwiftUI
 import HealthKit
 
+
 struct ToolbarEntryView: View {
     @Environment(\.dismiss) var dismiss
     
@@ -63,10 +64,17 @@ struct ToolbarEntryView: View {
                     
                     ToolbarItem (placement: .bottomBar) {
                         Button {
-                            entryList.append(JournalEntry(title: title, text: text, image1: image1 ?? nil, date: day,userValence: userValence))
+                            entryList.append(JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
-                            Task{
-                                if whereToSave{
+                            do {
+                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image: image1, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
+                            
+                            Task {
+                                if whereToSave {
                                     await HealthManager.shared.save(sample: relato!)
                                 }
                             }

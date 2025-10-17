@@ -93,7 +93,7 @@ class HKStateOfMindParseFunctions{
         }
     }
     
-    func associationStringToHKStateOfMind (string: String) -> HKStateOfMind.Association{
+    func associationStringToHKStateOfMind (string: String) -> HKStateOfMind.Association {
         switch(string){
         case"Community":
             return HKStateOfMind.Association.community
