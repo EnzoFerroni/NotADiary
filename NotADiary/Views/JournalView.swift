@@ -38,9 +38,9 @@ struct JournalView: View {
             if entry.image != nil {
                 Image(uiImage: entry.image!)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: 240.0, height: 236)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .scaledToFit()
             }
             
         }

@@ -24,12 +24,13 @@ struct JournalEntryFullView: View {
                         Divider()
                         Text(entry.text)
                         Divider()
-                        Text(String(entry.mood))
+                        Text("\(entry.valence)")
                         Divider()
                         HStack {
                             if entry.image != nil {
                                 Image(uiImage: entry.image!)
                                     .resizable()
+                                    .scaledToFit()
                                     .frame(width: 240.0, height: 236)
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
                             }
