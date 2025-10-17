@@ -56,7 +56,7 @@ struct ToolbarEntryView: View {
                     ToolbarItem (placement: .bottomBar) {
                         Button {
                             do {
-                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image1: image1, date: day, mood: mood))
+                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image: image1, date: day, mood: mood, songID: "Colocar aqui o ID da Música em formato de String", label: "Aqui vai a label do HealthKit", association: "Aqui vai a association do HeathKit", valence: 0.0))
                             }
                             catch {
                                 print(error.localizedDescription)

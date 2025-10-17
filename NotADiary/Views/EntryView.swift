@@ -65,7 +65,7 @@ struct EntryView: View {
                             }
                             
                             Button {
-                                if !viewModel.isSignedInToiCloud {
+                                if !viewModel.isSignedInToiCloud || ckViewModel.isLogged {
                                     showingAlert2 = true
                                 }
                                 else {
@@ -76,10 +76,10 @@ struct EntryView: View {
                                 Text("Ainda não tenho")
                             }
                             .buttonStyle(.bordered)
-                            .alert("Já possui conta", isPresented: $showingAlert1) {
+                            .alert("Já possui conta", isPresented: $showingAlert2) {
                                 Button("OK", role: .confirm) {}
                             } message: {
-                                Text("Você não está conectado no iCloud!")
+                                Text("Você não está conectado no iCloud ou já possui uma conta!")
                             }
                         }
                     }
