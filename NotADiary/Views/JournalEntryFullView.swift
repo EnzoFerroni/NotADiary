@@ -11,8 +11,7 @@ struct JournalEntryFullView: View {
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
     
-    var imageList: [String] = ["teste", "teste", "teste", "amiguinho", "amiguinho", "amiguinho", "teste"]
-    
+    var imageList: [String] = ["teste2", "teste2", "teste", "amiguinho", "amiguinho", "amiguinho", "teste"]
     
     var body: some View {
         NavigationStack {
@@ -39,7 +38,6 @@ struct JournalEntryFullView: View {
                             Text(entry.text)
                             Spacer()
                         }
-                        
                         //Placeholder for Music Card -
                         RoundedRectangle(cornerRadius: 15)
                             .frame(width: 365, height: 71)
@@ -50,8 +48,10 @@ struct JournalEntryFullView: View {
                                     if index % 5 == 0 || index % 5 == 3 {
                                         Image(image)
                                             .resizable()
+                                            .aspectRatio(contentMode: .fill)
                                             .frame(width: 200, height: 246)
                                             .clipShape(RoundedRectangle(cornerRadius: 16))
+                                            .clipped()
                                     }
                                 }
                                 Spacer()
@@ -62,8 +62,10 @@ struct JournalEntryFullView: View {
                                     if index % 5 == 1 || index % 5 == 2 || index % 5 == 4 {
                                         Image(image)
                                             .resizable()
+                                            .aspectRatio(contentMode: .fill)
                                             .frame(width: 153, height: 160)
                                             .clipShape(RoundedRectangle(cornerRadius: 16))
+                                            .clipped()
                                     }
                                 }
                                 Spacer()

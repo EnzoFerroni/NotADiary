@@ -152,9 +152,11 @@ struct JournalEntryView: View {
                     if image1 != nil{
                         Image(uiImage: image1!)
                             .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: 240.0, height: 236)
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                             .scaledToFill()
+                            .clipped()
                     }
                 }
                 .onChange(of: userLabelString) { oldValue, newValue in

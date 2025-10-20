@@ -19,11 +19,13 @@ struct JournalView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                     .lineLimit(1)
+                    .foregroundStyle(.black)
                 Spacer()
             }
             HStack {
                 Text("\(entry.date, format: .dateTime.day().month().year())")
                     .font(.title3)
+                    .foregroundStyle(.black)
                 Spacer()
             }
             HStack {
@@ -32,15 +34,20 @@ struct JournalView: View {
                     .font(.headline)
                     .fontWeight(.regular)
                     .multilineTextAlignment(.leading)
+                    .foregroundStyle(.black)
                 Spacer()
             }
-            
-            if entry.image != nil {
-                Image(uiImage: entry.image!)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 240.0, height: 236)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
+            HStack {
+                if entry.image != nil {
+                    Image(uiImage: entry.image!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 176, height: 154)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .clipped()
+                }
+                RoundedRectangle(cornerRadius: 15)
+                    .frame(width: 176, height: 154)
             }
             
         }
