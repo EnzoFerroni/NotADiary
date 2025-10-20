@@ -11,7 +11,7 @@ struct JournalEntryFullView: View {
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
     
-    var imageList: [String] = ["amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho", "amiguinho"]
+    var imageList: [String] = ["teste", "teste", "teste", "amiguinho", "amiguinho", "amiguinho", "teste"]
     
     
     var body: some View {
@@ -47,39 +47,40 @@ struct JournalEntryFullView: View {
                         HStack {
                             VStack {
                                 ForEach(Array(imageList.enumerated()), id: \.offset) { index, image in
-                                    
-                                    if (index % 5 == 0 || index % 5 == 3) {
+                                    if index % 5 == 0 || index % 5 == 3 {
                                         Image(image)
                                             .resizable()
                                             .frame(width: 200, height: 246)
+                                            .clipShape(RoundedRectangle(cornerRadius: 16))
                                     }
                                 }
                                 Spacer()
-                                
                             }
+                            
                             VStack {
                                 ForEach(Array(imageList.enumerated()), id: \.offset) { index, image in
-                                    if (index % 5 == 1 || index % 5 == 2 || index % 5 == 4) {
+                                    if index % 5 == 1 || index % 5 == 2 || index % 5 == 4 {
                                         Image(image)
                                             .resizable()
                                             .frame(width: 153, height: 160)
+                                            .clipShape(RoundedRectangle(cornerRadius: 16))
                                     }
                                 }
                                 Spacer()
                             }
                         }
-                        
-                        if entry.image != nil {
-                            Image(uiImage: entry.image!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 240.0, height: 236)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                        }
+//NAO APAGAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                        if entry.image != nil {
+//                            Image(uiImage: entry.image!)
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 240.0, height: 236)
+//                                .clipShape(RoundedRectangle(cornerRadius: 15))
+//                        }
                     }
                     .padding(.horizontal)
+                    ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
                 }
-                ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
             }
         }
     }

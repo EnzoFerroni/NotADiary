@@ -24,6 +24,8 @@ struct HomeScreenView: View {
                         .padding(.horizontal)
                     Spacer()
                 }
+                ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $teste)
+
                 
                 ScrollView {
                     ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
@@ -54,8 +56,6 @@ struct HomeScreenView: View {
             .fullScreenCover(isPresented: $toggleSheet){
                 JournalEntryView(entryList: $entryList)
             }
-            
-            ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $teste)
         }
     }
 }

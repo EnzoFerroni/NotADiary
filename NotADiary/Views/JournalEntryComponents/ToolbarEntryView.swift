@@ -59,8 +59,7 @@ struct ToolbarEntryView: View {
                             Image(systemName: "waveform")
                         }
                     }
-                    ToolbarSpacer(.fixed, placement: .bottomBar)
-                    
+                    ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem (placement: .bottomBar) {
                         Button {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)

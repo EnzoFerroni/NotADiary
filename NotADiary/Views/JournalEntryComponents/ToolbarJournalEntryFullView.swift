@@ -24,7 +24,7 @@ struct ToolbarJournalEntryFullView: View {
                     } label: {
                         Text("Edit")
                     }
-                    .buttonStyle(.bordered)
+                    //.buttonStyle(.bordered)
                 }
                 
                 ToolbarItem(placement: .bottomBar) {
