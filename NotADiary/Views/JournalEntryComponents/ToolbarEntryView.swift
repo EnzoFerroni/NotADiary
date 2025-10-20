@@ -15,10 +15,8 @@ struct ToolbarEntryView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
 
     @Binding var entryList: [JournalEntry]
-    @Binding var image1: UIImage?
-    
-    //let imagePlaceholder: UIImage = UIImage(named: "amiguinho")!
-    
+    @Binding var image: UIImage?
+        
     var text: String
     var day: Date
     var mood: Int
@@ -28,7 +26,6 @@ struct ToolbarEntryView: View {
     var userLabel: HKStateOfMind.Label
     var userAssociation: HKStateOfMind.Association
     
-    //I NEEDS TO HAVE DEFAULT VALUES!!!!!!!!!!
     @State private var relato: HKStateOfMind?
     
     var body: some View {
@@ -50,7 +47,7 @@ struct ToolbarEntryView: View {
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {
-                        PhotoPickerView(image: $image1, isEdit: false)
+                        PhotoPickerView(image: $image, isEdit: false)
                         Image(systemName: "photo.badge.plus.fill")
                     }
                     ToolbarItem(placement: .bottomBar) {
@@ -64,10 +61,13 @@ struct ToolbarEntryView: View {
                     
                     ToolbarItem (placement: .bottomBar) {
                         Button {
-                            entryList.append(JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
                             do {
-                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
+                                let entry = try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
+                                
+                                if let _image = image {
+                                    ckViewModel.createImageEntry(entry: entry, image: _image)
+                                }
                             }
                             catch {
                                 print(error.localizedDescription)

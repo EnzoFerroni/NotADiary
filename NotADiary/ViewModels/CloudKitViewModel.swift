@@ -22,8 +22,11 @@ class CloudKitViewModel {
     
     var preference: Preference? = nil
     
-    var entriesDictionary: [CKRecord.ID: JournalEntry] = [:]
+    var entriesDictionary: [CKRecord.ID : JournalEntry] = [:]
     var entries: [JournalEntry] = []
+    
+    var imagesDictionary: [CKRecord.ID : [ImageModel]] = [:]
+
     
     func loginButtonPressed() {
         guard name != nil, !name!.isEmpty else { return }
@@ -74,7 +77,7 @@ class CloudKitViewModel {
         }
     }
     
-    func createDiaryEntry(entry: JournalEntry) throws {
+    func createDiaryEntry(entry: JournalEntry) throws -> JournalEntry {
         let newEntry = CKRecord(recordType: "entries")
                 
         newEntry["ID"] = newEntry.recordID.recordName
@@ -91,6 +94,8 @@ class CloudKitViewModel {
         
         entriesDictionary[newEntry.recordID] = entrySet
         sendEntryToDB(record: newEntry)
+        
+        return entrySet
     }
     
     func editDiaryEntry(entry: JournalEntry) async throws {
@@ -174,6 +179,28 @@ class CloudKitViewModel {
         }
         catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    func fetchImageByDiaryEntry(entry: JournalEntry) async throws {
+        let reference = CKRecord.Reference(recordID: entry.id!, action: .deleteSelf)
+        let predicate = NSPredicate(format: "entry == %@", reference)
+        let query = CKQuery(recordType: "images", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let result = try await container.privateCloudDatabase.records(matching: query)
+        
+        let records = result.matchResults.compactMap { try? $0.1.get() }
+        
+        records.forEach { record in
+            guard let entry = record["entry"] as? CKRecord.Reference else { return }
+            guard let asset = record["image"] as? CKAsset else { return }
+            
+            if let data = try? Data(contentsOf: (asset.fileURL!)), let image = UIImage(data: data) {
+                let imageModel = ImageModel(id: record.recordID, entry: entry.recordID, image: image)
+                
+                // MARK: Aqui pode dar problema, ficar de olho
+                imagesDictionary[entry.recordID]?.append(imageModel)
+            }
         }
     }
     

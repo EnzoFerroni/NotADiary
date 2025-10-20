@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import MusicKit
 
-struct JournalEntry: Identifiable {
+struct JournalEntry: Identifiable, Hashable {
     let id: CKRecord.ID?
     var title: String
     var text: String
