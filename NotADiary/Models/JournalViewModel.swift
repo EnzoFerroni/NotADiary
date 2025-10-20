@@ -14,7 +14,6 @@ struct JournalEntry: Identifiable {
     let id: CKRecord.ID?
     var title: String
     var text: String
-    var image: UIImage?
     var date: Date
     var mood: Int
     var songID: String

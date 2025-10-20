@@ -27,13 +27,13 @@ struct JournalEntryFullView: View {
                         Text("\(entry.valence)")
                         Divider()
                         HStack {
-                            if entry.image != nil {
-                                Image(uiImage: entry.image!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 240.0, height: 236)
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                            }
+//                            if entry.image != nil {
+//                                Image(uiImage: entry.image!)
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(width: 240.0, height: 236)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+//                            }
                         }
                     }
                 }
