@@ -11,7 +11,6 @@ import HealthKit
 
 struct ToolbarEntryView: View {
     @Environment(\.dismiss) var dismiss
-    
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
 
     @Binding var entryList: [JournalEntry]
@@ -64,7 +63,6 @@ struct ToolbarEntryView: View {
                     
                     ToolbarItem (placement: .bottomBar) {
                         Button {
-                            entryList.append(JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
                             do {
                                 try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image: image1, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
