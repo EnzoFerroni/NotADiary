@@ -149,7 +149,7 @@ struct JournalEntryView: View {
                     DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                         .padding(.horizontal)
                     
-                    if image1 != nil{
+                    if image1 != nil {
                         Image(uiImage: image1!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -166,7 +166,8 @@ struct JournalEntryView: View {
                     userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
                 }
                 
-                ToolbarEntryView(entryList: $entryList, image1: $image1, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                
+                ToolbarEntryView(entryList: $entryList, image: $image1, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
         }
     }

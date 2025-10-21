@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CloudKit
 
 struct JournalView: View {
     var entry: JournalEntry
