@@ -22,8 +22,11 @@ class CloudKitViewModel {
     
     var preference: Preference? = nil
     
-    var entriesDictionary: [CKRecord.ID: JournalEntry] = [:]
+    var entriesDictionary: [CKRecord.ID : JournalEntry] = [:]
     var entries: [JournalEntry] = []
+    
+    var imagesDictionary: [CKRecord.ID : [ImageModel]] = [:]
+
     
     func loginButtonPressed() {
         guard name != nil, !name!.isEmpty else { return }
@@ -74,15 +77,12 @@ class CloudKitViewModel {
         }
     }
     
-    func createDiaryEntry(entry: JournalEntry) throws {
+    func createDiaryEntry(entry: JournalEntry) throws -> JournalEntry {
         let newEntry = CKRecord(recordType: "entries")
-        
-        let image = try CKAsset(image: entry.image!)
-        
+                
         newEntry["ID"] = newEntry.recordID.recordName
         newEntry["title"] = entry.title
         newEntry["text"] = entry.text
-        newEntry["image"] = image
         newEntry["date"] = entry.date
         newEntry["mood"] = entry.mood
         newEntry["songID"] = entry.songID
@@ -90,20 +90,20 @@ class CloudKitViewModel {
         newEntry["association"] = entry.association
         newEntry["valence"] = entry.valence
         
-        let entrySet = JournalEntry(id: newEntry.recordID, title: entry.title, text: entry.text, image: entry.image, date: entry.date, mood: entry.mood, songID: entry.songID, label: entry.label, association: entry.association, valence: entry.valence)
+        let entrySet = JournalEntry(id: newEntry.recordID, title: entry.title, text: entry.text, date: entry.date, mood: entry.mood, songID: entry.songID, label: entry.label, association: entry.association, valence: entry.valence)
         
         entriesDictionary[newEntry.recordID] = entrySet
         sendEntryToDB(record: newEntry)
+        
+        return entrySet
     }
     
     func editDiaryEntry(entry: JournalEntry) async throws {
         do {
             let record = try await container.privateCloudDatabase.record(for: entry.id!)
-            let asset = try CKAsset(image: entry.image!)
 
             record["title"] = entry.title
             record["text"] = entry.text
-            record["image"] = asset
             record["date"] = entry.date
             record["mood"] = entry.mood
             record["songID"] = entry.songID
@@ -127,7 +127,6 @@ class CloudKitViewModel {
         records.forEach { record in
             guard let title = record["title"] as? String else { return }
             guard let text = record["text"] as? String else { return }
-            guard let asset = record["image"] as? CKAsset else { return }
             guard let date = record["date"] as? Date else { return }
             guard let mood = record["mood"] as? Int else { return }
             guard let songID = record["songID"] as? String else { return }
@@ -135,12 +134,10 @@ class CloudKitViewModel {
             guard let association = record["association"] as? String else { return }
             guard let valence = record["valence"] as? Double else { return }
             
-            if let data = try? Data(contentsOf: (asset.fileURL!)), let image = UIImage(data: data) {
-                let entry = JournalEntry(id: record.recordID, title: title, text: text, image: image, date: date, mood: mood, songID: songID, label: label, association: association, valence: valence)
-                
-                entriesDictionary[record.recordID] = entry
-                entries.append(entry)
-            }
+            let entry = JournalEntry(id: record.recordID, title: title, text: text, date: date, mood: mood, songID: songID, label: label, association: association, valence: valence)
+            
+            entriesDictionary[record.recordID] = entry
+            entries.append(entry)
         }
     }
     
@@ -154,6 +151,67 @@ class CloudKitViewModel {
             if let recordID = entry.id {
                 entriesDictionary.removeValue(forKey: recordID)
             }
+        }
+    }
+    
+    func createImageEntry(entry: JournalEntry, image: UIImage) {
+        let newImage = CKRecord(recordType: "images")
+        let reference = CKRecord.Reference(recordID: entry.id!, action: .deleteSelf)
+        let imageAsset = try? CKAsset(image: image)
+        
+        newImage["ID"] = newImage.recordID.recordName
+        newImage["entry"] = reference
+        newImage["image"] = imageAsset
+        
+        sendEntryToDB(record: newImage)
+    }
+    
+    func editImageEntry(image: ImageModel) async {
+        do {
+            let record = try await container.privateCloudDatabase.record(for: image.id!)
+            let reference = CKRecord.Reference(recordID: image.entry, action: .deleteSelf)
+            let imageAsset = try? CKAsset(image: image.image)
+            
+            record["entry"] = reference
+            record["image"] = imageAsset
+            
+            sendEntryToDB(record: record)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func fetchImageByDiaryEntry(entry: JournalEntry) async throws {
+        let reference = CKRecord.Reference(recordID: entry.id!, action: .deleteSelf)
+        let predicate = NSPredicate(format: "entry == %@", reference)
+        let query = CKQuery(recordType: "images", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let result = try await container.privateCloudDatabase.records(matching: query)
+        
+        let records = result.matchResults.compactMap { try? $0.1.get() }
+        
+        records.forEach { record in
+            guard let entry = record["entry"] as? CKRecord.Reference else { return }
+            guard let asset = record["image"] as? CKAsset else { return }
+            
+            if let data = try? Data(contentsOf: (asset.fileURL!)), let image = UIImage(data: data) {
+                let imageModel = ImageModel(id: record.recordID, entry: entry.recordID, image: image)
+                
+                // MARK: Aqui pode dar problema, ficar de olho
+                imagesDictionary[entry.recordID]?.append(imageModel)
+            }
+        }
+    }
+    
+    func removeImageEntry(image: ImageModel) async {
+        do {
+            if let recordID = image.id {
+                try await container.privateCloudDatabase.deleteRecord(withID: recordID)
+            }
+        }
+        catch {
+            print(error.localizedDescription)
         }
     }
     

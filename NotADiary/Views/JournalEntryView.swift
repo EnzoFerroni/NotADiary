@@ -209,7 +209,7 @@ struct JournalEntryView: View {
                     DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                         .padding(.horizontal)
                     
-                    if image1 != nil{
+                    if image1 != nil {
                         Image(uiImage: image1!)
                             .resizable()
                             .frame(width: 240.0, height: 236)
@@ -225,7 +225,7 @@ struct JournalEntryView: View {
                 }
                 
                 
-                ToolbarEntryView(entryList: $entryList, image1: $image1, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                ToolbarEntryView(entryList: $entryList, image: $image1, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
         }
     }

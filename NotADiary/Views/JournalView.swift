@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CloudKit
 
 struct JournalView: View {
     var entry: JournalEntry
@@ -35,8 +36,8 @@ struct JournalView: View {
                 Spacer()
             }
             
-            if entry.image != nil {
-                Image(uiImage: entry.image!)
+            if let imagesFromEntry = ckViewModel.imagesDictionary[entry.id!] {
+                Image(uiImage: imagesFromEntry.first!.image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 240.0, height: 236)
