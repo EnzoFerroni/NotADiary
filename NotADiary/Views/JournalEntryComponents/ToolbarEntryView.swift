@@ -14,10 +14,8 @@ struct ToolbarEntryView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
 
     @Binding var entryList: [JournalEntry]
-    @Binding var image1: UIImage?
-    
-    //let imagePlaceholder: UIImage = UIImage(named: "amiguinho")!
-    
+    @Binding var images: [UIImage]
+        
     var text: String
     var day: Date
     var mood: Int
@@ -49,7 +47,7 @@ struct ToolbarEntryView: View {
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {
-                        PhotoPickerView(image: $image1, isEdit: false)
+                        PhotoPickerAddView(image: $images, isEdit: false)
                         Image(systemName: "photo.badge.plus.fill")
                     }
                     ToolbarItem(placement: .bottomBar) {
@@ -64,7 +62,7 @@ struct ToolbarEntryView: View {
                         Button {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
                             do {
-                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image: image1, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
+                                try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, image: images, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
                             }
                             catch {
                                 print(error.localizedDescription)

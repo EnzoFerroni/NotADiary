@@ -8,7 +8,7 @@
 import SwiftUI
 import PhotosUI
 
-struct PhotoPickerView: View {
+struct PhotoPickerEditView: View {
     @State var pickerImage: PhotosPickerItem?
     
     @Binding var image: UIImage?

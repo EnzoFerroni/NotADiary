@@ -26,7 +26,6 @@ struct HomeScreenView: View {
                 }
                 ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $teste)
 
-                
                 ScrollView {
                     ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
