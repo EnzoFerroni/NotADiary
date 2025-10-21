@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HealthKit
+import MusicKit
 
 
 struct ToolbarEntryView: View {
@@ -14,7 +15,11 @@ struct ToolbarEntryView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
 
     @Binding var entryList: [JournalEntry]
-    @Binding var images: [UIImage]
+    @State var images: [UIImage]
+    
+    @State var song: String
+    
+    @State var presentMusicSheet: Bool = false
         
     var text: String
     var day: Date
@@ -40,9 +45,12 @@ struct ToolbarEntryView: View {
                     }
                     ToolbarItem(placement: .bottomBar) {
                         Button {
-                            print("2")
+                            presentMusicSheet.toggle()
                         } label: {
                             Image(systemName: "music.note")
+                        }
+                        .sheet(isPresented: $presentMusicSheet) {
+                            MusicView(songSelectedId: $song)
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {
@@ -61,11 +69,9 @@ struct ToolbarEntryView: View {
                         Button {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
                             do {
-                                let entry = try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: "", label: "", association: "", valence: userValence))
+                                let entry = try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: song, label: "", association: "", valence: userValence))
                                 
-                                if let _image = image {
-                                    ckViewModel.createImageEntry(entry: entry, image: _image)
-                                }
+                                ckViewModel.createImageEntry(entry: entry, images: images)
                             }
                             catch {
                                 print(error.localizedDescription)

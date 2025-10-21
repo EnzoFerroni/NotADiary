@@ -41,7 +41,7 @@ struct JournalEntryEdit: View {
                             .padding(.horizontal)
                         Spacer()
                     }
-                    PhotoPickerEditView(image: $entry.image, isEdit: true)
+                    //PhotoPickerEditView(image: $entr, isEdit: true)
                 }
             }
             .toolbar {

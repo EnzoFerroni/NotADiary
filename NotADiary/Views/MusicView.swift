@@ -9,9 +9,14 @@ import SwiftUI
 import MusicKit
 
 struct MusicView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var viewModel = MusicPlayerViewModel()
     @State private var searchText: String = ""
     
+    @Binding var songSelectedId: String
+    
+    @State var isSelected: Bool = false
+            
     var body: some View {
         NavigationStack {
             ZStack {
@@ -22,12 +27,14 @@ struct MusicView: View {
                         ScrollView {
                             LazyVStack(spacing: 10) {
                                 ForEach(viewModel.songs) { song in
-                                    SongRow(song: song, hapticsManager: viewModel.hapticsManager) {
+                                    SongRow(song: song, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                                         Task {
                                             await viewModel.playSong(song)
                                         }
+                                        songSelectedId = song.id.rawValue
                                     }
                                     .background(Color.white.opacity(0.1))
+                                    
                                 }
                             }
                             .padding()
@@ -109,6 +116,16 @@ struct MusicView: View {
                     await viewModel.searchMusic(term: "Bangrang")
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+            
         }
     }
 }

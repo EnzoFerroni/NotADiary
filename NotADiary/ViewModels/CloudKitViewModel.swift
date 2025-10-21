@@ -155,10 +155,10 @@ class CloudKitViewModel {
     }
     
     func createImageEntry(entry: JournalEntry, images: [UIImage]) {
-        let newImage = CKRecord(recordType: "images")
         let reference = CKRecord.Reference(recordID: entry.id!, action: .deleteSelf)
         
         for image in images {
+            let newImage = CKRecord(recordType: "images")
             let imageAsset = try? CKAsset(image: image)
             
             newImage["ID"] = newImage.recordID.recordName

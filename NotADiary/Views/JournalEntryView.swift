@@ -13,7 +13,6 @@ import HealthKit
 
 struct JournalEntryView: View {
     @State var text: String = ""
-    @State var image1: UIImage?
     @State var day: Date = Date()
     @State var userValence: Double = -0.96
     @State var title: String = ""
@@ -149,15 +148,15 @@ struct JournalEntryView: View {
                     DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                         .padding(.horizontal)
                     
-                    if image1 != nil {
-                        Image(uiImage: image1!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 240.0, height: 236)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .scaledToFill()
-                            .clipped()
-                    }
+//                    if image1 != nil {
+//                        Image(uiImage: image1!)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: 240.0, height: 236)
+//                            .clipShape(RoundedRectangle(cornerRadius: 15))
+//                            .scaledToFill()
+//                            .clipped()
+//                    }
                 }
                 .onChange(of: userLabelString) { oldValue, newValue in
                     userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
@@ -166,8 +165,7 @@ struct JournalEntryView: View {
                     userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
                 }
                 
-                
-                ToolbarEntryView(entryList: $entryList, image: $image1, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                ToolbarEntryView(entryList: $entryList, images: [], song: "", text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
         }
     }
