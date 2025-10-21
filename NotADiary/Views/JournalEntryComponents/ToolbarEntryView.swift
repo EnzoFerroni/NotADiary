@@ -11,11 +11,10 @@ import HealthKit
 
 struct ToolbarEntryView: View {
     @Environment(\.dismiss) var dismiss
-    
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
 
     @Binding var entryList: [JournalEntry]
-    @Binding var image: UIImage?
+    @Binding var images: [UIImage]
         
     var text: String
     var day: Date
@@ -47,7 +46,7 @@ struct ToolbarEntryView: View {
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {
-                        PhotoPickerView(image: $image, isEdit: false)
+                        PhotoPickerAddView(image: $images, isEdit: false)
                         Image(systemName: "photo.badge.plus.fill")
                     }
                     ToolbarItem(placement: .bottomBar) {
@@ -57,8 +56,7 @@ struct ToolbarEntryView: View {
                             Image(systemName: "waveform")
                         }
                     }
-                    ToolbarSpacer(.fixed, placement: .bottomBar)
-                    
+                    ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem (placement: .bottomBar) {
                         Button {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
