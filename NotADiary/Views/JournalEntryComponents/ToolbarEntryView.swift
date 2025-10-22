@@ -17,7 +17,7 @@ struct ToolbarEntryView: View {
     @Binding var entryList: [JournalEntry]
     @State var images: [UIImage]
     
-    @State var song: String
+    @Binding var song: String
     
     @State var presentMusicSheet: Bool = false
         

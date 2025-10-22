@@ -7,12 +7,14 @@
 
 import SwiftUI
 import CloudKit
+import MusicKit
 
 struct JournalView: View {
     var entry: JournalEntry
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
-
+    @State private var viewModel = MusicPlayerViewModel()
+    
     var body: some View {
         VStack {
             HStack {
@@ -38,6 +40,8 @@ struct JournalView: View {
                     .foregroundStyle(.black)
                 Spacer()
             }
+            
+            
             HStack {
                 if let image = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
                     Image(uiImage: image)
@@ -50,7 +54,6 @@ struct JournalView: View {
                         .frame(width: 176, height: 154)
                 }
             }
-            
         }
         .padding(.horizontal)
     }
