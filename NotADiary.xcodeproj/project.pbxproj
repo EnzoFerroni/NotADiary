@@ -269,7 +269,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotADiary/Info.plist;
-				INFOPLIST_KEY_NSAppleMusicUsageDescription = "permite aí só e aí foi por aí aí vai no signing and capabilities";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = DSaskdkajdkljsalkdjlksad_DSJADSKLADKLJSALKDJSLKAJ_SALKDJLKSJADKLJK;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Hahaha eu vou roubar seus dados hehehehe";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Hahaha eu vou roubar seus dados dnv aahahahahahaehaheazhae";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Olha só, não é que eu roubei mais uma vez seus dados hahahahahahaha";
@@ -308,7 +308,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotADiary/Info.plist;
-				INFOPLIST_KEY_NSAppleMusicUsageDescription = "permite aí só e aí foi por aí aí vai no signing and capabilities";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = DSaskdkajdkljsalkdjlksad_DSJADSKLADKLJSALKDJSLKAJ_SALKDJLKSJADKLJK;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Hahaha eu vou roubar seus dados hehehehe";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Hahaha eu vou roubar seus dados dnv aahahahahahaehaheazhae";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Olha só, não é que eu roubei mais uma vez seus dados hahahahahahaha";

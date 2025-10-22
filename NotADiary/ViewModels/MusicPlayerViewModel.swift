@@ -47,7 +47,12 @@ class MusicPlayerViewModel {
     func playSong(_ song: Song) async {
         currentSong = song
         musicPlayer.queue = [song]
-        try? await musicPlayer.play()
+        do {
+            try await musicPlayer.play()
+        }
+        catch {
+            print(error.localizedDescription)
+        }
         isPlaying = true
         
         updateNowPlayingInfo(for: song)
