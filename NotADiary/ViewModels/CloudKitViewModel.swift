@@ -189,7 +189,7 @@ class CloudKitViewModel {
         let reference = CKRecord.Reference(recordID: entry.id!, action: .deleteSelf)
         let predicate = NSPredicate(format: "entry == %@", reference)
         let query = CKQuery(recordType: "images", predicate: predicate)
-        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         let result = try await container.privateCloudDatabase.records(matching: query)
         
         let records = result.matchResults.compactMap { try? $0.1.get() }
@@ -201,8 +201,12 @@ class CloudKitViewModel {
             if let data = try? Data(contentsOf: (asset.fileURL!)), let image = UIImage(data: data) {
                 let imageModel = ImageModel(id: record.recordID, entry: entry.recordID, image: image)
                 
-                // MARK: Aqui pode dar problema, ficar de olho
-                imagesDictionary[entry.recordID]?.append(imageModel)
+                if imagesDictionary[entry.recordID] != nil {
+                    imagesDictionary[entry.recordID]!.append(imageModel)
+                }
+                else {
+                    imagesDictionary[entry.recordID] = [imageModel]
+                }
             }
         }
     }
