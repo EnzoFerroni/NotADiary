@@ -10,34 +10,38 @@ import SwiftUI
 struct FullScreenImagesView: View {
     @Environment(\.dismiss) private var dismiss
 
-    var imageList: [String]
+    var image: UIImage
 
     var body: some View {
-        VStack {
-            TabView {
-                ForEach(imageList, id: \.self) { image in
-                    Image(image)
-                        .resizable()
-                        .scaledToFit()
-                        .border(.red)
-                }
-            }
-            .tabViewStyle(.page)
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                        }
-                        .border(.blue)
-                    }
-                }
-        }
+//        VStack {
+//            TabView {
+//                ForEach(imageList, id: \.self) { image in
+//                    Image(image)
+//                        .resizable()
+//                        .scaledToFit()
+//                        .border(.red)
+//                }
+//            }
+//            .tabViewStyle(.page)
+//                .toolbar {
+//                    ToolbarItem(placement: .bottomBar) {
+//                        Button {
+//                            dismiss()
+//                        } label: {
+//                            Image(systemName: "chevron.left")
+//                        }
+//                        .border(.blue)
+//                    }
+//                }
+//        }
+        Image(uiImage: image)
+                               .resizable()
+                                .scaledToFit()
+                                .border(.red)
         
     }
 }
 
-#Preview {
-    FullScreenImagesView(imageList: ["teste2", "teste2", "teste", "amiguinho", "amiguinho", "amiguinho", "teste"])
-}
+//#Preview {
+//    FullScreenImagesView(imageList: ["teste2", "teste2", "teste", "amiguinho", "amiguinho", "amiguinho", "teste"])
+//}

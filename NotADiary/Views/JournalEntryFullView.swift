@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct JournalEntryFullView: View {
+    @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+    
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
-    
-    var imageList: [String] = ["teste2", "teste2", "teste", "amiguinho", "amiguinho", "amiguinho", "teste"]
+    @State var fullImage: Bool = false
+    @State var selectedImage: UIImage?
     
     var body: some View {
         NavigationStack {
@@ -44,23 +46,28 @@ struct JournalEntryFullView: View {
                             .foregroundStyle(.gray)
                         HStack {
                             VStack {
-                                ForEach(Array(imageList.enumerated()), id: \.offset) { index, image in
+                                ForEach(Array(ckViewModel.imagesDictionary[entry.id!]!.enumerated()), id: \.offset) { index, image in
                                     if index % 5 == 0 || index % 5 == 3 {
-                                        Image(image)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 200, height: 246)
-                                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                                            .clipped()
+                                        Button {
+                                            selectedImage = image.image
+                                            fullImage.toggle()
+                                        } label: {
+                                            Image(uiImage: image.image)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 200, height: 246)
+                                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                                .clipped()
+                                        }
                                     }
                                 }
                                 Spacer()
                             }
                             
                             VStack {
-                                ForEach(Array(imageList.enumerated()), id: \.offset) { index, image in
+                                ForEach(Array(ckViewModel.imagesDictionary[entry.id!]!.enumerated()), id: \.offset) { index, image in
                                     if index % 5 == 1 || index % 5 == 2 || index % 5 == 4 {
-                                        Image(image)
+                                        Image(uiImage: image.image)
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 153, height: 160)
@@ -71,18 +78,17 @@ struct JournalEntryFullView: View {
                                 Spacer()
                             }
                         }
-//NAO APAGAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                        if entry.image != nil {
-//                            Image(uiImage: entry.image!)
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 240.0, height: 236)
-//                                .clipShape(RoundedRectangle(cornerRadius: 15))
-//                        }
                     }
                     .padding(.horizontal)
+                    .task {
+                        try? await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                    }
                     ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
+                    
                 }
+                //                .fullScreenCover(isPresented: $fullImage){
+                //                    FullScreenImagesView(image: selectedImage!)
+                //                }
             }
         }
     }

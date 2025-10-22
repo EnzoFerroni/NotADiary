@@ -39,18 +39,24 @@ struct JournalView: View {
                 Spacer()
             }
             HStack {
-                if let image = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
-                    Image(uiImage: image)
+                if let image1 = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
+                    Image(uiImage: image1)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 176, height: 154)
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                         .clipped()
-                    RoundedRectangle(cornerRadius: 15)
+                }
+                
+                if let image2 = ckViewModel.imagesDictionary[entry.id!]?.last?.image {
+                    Image(uiImage: image2)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 176, height: 154)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .clipped()
                 }
             }
-            
         }
         .padding(.horizontal)
     }
