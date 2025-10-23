@@ -13,12 +13,13 @@ struct JournalEntryFullView: View {
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
-    @State var selectedImage: UIImage?
+    //@Binding var hasFatched: Bool
+    //@State var selectedImage: UIImage?
     
     var body: some View {
         NavigationStack {
             if isEdit {
-                JournalEntryEdit(entry: $entry, isEdit: $isEdit)
+                JournalEntryEdit(isEdit: $isEdit, entry: entry)
             }
             else {
                 ScrollView {
@@ -44,12 +45,13 @@ struct JournalEntryFullView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .frame(width: 365, height: 71)
                             .foregroundStyle(.gray)
+
                         HStack {
                             VStack {
                                 ForEach(Array(ckViewModel.imagesDictionary[entry.id!]!.enumerated()), id: \.offset) { index, image in
                                     if index % 5 == 0 || index % 5 == 3 {
                                         Button {
-                                            selectedImage = image.image
+                                            //selectedImage = image.image
                                             fullImage.toggle()
                                         } label: {
                                             Image(uiImage: image.image)
@@ -59,6 +61,7 @@ struct JournalEntryFullView: View {
                                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                                                 .clipped()
                                         }
+                                        
                                     }
                                 }
                                 Spacer()
@@ -80,9 +83,7 @@ struct JournalEntryFullView: View {
                         }
                     }
                     .padding(.horizontal)
-                    .task {
-                        try? await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                    }
+                    
                     ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
                     
                 }

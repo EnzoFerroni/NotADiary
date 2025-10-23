@@ -22,6 +22,8 @@ struct JournalEntryView: View {
     @State var userAssociation: HKStateOfMind.Association = HKStateOfMind.Association.community
     @State var userLabelString: String = ""
     @State var userAssociationString: String = ""
+    @State var images: [UIImage] = []
+    
     
     let associationsStrings = ["Community","Current Events","Dating","Education","Family","Fitness","Friends","Health","Hobbies","Identity","Money","Partner","Self Care","Spirituality","Tasks","Travel","Weather","Work"]
     
@@ -148,15 +150,16 @@ struct JournalEntryView: View {
                     DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                         .padding(.horizontal)
                     
-//                    if image1 != nil {
-//                        Image(uiImage: image1!)
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .frame(width: 240.0, height: 236)
-//                            .clipShape(RoundedRectangle(cornerRadius: 15))
-//                            .scaledToFill()
-//                            .clipped()
-//                    }
+                    ForEach (images, id: \.self) { image in
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 240.0, height: 236)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .scaledToFill()
+                            .clipped()
+                        
+                    }
                 }
                 .onChange(of: userLabelString) { oldValue, newValue in
                     userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
@@ -165,7 +168,7 @@ struct JournalEntryView: View {
                     userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
                 }
                 
-                ToolbarEntryView(entryList: $entryList, images: [], song: "", text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                ToolbarEntryView(entryList: $entryList, images: $images, song: "", text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
         }
     }
