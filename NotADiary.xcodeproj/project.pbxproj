@@ -273,6 +273,7 @@
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Hahaha eu vou roubar seus dados hehehehe";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Hahaha eu vou roubar seus dados dnv aahahahahahaehaheazhae";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Olha só, não é que eu roubei mais uma vez seus dados hahahahahahaha";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -312,6 +313,7 @@
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Hahaha eu vou roubar seus dados hehehehe";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Hahaha eu vou roubar seus dados dnv aahahahahahaehaheazhae";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Olha só, não é que eu roubei mais uma vez seus dados hahahahahahaha";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
