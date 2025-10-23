@@ -1,5 +1,5 @@
 //
-//  JournalViewModel.swift
+//  JournalModel.swift
 //  NotADiary
 //
 //  Created by Francisco Losada on 08/10/25.

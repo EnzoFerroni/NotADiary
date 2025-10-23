@@ -12,7 +12,7 @@ import PhotosUI
 import HealthKit
 import MusicKit
 
-struct JournalEntryView: View {
+struct JournalCreateEntryView: View {
     @State var text: String = ""
     @State var day: Date = Date()
     @State var userValence: Double = -0.96

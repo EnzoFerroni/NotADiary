@@ -61,7 +61,7 @@ struct HomeScreenView: View {
                 await HealthManager.shared.requestHealthAuthorization()
             }
             .fullScreenCover(isPresented: $toggleSheet){
-                JournalEntryView(entryList: $entryList)
+                JournalCreateEntryView(entryList: $entryList)
             }
         }
     }
