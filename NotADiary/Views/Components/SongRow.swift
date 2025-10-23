@@ -12,9 +12,15 @@ import MediaAccessibility
 struct SongRow: View {
     let song: Song
     let hapticsManager: MusicHapticsManager
+        
+    @Binding var viewModel: MusicPlayerViewModel
+    
     let onTap: () -> Void
+    
     @State private var hasHaptics: Bool = false
     @State private var isChecking: Bool = true
+    @State private var isSelected: Bool = false
+    
     
     var body: some View {
         Button(action: {
@@ -22,27 +28,34 @@ struct SongRow: View {
             onTap()
         }) {
             HStack {
-                AsyncImage(url: song.artwork?.url(width: 50, height: 50)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(width: 50, height: 50)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    case .failure(_):
-                        ZStack {
+                ZStack {
+                    AsyncImage(url: song.artwork?.url(width: 50, height: 50)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 50, height: 50)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        case .failure(_):
+                            ZStack {
+                                Color.gray
+                                Image(systemName: "music.note")
+                                    .foregroundColor(.white)
+                            }
+                        @unknown default:
                             Color.gray
-                            Image(systemName: "music.note")
-                                .foregroundColor(.white)
                         }
-                    @unknown default:
-                        Color.gray
                     }
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(8)
+                    
+                    Image(systemName: viewModel.isPlaying && viewModel.currentSong?.id == song.id ? "pause.circle.fill" : "play.circle.fill")
+                        .font(.title)
+                        .foregroundStyle(.white)
                 }
-                .frame(width: 50, height: 50)
-                .cornerRadius(8)
+                
                 
                 VStack(alignment: .leading) {
                     Text(song.title)

@@ -33,6 +33,14 @@ struct HomeScreenView: View {
                         } label: {
                             VStack {
                                 JournalView(entry: entry)
+                                    .task {
+                                        do {
+                                            try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                                        }
+                                        catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
                                 Divider()
                             }
                         }
