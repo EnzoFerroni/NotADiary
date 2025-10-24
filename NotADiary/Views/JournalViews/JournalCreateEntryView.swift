@@ -10,8 +10,9 @@
 import SwiftUI
 import PhotosUI
 import HealthKit
+import MusicKit
 
-struct JournalEntryView: View {
+struct JournalCreateEntryView: View {
     @State var text: String = ""
     @State var day: Date = Date()
     @State var userValence: Double = -0.96
@@ -23,7 +24,9 @@ struct JournalEntryView: View {
     @State var userLabelString: String = ""
     @State var userAssociationString: String = ""
     @State var images: [UIImage] = []
+    @State var songID: String = ""
     
+    @State var viewModel = MusicPlayerViewModel()
     
     let associationsStrings = ["Community","Current Events","Dating","Education","Family","Fitness","Friends","Health","Hobbies","Identity","Money","Partner","Self Care","Spirituality","Tasks","Travel","Weather","Work"]
     
@@ -33,6 +36,8 @@ struct JournalEntryView: View {
     @State var wasClicked: Bool = false
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+
+    @State private var loadedSong: Song?
     
     var moodFace: String {
         switch userValence {
@@ -74,6 +79,7 @@ struct JournalEntryView: View {
                     }
                     TextField("Write here...", text: $title, axis: .vertical)
                         .padding(.horizontal)
+                        .scrollDismissesKeyboard(.interactively)
                     HStack {
                         Text("Text:")
                             .font(.title)
@@ -82,6 +88,7 @@ struct JournalEntryView: View {
                     }
                     TextField("Write here...", text: $text, axis: .vertical)
                         .padding(.horizontal)
+                        .scrollDismissesKeyboard(.interactively)
                     
                     Text("Como você está se sentindo?")
                         .bold()
@@ -160,6 +167,13 @@ struct JournalEntryView: View {
                             .clipped()
                         
                     }
+                    if songID != "", let _loadedSong = loadedSong {
+                        SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                            Task {
+                                await viewModel.togglePlayPause()
+                            }
+                        }
+                    }
                 }
                 .onChange(of: userLabelString) { oldValue, newValue in
                     userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
@@ -168,7 +182,14 @@ struct JournalEntryView: View {
                     userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
                 }
                 
-                ToolbarEntryView(entryList: $entryList, images: $images, song: "", text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+            }
+            .refreshable {
+                Task {
+                    if songID != "" {
+                        loadedSong = await viewModel.fetchSongById(songID)
+                    }
+                }
             }
         }
     }
