@@ -76,7 +76,7 @@ struct JournalCreateEntryView: View {
                             .lineLimit(1)
                         Spacer()
                     }
-                    TextField("Write here...", text: $title, axis: .vertical)
+                    TextField("Write here...", text: $title)
                         .padding(.horizontal)
                     HStack {
                         Text("Text:")
@@ -84,7 +84,7 @@ struct JournalCreateEntryView: View {
                             .padding(.horizontal)
                         Spacer()
                     }
-                    TextField("Write here...", text: $text, axis: .vertical)
+                    TextField("Write here...", text: $text)
                         .padding(.horizontal)
                     
                     Text("Como você está se sentindo?")
