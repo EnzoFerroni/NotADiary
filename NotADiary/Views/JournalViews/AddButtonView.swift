@@ -12,7 +12,7 @@ struct AddButtonView: View {
     @State var animationAmount: Double = 0.0
     
     private let gradient = AngularGradient(
-        gradient: Gradient(colors: [Color.cyan, .white]),
+        gradient: Gradient(colors: [Color.accent, .white]),
         center: .center,
         startAngle: .degrees(270),
         endAngle: .degrees(0))
