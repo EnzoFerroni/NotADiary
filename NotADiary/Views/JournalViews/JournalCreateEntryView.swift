@@ -79,7 +79,7 @@ struct JournalCreateEntryView: View {
                     }
                     TextField("Write here...", text: $title, axis: .vertical)
                         .padding(.horizontal)
-                        .scrollDismissesKeyboard(.interactively)
+
                     HStack {
                         Text("Text:")
                             .font(.title)
@@ -88,7 +88,6 @@ struct JournalCreateEntryView: View {
                     }
                     TextField("Write here...", text: $text, axis: .vertical)
                         .padding(.horizontal)
-                        .scrollDismissesKeyboard(.interactively)
                     
                     Text("Como você está se sentindo?")
                         .bold()
@@ -184,6 +183,8 @@ struct JournalCreateEntryView: View {
                 
                 ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
+            .scrollDismissesKeyboard(.immediately)
+
             .refreshable {
                 Task {
                     if songID != "" {
