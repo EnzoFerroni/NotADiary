@@ -25,8 +25,9 @@ struct JournalCreateEntryView: View {
     @State var userAssociationString: String = ""
     @State var images: [UIImage] = []
     @State var songID: String = ""
-    
     @State var viewModel = MusicPlayerViewModel()
+    
+    @FocusState var isKeyboardActive: Bool
     
     let associationsStrings = ["Community","Current Events","Dating","Education","Family","Fitness","Friends","Health","Hobbies","Identity","Money","Partner","Self Care","Spirituality","Tasks","Travel","Weather","Work"]
     
@@ -78,6 +79,7 @@ struct JournalCreateEntryView: View {
                         Spacer()
                     }
                     TextField("Write here...", text: $title, axis: .vertical)
+                        .focused($isKeyboardActive)
                         .padding(.horizontal)
 
                     HStack {
@@ -87,8 +89,9 @@ struct JournalCreateEntryView: View {
                         Spacer()
                     }
                     TextField("Write here...", text: $text, axis: .vertical)
+                        .focused($isKeyboardActive)
                         .padding(.horizontal)
-                    
+                
                     Text("Como você está se sentindo?")
                         .bold()
                         .font(.title2)
@@ -124,11 +127,13 @@ struct JournalCreateEntryView: View {
                     .font(.title3)
                     .foregroundStyle(.white)
                     .padding(.horizontal)
+                    
                     //valencia por meio de slider
                     Text(moodFace)
                         .font(.largeTitle)
                     Slider(value: $userValence, in: -1...1){}
                         .padding(.horizontal)
+                    
                     //label - a emocao propriamente dita
                     HStack{
                         Text("Como você está se sentindo?")
@@ -152,6 +157,7 @@ struct JournalCreateEntryView: View {
                         }
                     }
                     .padding(.horizontal)
+                    
                     //endDate picker
                     DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                         .padding(.horizontal)
@@ -166,6 +172,7 @@ struct JournalCreateEntryView: View {
                             .clipped()
                         
                     }
+                    
                     if songID != "", let _loadedSong = loadedSong {
                         SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                             Task {
@@ -184,7 +191,6 @@ struct JournalCreateEntryView: View {
                 ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
             .scrollDismissesKeyboard(.immediately)
-
             .refreshable {
                 Task {
                     if songID != "" {
@@ -195,9 +201,3 @@ struct JournalCreateEntryView: View {
         }
     }
 }
-
-//#Preview {
-//    JournalEntryView()
-//}
-
-//TODO: Fazer dados mocados para preview

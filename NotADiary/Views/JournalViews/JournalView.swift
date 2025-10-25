@@ -10,10 +10,10 @@ import CloudKit
 import MusicKit
 
 struct JournalView: View {
-    var entry: JournalEntry
-    
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     @State private var viewModel = MusicPlayerViewModel()
+    
+    var entry: JournalEntry
     
     var body: some View {
         VStack {
@@ -41,31 +41,38 @@ struct JournalView: View {
                 Spacer()
             }
             
-            
             HStack {
-                if let image1 = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
-                    Image(uiImage: image1)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 176, height: 154)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .clipped()
+                if let image = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
+                    if image != ckViewModel.imagesDictionary[entry.id!]?.last?.image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 176, height: 154)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .clipped()
+                    }
+                    else {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 356, height: 154)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .clipped()
+                    }
                 }
                 
-                if let image2 = ckViewModel.imagesDictionary[entry.id!]?.last?.image {
-                    Image(uiImage: image2)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 176, height: 154)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .clipped()
+                if let image = ckViewModel.imagesDictionary[entry.id!]?.last?.image {
+                    if ckViewModel.imagesDictionary[entry.id!]?.first?.image != image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 176, height: 154)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .clipped()
+                    }
                 }
             }
         }
         .padding(.horizontal)
     }
 }
-
-//#Preview {
-//    JournalView(entry: JournalEntry(title: "Titulo", text: "asdjssdajfiosajdfiojsdafiojsdif", date: Date(), mood: "😃"))
-//}

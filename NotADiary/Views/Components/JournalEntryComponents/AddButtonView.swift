@@ -29,7 +29,7 @@ struct AddButtonView: View {
                     .frame(width: 120)
                     .rotationEffect(.degrees(animationAmount))
                     .onAppear {
-                        withAnimation(.linear(duration: 5).repeatForever(autoreverses: false)) {
+                        withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
                             animationAmount += 360
                         }
                     }
@@ -42,7 +42,3 @@ struct AddButtonView: View {
         }
     }
 }
-
-//#Preview {
-//    AddButtonView()
-//}
