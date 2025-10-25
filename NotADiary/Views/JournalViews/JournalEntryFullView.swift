@@ -13,8 +13,6 @@ struct JournalEntryFullView: View {
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
-    //@Binding var hasFatched: Bool
-    //@State var selectedImage: UIImage?
     
     var body: some View {
         NavigationStack {
@@ -45,56 +43,15 @@ struct JournalEntryFullView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .frame(width: 365, height: 71)
                             .foregroundStyle(.gray)
-
-                        HStack {
-                            VStack {
-                                ForEach(Array(ckViewModel.imagesDictionary[entry.id!]!.enumerated()), id: \.offset) { index, image in
-                                    if index % 5 == 0 || index % 5 == 3 {
-                                        Button {
-                                            //selectedImage = image.image
-                                            fullImage.toggle()
-                                        } label: {
-                                            Image(uiImage: image.image)
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: 200, height: 246)
-                                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                                .clipped()
-                                        }
-                                        
-                                    }
-                                }
-                                Spacer()
-                            }
-                            
-                            VStack {
-                                ForEach(Array(ckViewModel.imagesDictionary[entry.id!]!.enumerated()), id: \.offset) { index, image in
-                                    if index % 5 == 1 || index % 5 == 2 || index % 5 == 4 {
-                                        Image(uiImage: image.image)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 153, height: 160)
-                                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                                            .clipped()
-                                    }
-                                }
-                                Spacer()
-                            }
-                        }
+                        
+                        ImagesGridView(entry: entry)
+                        
                     }
                     .padding(.horizontal)
                     
                     ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
-                    
                 }
-                //                .fullScreenCover(isPresented: $fullImage){
-                //                    FullScreenImagesView(image: selectedImage!)
-                //                }
             }
         }
     }
 }
-
-//#Preview {
-//    JournalEntryFullView()
-//}

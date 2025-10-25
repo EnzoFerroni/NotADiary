@@ -80,5 +80,4 @@ struct JournalEntryEdit: View {
             }
         }
     }
-
 }
