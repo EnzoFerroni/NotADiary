@@ -51,6 +51,16 @@ struct JournalEntryFullView: View {
                     
                     ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
                 }
+                .onAppear() {
+                    Task {
+                        do {
+                            try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
             }
         }
     }
