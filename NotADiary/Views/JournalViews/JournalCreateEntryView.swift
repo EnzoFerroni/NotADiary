@@ -70,14 +70,12 @@ struct JournalCreateEntryView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
+                VStack (alignment: .leading) {
                     //MARK: Date
-                    HStack {
-                        Text("\(day, format: .dateTime.day().month())")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                        Spacer()
-                    }
+                    Text("\(day, format: .dateTime.day().month())")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    
                     Divider()
                     //DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                     
@@ -94,12 +92,9 @@ struct JournalCreateEntryView: View {
                     Divider()
                     
                     //MARK: Feeling
-                    HStack {
-                        Text("Como você está se sentindo?")
-                            .bold()
-                            .font(.title2)
-                        Spacer()
-                    }
+                    Text("Como você está se sentindo?")
+                        .bold()
+                        .font(.title2)
                     
                     HStack {
                         Button {
@@ -137,10 +132,14 @@ struct JournalCreateEntryView: View {
                     .padding(.horizontal)
                     
                     //Valencia por meio de slider
-                    Text(moodFace)
-                        .font(.largeTitle)
+                    HStack {
+                        Spacer()
+                        Text(moodFace)
+                            .font(.largeTitle)
+                        Spacer()
+                    }
                     Slider(value: $userValence, in: -1...1){}
-                    
+                        
                     //Label - emocao propriamente dita
                     HStack{
                         Text("Como você está se sentindo?")

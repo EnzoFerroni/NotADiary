@@ -17,7 +17,6 @@ struct AddButtonView: View {
         startAngle: .degrees(270),
         endAngle: .degrees(0))
     
-    
     var body: some View {
         Button {
             toggleSheet.toggle()

@@ -31,7 +31,7 @@ struct ImagesGridView: View {
                                 Image(uiImage: image.image)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 200, height: 246)
+                                    .frame(width: 200, height: 244)
                                     .clipShape(RoundedRectangle(cornerRadius: 16))
                                     .clipped()
                             }

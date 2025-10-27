@@ -24,7 +24,7 @@ struct HomeScreenView: View {
                         .padding(.horizontal)
                     Spacer()
                 }
-                ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $searchText)
+                //ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $searchText)
 
                 ScrollView {
                     AddButtonView(toggleSheet: $toggleSheet)
