@@ -61,7 +61,7 @@ struct ToolbarEntryView: View {
                         Button {
                             print("4")
                         } label: {
-                            Image(systemName: "waveform")
+                            Image(systemName: "microphone.fill")
                         }
                     }
                     ToolbarSpacer(.flexible, placement: .bottomBar)

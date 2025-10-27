@@ -12,9 +12,9 @@ struct AddButtonView: View {
     @State var animationAmount: Double = 0.0
     
     private let gradient = AngularGradient(
-        gradient: Gradient(colors: [Color.accent, .white]),
+        gradient: Gradient(colors: [Color.accent, .background]),
         center: .center,
-        startAngle: .degrees(270),
+        startAngle: .degrees(250),
         endAngle: .degrees(0))
     
     var body: some View {
@@ -29,6 +29,7 @@ struct AddButtonView: View {
                     .rotationEffect(.degrees(animationAmount))
                     .onAppear {
                         withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
+                            animationAmount = 0
                             animationAmount += 360
                         }
                     }

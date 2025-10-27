@@ -24,14 +24,15 @@ struct JournalEntryFullView: View {
                     VStack {
                         HStack {
                             Text(entry.title)
-                                .font(.title)
+                                .font(.largeTitle)
                                 .fontWeight(.bold)
                             Spacer()
                         }
                         HStack {
                             Text("\(entry.date, format: .dateTime.day().month().year())")
-                                .font(.title3)
-                                .fontWeight(.semibold)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.subheadline)
                             Spacer()
                         }
                         Divider()
@@ -63,5 +64,6 @@ struct JournalEntryFullView: View {
                 }
             }
         }
+        .background { Color.background.ignoresSafeArea()}
     }
 }

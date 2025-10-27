@@ -16,7 +16,7 @@ struct HomeScreenView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 HStack {
                     Text("Boas Vindas, \(ckViewModel.preference?.name ?? "")!")
                         .font(.title)
@@ -24,40 +24,38 @@ struct HomeScreenView: View {
                         .padding(.horizontal)
                     Spacer()
                 }
-                //ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $searchText)
-
-                ScrollView {
-                    AddButtonView(toggleSheet: $toggleSheet)
-                    ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
-                        NavigationLink {
-                            JournalEntryFullView(entry: entry)
-                        } label: {
-                            VStack {
-                                JournalView(entry: entry)
-                                    .task {
-                                        do {
-                                            try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                                        }
-                                        catch {
-                                            print(error.localizedDescription)
-                                        }
+                AddButtonView(toggleSheet: $toggleSheet)
+                ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
+                    NavigationLink {
+                        JournalEntryFullView(entry: entry)
+                    } label: {
+                        VStack {
+                            JournalView(entry: entry)
+                                .task {
+                                    do {
+                                        try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
                                     }
-                                Divider()
-                            }
-                        }
-                    }
-                }
-                .refreshable {
-                    Task {
-                        do {
-                            try await ckViewModel.fetchDiaryEntries()
-                        }
-                        catch {
-                            print(error.localizedDescription)
+                                    catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            Divider()
                         }
                     }
                 }
             }
+            .refreshable {
+                Task {
+                    do {
+                        try await ckViewModel.fetchDiaryEntries()
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+            
+            .background { Color.background.ignoresSafeArea()}
             .task {
                 await HealthManager.shared.requestHealthAuthorization()
             }

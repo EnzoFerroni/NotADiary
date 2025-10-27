@@ -18,15 +18,6 @@ struct ToolbarJournalEntryFullView: View {
     var body: some View {
         Text("")
             .toolbar {
-                ToolbarItem (placement: .confirmationAction) {
-                    Button {
-                        isEdit.toggle()
-                    } label: {
-                        Text("Edit")
-                    }
-                    //.buttonStyle(.bordered)
-                }
-                
                 ToolbarItem(placement: .bottomBar) {
                     Button {
                         print("waveform")
@@ -47,6 +38,14 @@ struct ToolbarJournalEntryFullView: View {
                 
                 ToolbarItem (placement: .bottomBar) {
                     Button {
+                        isEdit.toggle()
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                    }
+                }
+                
+                ToolbarItem (placement: .confirmationAction) {
+                    Button {
                         Task {
                             do {
                                 try await ckViewModel.removeDiaryEntry(entry: entry)
@@ -57,9 +56,11 @@ struct ToolbarJournalEntryFullView: View {
                         }
                         dismiss()
                     } label: {
-                        Image(systemName: "trash.fill")
-                            .foregroundStyle(.red)
+                        Image(systemName: "trash")
+                            .foregroundStyle(.black)
                     }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.deleteButton)
                 }
             }
     }
