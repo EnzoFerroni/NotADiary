@@ -4,15 +4,17 @@
 //
 //  Created by Francisco Losada on 09/10/25.
 //
-
+// TODO: ARRUMAR PICKER
 import SwiftUI
+import PhotosUI
 
 struct JournalEntryEdit: View {
-    @Binding var entry: JournalEntry
     @Binding var isEdit: Bool
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
-
+    
+    @State var entry: JournalEntry
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -41,24 +43,38 @@ struct JournalEntryEdit: View {
                             .padding(.horizontal)
                         Spacer()
                     }
-                    //PhotoPickerEditView(image: $entr, isEdit: true)
+                    if (ckViewModel.imagesDictionary[entry.id!]?.first?.image) != nil {
+                        ForEach(ckViewModel.imagesDictionary[entry.id!]!) { image in
+                            PhotoPickerEditView(image: image)
+                        }
+                    }
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button {
-                        isEdit.toggle()
-                        Task {
-                            do {
-                                try await ckViewModel.editDiaryEntry(entry: entry)
-                            }
-                            catch {
-                                print(error.localizedDescription)
-                            }
-                        }
-                    } label: {
-                        Text("Save")
+            .onAppear() {
+                Task {
+                    do {
+                        try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
                     }
+                    catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    isEdit.toggle()
+                    Task {
+                        do {
+                            try await ckViewModel.editDiaryEntry(entry: entry)
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                } label: {
+                    Text("Save")
                 }
             }
         }

@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeScreenView: View {
     @State var toggleSheet: Bool = false
     @State var entryList: [JournalEntry] = []
-    @State var teste: String = ""
+    @State var searchText: String = ""
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     
@@ -24,9 +24,10 @@ struct HomeScreenView: View {
                         .padding(.horizontal)
                     Spacer()
                 }
-                ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $teste)
+                //ToolbarHomeScreenView(toggleSheet: $toggleSheet, teste: $searchText)
 
                 ScrollView {
+                    AddButtonView(toggleSheet: $toggleSheet)
                     ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             JournalEntryFullView(entry: entry)

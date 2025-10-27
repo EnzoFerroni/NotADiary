@@ -15,7 +15,7 @@ struct ToolbarEntryView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
 
     @Binding var entryList: [JournalEntry]
-    @State var images: [UIImage]
+    @Binding var images: [UIImage]
     
     @Binding var song: String
     

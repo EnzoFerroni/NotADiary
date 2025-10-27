@@ -15,7 +15,7 @@ import MusicKit
 struct JournalCreateEntryView: View {
     @State var text: String = ""
     @State var day: Date = Date()
-    @State var userValence: Double = -0.96
+    @State var userValence: Double = 0.0
     @State var title: String = ""
     @Binding var entryList: [JournalEntry]
     @State var whereToSave: Bool = false
@@ -23,9 +23,11 @@ struct JournalCreateEntryView: View {
     @State var userAssociation: HKStateOfMind.Association = HKStateOfMind.Association.community
     @State var userLabelString: String = ""
     @State var userAssociationString: String = ""
+    @State var images: [UIImage] = []
     @State var songID: String = ""
-    
     @State var viewModel = MusicPlayerViewModel()
+    
+    @FocusState var isKeyboardActive: Bool
     
     let associationsStrings = ["Community","Current Events","Dating","Education","Family","Fitness","Friends","Health","Hobbies","Identity","Money","Partner","Self Care","Spirituality","Tasks","Travel","Weather","Work"]
     
@@ -35,7 +37,7 @@ struct JournalCreateEntryView: View {
     @State var wasClicked: Bool = false
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
-
+    
     @State private var loadedSong: Song?
     
     var moodFace: String {
@@ -68,28 +70,32 @@ struct JournalCreateEntryView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
-                    HStack {
-                        Text("Title:")
-                            .font(.title)
-                            .padding(.horizontal)
-                            .lineLimit(1)
-                        Spacer()
-                    }
-                    TextField("Write here...", text: $title)
-                        .padding(.horizontal)
-                    HStack {
-                        Text("Text:")
-                            .font(.title)
-                            .padding(.horizontal)
-                        Spacer()
-                    }
-                    TextField("Write here...", text: $text)
-                        .padding(.horizontal)
+                VStack (alignment: .leading) {
+                    //MARK: Date
+                    Text("\(day, format: .dateTime.day().month())")
+                        .font(.title)
+                        .fontWeight(.semibold)
                     
+                    Divider()
+                    //DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
+                    
+                    //MARK: Title
+                    TextField("Write your title here...", text: $title, axis: .vertical)
+                        .focused($isKeyboardActive)
+                        .padding(.vertical)
+                    Divider()
+                    
+                    //MARK: Text
+                    TextField("Write your text here...", text: $text, axis: .vertical)
+                        .focused($isKeyboardActive)
+                        .padding(.vertical)
+                    Divider()
+                    
+                    //MARK: Feeling
                     Text("Como você está se sentindo?")
                         .bold()
                         .font(.title2)
+                    
                     HStack {
                         Button {
                             whereToSave.toggle()
@@ -104,8 +110,10 @@ struct JournalCreateEntryView: View {
                         .buttonStyle(.bordered)
                         .background(whereToSave ? .white : .cyan)
                         .clipShape(RoundedRectangle(cornerRadius: 90))
+                        
                         Spacer()
-                        Button{
+                        
+                        Button {
                             whereToSave.toggle()
                         } label: {
                             if whereToSave {
@@ -122,12 +130,17 @@ struct JournalCreateEntryView: View {
                     .font(.title3)
                     .foregroundStyle(.white)
                     .padding(.horizontal)
-                    //valencia por meio de slider
-                    Text(moodFace)
-                        .font(.largeTitle)
+                    
+                    //Valencia por meio de slider
+                    HStack {
+                        Spacer()
+                        Text(moodFace)
+                            .font(.largeTitle)
+                        Spacer()
+                    }
                     Slider(value: $userValence, in: -1...1){}
-                        .padding(.horizontal)
-                    //label - a emocao propriamente dita
+                        
+                    //Label - emocao propriamente dita
                     HStack{
                         Text("Como você está se sentindo?")
                         Spacer()
@@ -138,22 +151,29 @@ struct JournalCreateEntryView: View {
                             }
                         }
                     }
-                    .padding(.horizontal)
+                    
+                    //Resolver
                     HStack{
                         Text("Ao que o sentimento está associado? ")
                         Spacer()
-                        //Resolver
                         Picker("", selection: $userAssociationString){
                             ForEach(associationsStrings, id: \.self) {
                                 Text($0)
                             }
                         }
                     }
-                    .padding(.horizontal)
-                    //endDate picker
-                    DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
-                        .padding(.horizontal)
                     
+                    ForEach (images, id: \.self) { image in
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 240.0, height: 236)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .scaledToFill()
+                            .clipped()
+                    }
+                    
+                    //MARK: Music
                     if songID != "", let _loadedSong = loadedSong {
                         SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                             Task {
@@ -161,8 +181,8 @@ struct JournalCreateEntryView: View {
                             }
                         }
                     }
-                    
                 }
+                .padding(.horizontal)
                 .onChange(of: userLabelString) { oldValue, newValue in
                     userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
                 }
@@ -170,8 +190,9 @@ struct JournalCreateEntryView: View {
                     userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
                 }
                 
-                ToolbarEntryView(entryList: $entryList, images: [], song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
+            .scrollDismissesKeyboard(.immediately)
             .refreshable {
                 Task {
                     if songID != "" {
@@ -182,9 +203,3 @@ struct JournalCreateEntryView: View {
         }
     }
 }
-
-//#Preview {
-//    JournalEntryView()
-//}
-
-//TODO: Fazer dados mocados para preview
