@@ -77,7 +77,8 @@ struct SongRow: View {
                 }
             }
             .padding()
-            .cornerRadius(10)
+            .background(viewModel.isPlaying && viewModel.currentSong?.id == song.id ? Color.white.opacity(0.5) : Color.white.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
         .task {
             await checkHaptics()

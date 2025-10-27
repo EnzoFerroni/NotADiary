@@ -33,8 +33,6 @@ struct MusicView: View {
                                         }
                                         songSelectedId = song.id.rawValue
                                     }
-                                    .background(Color.white.opacity(0.1))
-                                    
                                 }
                             }
                             .padding()
