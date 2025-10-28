@@ -48,6 +48,7 @@ struct JournalEntryEdit: View {
                             PhotoPickerEditView(image: image)
                         }
                     }
+                    PhotoPickerEmptyEditView(entry: entry)
                 }
             }
             .onAppear() {
@@ -61,8 +62,10 @@ struct JournalEntryEdit: View {
                 }
             }
         }
+        .background { Color.background.ignoresSafeArea()}
         .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+            ToolbarItem(placement: .bottomBar) {
                 Button {
                     isEdit.toggle()
                     Task {
@@ -74,7 +77,7 @@ struct JournalEntryEdit: View {
                         }
                     }
                 } label: {
-                    Text("Save")
+                    Image(systemName: "checkmark")
                 }
             }
         }

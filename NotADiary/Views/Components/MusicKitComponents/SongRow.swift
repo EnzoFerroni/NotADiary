@@ -10,6 +10,7 @@ import MusicKit
 import MediaAccessibility
 
 struct SongRow: View {
+    @State var isEdit: Bool
     let song: Song
     let hapticsManager: MusicHapticsManager
         
@@ -59,9 +60,9 @@ struct SongRow: View {
                 
                 VStack(alignment: .leading) {
                     Text(song.title)
-                        .foregroundColor(.white)
+                        .foregroundColor(isEdit ? .black : .white)
                     Text(song.artistName)
-                        .foregroundColor(.gray)
+                        .foregroundColor(isEdit ? .black : .gray)
                         .font(.caption)
                 }
                 

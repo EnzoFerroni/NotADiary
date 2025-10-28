@@ -70,14 +70,15 @@ struct JournalCreateEntryView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack (alignment: .leading) {
+                VStack {
                     //MARK: Date
-                    Text("\(day, format: .dateTime.day().month())")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                    
+                    HStack {
+                        Text("\(day, format: .dateTime.day().month())")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Spacer()
+                    }
                     Divider()
-                    //DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                     
                     //MARK: Title
                     TextField("Write your title here...", text: $title, axis: .vertical)
@@ -92,9 +93,12 @@ struct JournalCreateEntryView: View {
                     Divider()
                     
                     //MARK: Feeling
-                    Text("Como você está se sentindo?")
-                        .bold()
-                        .font(.title2)
+                    HStack {
+                        Text("Como você está se sentindo?")
+                            .bold()
+                            .font(.title2)
+                        Spacer()
+                    }
                     
                     HStack {
                         Button {
@@ -139,7 +143,7 @@ struct JournalCreateEntryView: View {
                         Spacer()
                     }
                     Slider(value: $userValence, in: -1...1){}
-                        
+                    
                     //Label - emocao propriamente dita
                     HStack{
                         Text("Como você está se sentindo?")
@@ -163,6 +167,19 @@ struct JournalCreateEntryView: View {
                         }
                     }
                     
+                    //MARK: Music
+                    if songID != "", let _loadedSong = loadedSong {
+                        SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                            Task {
+                                await viewModel.togglePlayPause()
+                            }
+                        }
+                        .background(.white.opacity(0.7))
+                        .frame(width: 365, height: 71)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                    }
+                    
+                    //MARK: Images
                     ForEach (images, id: \.self) { image in
                         Image(uiImage: image)
                             .resizable()
@@ -173,14 +190,6 @@ struct JournalCreateEntryView: View {
                             .clipped()
                     }
                     
-                    //MARK: Music
-                    if songID != "", let _loadedSong = loadedSong {
-                        SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
-                            Task {
-                                await viewModel.togglePlayPause()
-                            }
-                        }
-                    }
                 }
                 .padding(.horizontal)
                 .onChange(of: userLabelString) { oldValue, newValue in
@@ -192,6 +201,7 @@ struct JournalCreateEntryView: View {
                 
                 ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
             }
+            .background { Color.background.ignoresSafeArea()}
             .scrollDismissesKeyboard(.immediately)
             .refreshable {
                 Task {

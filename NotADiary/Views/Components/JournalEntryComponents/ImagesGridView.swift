@@ -14,7 +14,7 @@ struct ImagesGridView: View {
     
     var body: some View {
         HStack {
-            if (ckViewModel.imagesDictionary[entry.id!]?.first?.image) != nil {
+            if ckViewModel.imagesDictionary[entry.id!]?.first?.image != nil {
                 VStack {
                     ForEach(Array(ckViewModel.imagesDictionary[entry.id!]!.enumerated()), id: \.offset) { index, image in
                         if index % 5 == 0 || index % 5 == 3 {
