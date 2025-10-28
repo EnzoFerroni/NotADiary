@@ -79,7 +79,6 @@ struct JournalCreateEntryView: View {
                         Spacer()
                     }
                     Divider()
-                    //DatePicker("", selection: $day, displayedComponents: .init(arrayLiteral: .date))
                     
                     //MARK: Title
                     TextField("Write your title here...", text: $title, axis: .vertical)

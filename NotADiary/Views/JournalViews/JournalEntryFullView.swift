@@ -14,6 +14,8 @@ struct JournalEntryFullView: View {
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
     
+    @State var viewModel = MusicPlayerViewModel()
+    
     var body: some View {
         NavigationStack {
             if isEdit {
@@ -41,9 +43,16 @@ struct JournalEntryFullView: View {
                             Spacer()
                         }
                         //Placeholder for Music Card -
-                        RoundedRectangle(cornerRadius: 15)
-                            .frame(width: 365, height: 71)
-                            .foregroundStyle(.gray)
+//                        RoundedRectangle(cornerRadius: 15)
+//                            .frame(width: 365, height: 71)
+//                            .foregroundStyle(.gray)
+                        if entry.songID != "" {
+                            SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                                Task {
+                                    await viewModel.togglePlayPause()
+                                }
+                            }
+                        }
                         
                         ImagesGridView(entry: entry)
                         

@@ -34,6 +34,14 @@ struct ToolbarJournalEntryFullView: View {
                     }
                 }
                 
+                ToolbarItem(placement: .bottomBar) {
+                    Button {
+                        print("share")
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+                
                 ToolbarSpacer(.flexible, placement: .bottomBar)
                 
                 ToolbarItem (placement: .bottomBar) {
