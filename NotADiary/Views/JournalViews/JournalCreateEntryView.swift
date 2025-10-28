@@ -169,11 +169,14 @@ struct JournalCreateEntryView: View {
                     
                     //MARK: Music
                     if songID != "", let _loadedSong = loadedSong {
-                        SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                        SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                             Task {
                                 await viewModel.togglePlayPause()
                             }
                         }
+                        .background(.white.opacity(0.7))
+                        .frame(width: 365, height: 71)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
                     }
                     
                     //MARK: Images

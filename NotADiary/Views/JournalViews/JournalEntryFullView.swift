@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MusicKit
 
 struct JournalEntryFullView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
@@ -14,7 +15,8 @@ struct JournalEntryFullView: View {
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
     
-    @State var viewModel = MusicPlayerViewModel()
+    @State var mpViewModel = MusicPlayerViewModel()
+    @State var song: Song?
     
     var body: some View {
         NavigationStack {
@@ -42,15 +44,22 @@ struct JournalEntryFullView: View {
                             Text(entry.text)
                             Spacer()
                         }
-                        //Placeholder for Music Card -
-//                        RoundedRectangle(cornerRadius: 15)
-//                            .frame(width: 365, height: 71)
-//                            .foregroundStyle(.gray)
-                        if entry.songID != "" {
-                            SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
-                                Task {
-                                    await viewModel.togglePlayPause()
+                        
+                        ZStack {
+                            //Placeholder for Music Card
+                            RoundedRectangle(cornerRadius: 15)
+                                .frame(width: 365, height: 71)
+                                .foregroundStyle(.white)
+                            if song != nil {
+                                SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
+                                    Task {
+                                        await mpViewModel.togglePlayPause()
+                                    }
                                 }
+                                .background(.white.opacity(0.7))
+                                .frame(width: 365, height: 71)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                
                             }
                         }
                         
@@ -65,6 +74,8 @@ struct JournalEntryFullView: View {
                     Task {
                         do {
                             try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                            song = try await mpViewModel.fetchSongById(entry.songID)
+                            
                         }
                         catch {
                             print(error.localizedDescription)

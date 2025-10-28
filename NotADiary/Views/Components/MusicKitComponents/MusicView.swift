@@ -27,7 +27,7 @@ struct MusicView: View {
                         ScrollView {
                             LazyVStack(spacing: 10) {
                                 ForEach(viewModel.songs) { song in
-                                    SongRow(song: song, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                                    SongRow(isEdit: false, song: song, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                                         Task {
                                             await viewModel.playSong(song)
                                         }
