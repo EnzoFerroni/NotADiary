@@ -22,9 +22,22 @@ struct HomeScreenView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.horizontal)
+                        .multilineTextAlignment(.leading)
                     Spacer()
                 }
-                AddButtonView(toggleSheet: $toggleSheet)
+                MascotView()
+                Button {
+                    toggleSheet.toggle()
+                } label: {
+                    Text("Novo Registro")
+                        .frame(width: 321, height: 36)
+                        .font(.body)
+                        .fontWeight(.medium)
+
+                }
+                .buttonStyle(.glassProminent)
+                .tint(.accent)
+                .padding()
                 ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
                     NavigationLink {
                         JournalEntryFullView(entry: entry)
