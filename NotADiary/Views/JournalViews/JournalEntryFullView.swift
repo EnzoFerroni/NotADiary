@@ -14,6 +14,7 @@ struct JournalEntryFullView: View {
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
+    @State var card: Card = Card(images: [], title: "", text: "", date: Date.now, mood: 0, songID: "", label: "", association: "", valence: 0)
     
     @State var mpViewModel = MusicPlayerViewModel()
     @State var song: Song?
@@ -67,10 +68,14 @@ struct JournalEntryFullView: View {
                         
                     }
                     .padding(.horizontal)
+                    //por enquanto
+                    .shareSheet(items: [card])
                     
                     ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
                 }
+                
                 .onAppear() {
+                    card = FuncsCardModel.shared.entryToCard(entry: entry, imagesDictionary: ckViewModel.imagesDictionary)
                     Task {
                         do {
                             try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
