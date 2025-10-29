@@ -11,6 +11,8 @@ struct HomeScreenView: View {
     @State var toggleSheet: Bool = false
     @State var entryList: [JournalEntry] = []
     @State var searchText: String = ""
+    @State var sharedURL: URL?
+    @State var toggleShared: Bool = false
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     
@@ -62,7 +64,16 @@ struct HomeScreenView: View {
             .fullScreenCover(isPresented: $toggleSheet){
                 JournalCreateEntryView(entryList: $entryList)
             }
+            .fullScreenCover(isPresented: $toggleShared){
+                //it can break, handle it.
+                SharedCardView(sharedURL: sharedURL!)
+            }
+        }
+        .onOpenURL { URL in
+            toggleShared = true
+            sharedURL = URL
         }
     }
+    
 }
 
