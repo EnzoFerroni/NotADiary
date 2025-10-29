@@ -10,5 +10,9 @@ import SwiftUI
 
 enum MascotMood {
     case happiness
+    case anger
+    case surprise
+    case fear
+    case disgust
     case sadness
 }

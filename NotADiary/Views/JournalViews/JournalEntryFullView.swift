@@ -26,6 +26,7 @@ struct JournalEntryFullView: View {
             else {
                 ScrollView {
                     VStack {
+                        Text("\(entry.mood)")
                         HStack {
                             Text(entry.title)
                                 .font(.largeTitle)

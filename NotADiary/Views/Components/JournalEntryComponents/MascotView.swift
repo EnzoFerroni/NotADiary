@@ -11,7 +11,7 @@ struct MascotView: View {
     @State var animationAmount: Double = 0.0
     
     private let gradient = LinearGradient(
-        gradient: Gradient(colors: [Color.happinessBackground, .background]),
+        gradient: Gradient(colors: [Color.happinessMascot, .background]),
         startPoint: .top,
         endPoint: .bottom
         )
@@ -37,13 +37,13 @@ struct MascotView: View {
                 Image("happiness")
                     .resizable()
                     .frame(width: 220, height: 220)
-//                    .rotationEffect(.degrees(animationAmount))
-//                    .onAppear {
-//                        withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
-//                            animationAmount = 0
-//                            animationAmount += 360
-//                        }
-//                    }
+                    .rotationEffect(.degrees(animationAmount))
+                    .onAppear {
+                        withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
+                            animationAmount = 0
+                            animationAmount += 360
+                        }
+                    }
             }
         }
         .padding(.vertical, 200)
