@@ -25,6 +25,8 @@ class CloudKitViewModel {
     var entriesDictionary: [CKRecord.ID : JournalEntry] = [:]
     var entries: [JournalEntry] = []
     
+    var lastThirtyEntries: [JournalEntry] = []
+    
     var imagesDictionary: [CKRecord.ID : [ImageModel]] = [:]
 
     
@@ -141,6 +143,34 @@ class CloudKitViewModel {
         }
     }
     
+    func fetchLastThirtyEntries() async throws {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "entries", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let result = try await container.privateCloudDatabase.records(matching: query)
+        lastThirtyEntries = []
+        
+        let records = result.matchResults.compactMap { try? $0.1.get() }
+                
+        let results = records.prefix(30)
+        
+        results.forEach { record in
+            guard let title = record["title"] as? String else { return }
+            guard let text = record["text"] as? String else { return }
+            guard let date = record["date"] as? Date else { return }
+            guard let mood = record["mood"] as? Int else { return }
+            guard let songID = record["songID"] as? String else { return }
+            guard let label = record["label"] as? String else { return }
+            guard let association = record["association"] as? String else { return }
+            guard let valence = record["valence"] as? Double else { return }
+            
+            let entry = JournalEntry(id: record.recordID, title: title, text: text, date: date, mood: mood, songID: songID, label: label, association: association, valence: valence)
+            
+            lastThirtyEntries.append(entry)
+        }
+    }
+
+    
     func removeDiaryEntry(entry: JournalEntry) async throws {
         do {
             if let recordID = entry.id {
@@ -210,6 +240,7 @@ class CloudKitViewModel {
             }
         }
     }
+    
     
     func removeImageEntry(image: ImageModel) async {
         do {
