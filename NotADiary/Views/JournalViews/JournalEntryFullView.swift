@@ -69,7 +69,7 @@ struct JournalEntryFullView: View {
                     }
                     .padding(.horizontal)
                     //por enquanto
-                    .shareSheet(items: [card])
+                    ShareLink(item: card, preview: SharePreview("\(entry.title)"))
                     
                     ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
                 }
