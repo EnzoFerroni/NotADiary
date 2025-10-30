@@ -25,9 +25,10 @@ struct PhotoPickerAddView: View {
                 if !image.isEmpty && isEdit {
                     Image(uiImage: images)
                         .resizable()
-                        .frame(width: 240.0, height: 236)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .scaledToFill()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 200, height: 246)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipped()
                 }
             }
         }

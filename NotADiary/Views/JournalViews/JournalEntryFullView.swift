@@ -14,9 +14,13 @@ struct JournalEntryFullView: View {
     @State var entry: JournalEntry
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
+    @State var moodImage: String?
+    @State var moodValue: MascotMood?
     
     @State var mpViewModel = MusicPlayerViewModel()
     @State var song: Song?
+    
+    var mViewModel = MascotViewModel()
     
     var body: some View {
         NavigationStack {
@@ -26,7 +30,6 @@ struct JournalEntryFullView: View {
             else {
                 ScrollView {
                     VStack {
-                        Text("\(entry.mood)")
                         HStack {
                             Text(entry.title)
                                 .font(.largeTitle)
@@ -40,7 +43,9 @@ struct JournalEntryFullView: View {
                                 .foregroundStyle(.subheadline)
                             Spacer()
                         }
-                        Divider()
+                        Image(moodImage ?? "")
+                            .resizable()
+                            .frame(width: 193, height: 193)
                         HStack {
                             Text(entry.text)
                             Spacer()
@@ -81,6 +86,8 @@ struct JournalEntryFullView: View {
                             print(error.localizedDescription)
                         }
                     }
+                    moodValue = mViewModel.moodToMascot(value: entry.mood)
+                    moodImage = mViewModel.mascotMoodImage(mood: moodValue!)
                 }
             }
         }

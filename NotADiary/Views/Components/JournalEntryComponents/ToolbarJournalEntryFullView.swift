@@ -13,62 +13,60 @@ struct ToolbarJournalEntryFullView: View {
     
     @Binding var isEdit: Bool
     
+    @State var alert: Bool = false
+    
     var entry: JournalEntry
     
     var body: some View {
         Text("")
             .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        print("waveform")
-                    } label: {
-                        Image(systemName: "waveform")
-                    }
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        print("headphones")
-                    } label: {
-                        Image(systemName: "headphones")
-                    }
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        print("share")
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                }
-                
-                ToolbarSpacer(.flexible, placement: .bottomBar)
-                
-                ToolbarItem (placement: .bottomBar) {
-                    Button {
-                        isEdit.toggle()
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                    }
-                }
-                
-                ToolbarItem (placement: .confirmationAction) {
-                    Button {
-                        Task {
-                            do {
-                                try await ckViewModel.removeDiaryEntry(entry: entry)
-                            }
-                            catch {
-                                print(error.localizedDescription)
-                            }
+                ToolbarItem(placement: .confirmationAction) {
+                    Menu {
+                        Button {
+                            isEdit.toggle()
+                        } label: {
+                            Label("Editar", systemImage: "slider.horizontal.3")
                         }
-                        dismiss()
+                        
+                        Button {
+                            print("share")
+                        } label: {
+                            Label("Compartilhar", systemImage: "square.and.arrow.up")
+                        }
+                        
+                        Button(role: .destructive) {
+                            alert.toggle()
+                        } label: {
+                            Label("Deletar", systemImage: "trash")
+                        }
+                        
                     } label: {
-                        Image(systemName: "trash")
-                            .foregroundStyle(.black)
+                        Image(systemName: "ellipsis")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.deleteButton)
+                    .alert("Deletar Relato", isPresented: $alert, actions: {
+                            Button(role: .destructive){
+                                Task {
+                                    do {
+                                        try await ckViewModel.removeDiaryEntry(entry: entry)
+                                    }
+                                    catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                                dismiss()
+                            } label: {
+                                Text("Deletar")
+                            }
+                        
+                            Button(role: .cancel) {
+                                
+                            } label: {
+                                Text("Cancelar")
+                            }
+                        
+                    }, message: {
+                        Text("Você está prestes a deletar este relato, não haverá maneira de recuperá-lo.")
+                    })
                 }
             }
     }

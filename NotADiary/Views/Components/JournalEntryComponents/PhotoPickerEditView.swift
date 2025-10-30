@@ -19,9 +19,10 @@ struct PhotoPickerEditView: View {
             PhotosPicker(selection: $pickerImage, matching: .images){
                 Image(uiImage: image.image)
                     .resizable()
-                    .frame(width: 240.0, height: 236)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 200, height: 246)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .clipped()
             }
         }
         .onChange(of: pickerImage) { oldValue, newValue in
