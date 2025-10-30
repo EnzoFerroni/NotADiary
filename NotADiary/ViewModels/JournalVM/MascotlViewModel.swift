@@ -38,6 +38,35 @@ class MascotViewModel {
         }
     }
     
+    func mascotMessage(mood: MascotMood) -> String? {
+        switch mood {
+        case .happiness:
+            return "Este mês você se sentiu feliz com mais frequência, vamos continuar assim!"
+        case .sadness:
+            return "sadness"
+        case .anger:
+            return "anger"
+        case .fear:
+            return "fear"
+        case .surprise:
+            return "surprise"
+        case .disgust:
+            return "disgust"
+        case .ultraHappiness:
+            return "ultraHappiness"
+        case .ultraSadness:
+            return "ultraSadness"
+        case .ultraAnger:
+            return "ultraAnger"
+        case .ultraFear:
+            return "ultraFear"
+        case .ultraSurprise:
+            return "ultraSurprise"
+        case .ultraDisgust:
+            return "ultraDisgust"
+        }
+    }
+    
     func mascorMoodColor(mood: MascotMood) -> Color {
         switch mood {
         case .happiness:

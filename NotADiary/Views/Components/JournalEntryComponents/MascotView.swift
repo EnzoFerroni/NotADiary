@@ -17,6 +17,7 @@ struct MascotView: View {
     @State var mood: MascotMood?
     @State var moodImage: String?
     @State var moodColor: Color = .gray
+    @State var moodMessage: String?
     
     var body: some View {
         let gradient = LinearGradient(
@@ -25,7 +26,7 @@ struct MascotView: View {
             endPoint: .bottom
             )
         VStack {
-            Text("Este mês você se sentiu feliz com mais frequência, vamos continuar assim!")
+            Text(moodMessage ?? "")
                 .font(.body)
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
@@ -52,6 +53,7 @@ struct MascotView: View {
                 mood = mViewModel.moodToMascot(value: moodValue!)
                 moodColor = mViewModel.mascorMoodColor(mood: mood!)
                 moodImage = mViewModel.mascotMoodImage(mood: mood!)
+                moodMessage = mViewModel.mascotMessage(mood: mood!)
             }
         }
         .padding(.vertical, 200)
