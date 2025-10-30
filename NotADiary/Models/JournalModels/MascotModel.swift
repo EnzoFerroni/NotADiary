@@ -15,4 +15,10 @@ enum MascotMood {
     case fear
     case disgust
     case sadness
+    case ultraHappiness
+    case ultraAnger
+    case ultraSurprise
+    case ultraFear
+    case ultraDisgust
+    case ultraSadness
 }

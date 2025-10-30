@@ -176,21 +176,21 @@ struct JournalCreateEntryView: View {
                                 Button {
                                     mascotMood = 0
                                 } label: {
-                                    Image ("happiness")
+                                    Image("happiness")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 1
                                 } label: {
-                                    Image ("happiness")
+                                    Image("ultraHappiness")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 2
                                 } label: {
-                                    Image ("happiness")
+                                    Image("sadness")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
@@ -199,21 +199,21 @@ struct JournalCreateEntryView: View {
                                 Button {
                                     mascotMood = 3
                                 } label: {
-                                    Image ("happiness")
+                                    Image("ultraSadness")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 4
                                 } label: {
-                                    Image ("happiness")
+                                    Image("anger")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 5
                                 } label: {
-                                    Image ("happiness")
+                                    Image("ultraAnger")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
@@ -222,21 +222,21 @@ struct JournalCreateEntryView: View {
                                 Button {
                                     mascotMood = 6
                                 } label: {
-                                    Image ("happiness")
+                                    Image("disgust")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 7
                                 } label: {
-                                    Image ("happiness")
+                                    Image("ultraDisgust")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 8
                                 } label: {
-                                    Image ("happiness")
+                                    Image("fear")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
@@ -245,21 +245,21 @@ struct JournalCreateEntryView: View {
                                 Button {
                                     mascotMood = 9
                                 } label: {
-                                    Image ("happiness")
+                                    Image("ultraFear")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 10
                                 } label: {
-                                    Image ("happiness")
+                                    Image("surprise")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }
                                 Button {
                                     mascotMood = 11
                                 } label: {
-                                    Image ("happiness")
+                                    Image("ultraSurprise")
                                         .resizable()
                                         .frame(width: 90, height: 90)
                                 }

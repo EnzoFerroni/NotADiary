@@ -75,8 +75,7 @@ struct JournalEntryFullView: View {
                     Task {
                         do {
                             try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                            song = try await mpViewModel.fetchSongById(entry.songID)
-                            
+                            song = await mpViewModel.fetchSongById(entry.songID)
                         }
                         catch {
                             print(error.localizedDescription)
