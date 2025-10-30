@@ -11,25 +11,25 @@ import MusicKit
 struct SharedCardView: View {
     
     @State var imageList: [UIImage] = []
-    @State var entry: Card?
+    @State var entry: Card = Card(images: [], title: "Dados não disponíveis", text: "Dados não disponíveis", date: Date(), mood: 0, songID: "", label: "", association: "", valence: 0)
     @State var fullImage: Bool = false
-    //@State var mpViewModel = MusicPlayerViewModel()
+    @State var mpViewModel = MusicPlayerViewModel()
     @State var song: Song?
-    var sharedURL: URL
     
+    var sharedURL: URL
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
                     HStack {
-                        Text(entry?.title ?? "Dados não disponíveis")
+                        Text(entry.title)
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         Spacer()
                     }
                     HStack {
-                        Text("\(entry?.date ?? Date(), format: .dateTime.day().month().year())")
+                        Text("\(entry.date, format: .dateTime.day().month().year())")
                             .font(.subheadline)
                             .fontWeight(.medium)
                             .foregroundStyle(.subheadline)
@@ -37,7 +37,7 @@ struct SharedCardView: View {
                     }
                     Divider()
                     HStack {
-                        Text(entry?.text ?? "Dados não disponíveis")
+                        Text(entry.text)
                         Spacer()
                     }
                     
@@ -46,17 +46,17 @@ struct SharedCardView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .frame(width: 365, height: 71)
                             .foregroundStyle(.white)
-                        //                        if song != nil {
-                        //                            SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
-                        //                                Task {
-                        //                                    await mpViewModel.togglePlayPause()
-                        //                                }
-                        //                            }
-                        //                            .background(.white.opacity(0.7))
-                        //                            .frame(width: 365, height: 71)
-                        //                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                        
-                        //                      }
+                        if song != nil {
+                            SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
+                                Task {
+                                    await mpViewModel.togglePlayPause()
+                                }
+                            }
+                            .background(.white.opacity(0.7))
+                            .frame(width: 365, height: 71)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            
+                        }
                     }
                     HStack {
                         if imageList.first != nil {
@@ -103,9 +103,9 @@ struct SharedCardView: View {
                         }
                     }
                     .onAppear() {
-                        entry = FuncsCardModel.shared.loadJson(url: sharedURL)
-                        if(entry?.images != nil){
-                            for imagex64 in entry!.images{
+                        entry = FuncsCardModel.shared.loadJson(url: sharedURL) ?? Card(images: [], title: "Dados não disponíveis", text: "Dados não disponíveis", date: Date(), mood: 0, songID: "", label: "", association: "", valence: 0)
+                        if(!(entry.images.isEmpty)){
+                            for imagex64 in entry.images{
                                 guard let rebornImg = imagex64.imageFromBase64 else {
                                     //handle error
                                     return
@@ -114,10 +114,7 @@ struct SharedCardView: View {
                             }
                             Task {
                                 do {
-                                    //song = try await mpViewModel.fetchSongById(entry.songID)
-                                }
-                                catch {
-                                    print(error.localizedDescription)
+                                    song =  await mpViewModel.fetchSongById(entry.songID)
                                 }
                             }
                         }

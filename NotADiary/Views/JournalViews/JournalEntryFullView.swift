@@ -68,10 +68,8 @@ struct JournalEntryFullView: View {
                         
                     }
                     .padding(.horizontal)
-                    //por enquanto
-                    ShareLink(item: card, preview: SharePreview("\(entry.title)"))
                     
-                    ToolbarJournalEntryFullView(isEdit: $isEdit, entry: entry)
+                    ToolbarJournalEntryFullView(isEdit: $isEdit, card: card, entry: entry)
                 }
                 
                 .onAppear() {

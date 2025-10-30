@@ -12,6 +12,7 @@ struct ToolbarJournalEntryFullView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     @Binding var isEdit: Bool
     
+    var card: Card
     var entry: JournalEntry
     
     var body: some View {
@@ -35,7 +36,7 @@ struct ToolbarJournalEntryFullView: View {
                     }
                     
                     ToolbarItem(placement: .bottomBar) {
-                        //it was supposed to be the share option but it doesn`t seem do work
+                        ShareLink(item: card, preview: SharePreview("\(entry.title)"))
                     }
                     
                     ToolbarSpacer(.flexible, placement: .bottomBar)

@@ -21,7 +21,6 @@ import UniformTypeIdentifiers
 
 nonisolated
 struct Card: Decodable, Encodable {
-    //review
     var images: [String]
     var title: String
     var text: String
