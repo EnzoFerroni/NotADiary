@@ -27,7 +27,7 @@ struct JournalCreateEntryView: View {
     @State var songID: String = ""
     @State var viewModel = MusicPlayerViewModel()
     @State var mascotMood: Int = 0
-    
+        
     @FocusState var isKeyboardActive: Bool
     
     let associationsStrings = ["Community","Current Events","Dating","Education","Family","Fitness","Friends","Health","Hobbies","Identity","Money","Partner","Self Care","Spirituality","Tasks","Travel","Weather","Work"]

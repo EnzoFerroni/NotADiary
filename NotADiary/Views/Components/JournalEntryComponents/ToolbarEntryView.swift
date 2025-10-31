@@ -31,7 +31,7 @@ struct ToolbarEntryView: View {
     var userAssociation: HKStateOfMind.Association
     
     @State private var relato: HKStateOfMind?
-    
+        
     var body: some View {
         NavigationStack {
             Text("")
@@ -68,21 +68,24 @@ struct ToolbarEntryView: View {
                     ToolbarItem (placement: .bottomBar) {
                         Button {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
-                            do {
-                                let entry = try ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: song, label: "", association: "", valence: userValence))
-                                
-                                ckViewModel.createImageEntry(entry: entry, images: images)
-                            }
-                            catch {
-                                print(error.localizedDescription)
-                            }
+                            
                             
                             Task {
+                                do {
+                                    let entry = try await ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: song, label: "", association: "", valence: userValence))
+                                    
+                                    ckViewModel.createImageEntry(entry: entry, images: images)
+                                }
+                                catch {
+                                    print(error.localizedDescription)
+                                }
                                 if whereToSave {
                                     await HealthManager.shared.save(sample: relato!)
                                 }
+                                
+                                // ÖS DORAKM AVAROSKA
+                                dismiss()
                             }
-                            dismiss()
                         } label: {
                             Image(systemName: "checkmark")
                         }

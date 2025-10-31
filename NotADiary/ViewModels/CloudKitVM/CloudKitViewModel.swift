@@ -28,7 +28,7 @@ class CloudKitViewModel {
     var lastThirtyEntries: [JournalEntry] = []
     
     var imagesDictionary: [CKRecord.ID : [ImageModel]] = [:]
-
+    
     
     func loginButtonPressed() {
         guard name != nil, !name!.isEmpty else { return }
@@ -79,7 +79,7 @@ class CloudKitViewModel {
         }
     }
     
-    func createDiaryEntry(entry: JournalEntry) throws -> JournalEntry {
+    func createDiaryEntry(entry: JournalEntry) async throws -> JournalEntry {
         let newEntry = CKRecord(recordType: "entries")
                 
         newEntry["ID"] = newEntry.recordID.recordName
@@ -96,6 +96,8 @@ class CloudKitViewModel {
         
         entriesDictionary[newEntry.recordID] = entrySet
         sendEntryToDB(record: newEntry)
+        
+        try? await fetchDiaryEntries()
         
         return entrySet
     }
