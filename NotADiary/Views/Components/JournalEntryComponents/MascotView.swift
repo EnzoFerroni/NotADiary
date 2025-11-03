@@ -31,6 +31,7 @@ struct MascotView: View {
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+                .foregroundStyle(.text)
             ZStack {
                 Circle()
                     .fill(gradient)

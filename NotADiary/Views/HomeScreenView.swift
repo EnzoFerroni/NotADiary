@@ -24,6 +24,7 @@ struct HomeScreenView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
                         .multilineTextAlignment(.leading)
+                        .foregroundStyle(.text)
                     Spacer()
                 }
                 MascotView()
