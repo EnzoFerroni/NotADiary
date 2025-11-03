@@ -97,7 +97,12 @@ class CloudKitViewModel {
         entriesDictionary[newEntry.recordID] = entrySet
         sendEntryToDB(record: newEntry)
         
-        try? await fetchDiaryEntries()
+        do {
+            try await fetchDiaryEntries()
+        }
+        catch {
+            print(error.localizedDescription)
+        }
         
         return entrySet
     }
