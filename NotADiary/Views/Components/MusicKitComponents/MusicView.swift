@@ -111,7 +111,7 @@ struct MusicView: View {
             .task {
                 await viewModel.requestMusicAuthorization()
                 if viewModel.isAuthorized {
-                    await viewModel.searchMusic(term: "Bangrang")
+                    await viewModel.searchMusic(term: "")
                 }
             }
             .toolbar {
