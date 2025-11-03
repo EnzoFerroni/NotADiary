@@ -36,13 +36,13 @@ struct ToolbarEntryView: View {
         NavigationStack {
             Text("")
                 .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            print("1")
-                        } label: {
-                            Image(systemName: "waveform.path.badge.plus")
-                        }
-                    }
+//                    ToolbarItem(placement: .bottomBar) {
+//                        Button {
+//                            print("1")
+//                        } label: {
+//                            Image(systemName: "waveform.path.badge.plus")
+//                        }
+//                    }
                     ToolbarItem(placement: .bottomBar) {
                         Button {
                             presentMusicSheet.toggle()
@@ -57,13 +57,13 @@ struct ToolbarEntryView: View {
                         PhotoPickerAddView(image: $images, isEdit: false)
                         Image(systemName: "photo.badge.plus.fill")
                     }
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            print("4")
-                        } label: {
-                            Image(systemName: "microphone.fill")
-                        }
-                    }
+//                    ToolbarItem(placement: .bottomBar) {
+//                        Button {
+//                            print("4")
+//                        } label: {
+//                            Image(systemName: "microphone.fill")
+//                        }
+//                    }
                     ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem (placement: .bottomBar) {
                         Button {
