@@ -8,101 +8,29 @@
 import SwiftUI
 
 struct MascotGridView: View {
-    @Binding var mascotMood: Int
+    let moods: [String] = ["happiness", "ultraHappiness", "sadness", "ultraSadness", "anger", "ultraAnger", "disgust", "ultraDisgust", "fear", "ultraFear", "surprise", "ultraSurprise"]
+    @Binding var mascotMood: Int //alterar para binding depois
+    @State var selected: Int = 12
+    @State var moodImage: String?
     var body: some View {
-        Grid {
-            GridRow {
+        if selected == mascotMood {
+            Image(moodImage!)
+                .resizable()
+                .frame(width: 180, height: 180)
+        }
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], alignment: .center) {
+            ForEach(moods.enumerated(), id: \.offset) { i, mood in
                 Button {
-                    mascotMood = 0
+                    mascotMood = i
+                    selected = mascotMood
+                    moodImage = moods[selected]
                 } label: {
-                    Image("happiness")
+                    Image(mood)
                         .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 1
-                } label: {
-                    Image("ultraHappiness")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 2
-                } label: {
-                    Image("sadness")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-            }
-            GridRow {
-                Button {
-                    mascotMood = 3
-                } label: {
-                    Image("ultraSadness")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 4
-                } label: {
-                    Image("anger")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 5
-                } label: {
-                    Image("ultraAnger")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-            }
-            GridRow {
-                Button {
-                    mascotMood = 6
-                } label: {
-                    Image("disgust")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 7
-                } label: {
-                    Image("ultraDisgust")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 8
-                } label: {
-                    Image("fear")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-            }
-            GridRow {
-                Button {
-                    mascotMood = 9
-                } label: {
-                    Image("ultraFear")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 10
-                } label: {
-                    Image("surprise")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                }
-                Button {
-                    mascotMood = 11
-                } label: {
-                    Image("ultraSurprise")
-                        .resizable()
-                        .frame(width: 90, height: 90)
+                        .frame(width: 100, height: 100)
                 }
             }
         }
+        .padding(.horizontal)
     }
 }

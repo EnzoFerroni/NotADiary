@@ -134,28 +134,15 @@ class MascotViewModel {
         for mood in monthEntries {
             monthMood.append(mood.mood)
         }
-        var count = 0
-        var current = 0
-        var maxCount = 0
-        var maxElement = current
-        for i in monthMood {
-            if i == current {
-                count += 1
-            }
-            else {
-                if (count > maxCount) {
-                    maxCount = count
-                    maxElement = current
-                }
-                current = i
-                count = 0
-            }
+        var counts = [Int: Int]()
+        
+        monthMood.forEach {
+            counts[$0] = (counts[$0] ?? 0) + 1
         }
-        if count > maxCount {
-            maxCount = count
-            maxElement = current
+        
+        if let (value, count) = counts.max(by: {$0.1 < $1.1}) {
+            return value
         }
-        print("\(maxElement)")
-        return maxElement
+        return 0
     }
 }
