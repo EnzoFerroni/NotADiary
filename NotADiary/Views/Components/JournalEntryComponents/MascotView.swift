@@ -52,6 +52,7 @@ struct MascotView: View {
                                         .stroke(.black, style: .init(lineWidth: 2))
                                         .frame(width: 40)
                                     Image(systemName: "plus")
+                                        .foregroundStyle(.black)
                                         .padding()
                                         .font(.title2)
                                         .fontWeight(.semibold)
@@ -71,6 +72,7 @@ struct MascotView: View {
             }
             
             Text("Vamos criar uma memória nova?")
+                .foregroundStyle(.black)
                 .font(.body)
                 .fontWeight(.semibold)
                 .padding(.top, 12)

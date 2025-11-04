@@ -46,6 +46,7 @@ struct HomeScreenView: View {
                         }
                     }
                 }
+                ToolbarHomeScreenView()
             }
             .background { Color.background.ignoresSafeArea()}
             .task {

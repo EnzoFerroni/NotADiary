@@ -43,27 +43,27 @@ class MascotViewModel {
         case .happiness:
             return "Este mês você se sentiu feliz com mais frequência, vamos continuar assim!"
         case .sadness:
-            return "sadness"
+            return "Este mês você se sentiu triste"
         case .anger:
-            return "anger"
+            return "Este mês você se sentiu bravo"
         case .fear:
-            return "fear"
+            return "Este mês você se sentiu medo"
         case .surprise:
-            return "surprise"
+            return "Este mês você se sentiu surpreso"
         case .disgust:
-            return "disgust"
+            return "Este mês você se sentiu enojado"
         case .ultraHappiness:
-            return "ultraHappiness"
+            return "Este mês você se sentiu muito feliz!"
         case .ultraSadness:
-            return "ultraSadness"
+            return "Este mês você se sentiu muito triste :("
         case .ultraAnger:
-            return "ultraAnger"
+            return "Este mês você se sentiu muito bravo"
         case .ultraFear:
-            return "ultraFear"
+            return "Este mês você sentiu muito medo"
         case .ultraSurprise:
-            return "ultraSurprise"
+            return "Este mês você se sentiu muito surpreso"
         case .ultraDisgust:
-            return "ultraDisgust"
+            return "Este mês você se sentiu muito enojado"
         }
     }
     

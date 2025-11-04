@@ -8,23 +8,20 @@
 import SwiftUI
 
 struct ToolbarHomeScreenView: View {
-    @Binding var toggleSheet: Bool
-    @Binding var teste: String
+    //@Binding var toggleSheet: Bool
     
     var body: some View {
         Text("")
             .toolbar {
-                DefaultToolbarItem(kind: .search, placement: .bottomBar)
-                ToolbarSpacer(.flexible, placement: .bottomBar)
-                ToolbarItem(placement: .bottomBar) {
+                ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        toggleSheet.toggle()
+                        //toggleSheet.toggle()
+                        print("pessoinha")
                     } label: {
-                        Image(systemName: "square.and.pencil")
+                        Image(systemName: "person.crop.circle")
                     }
                 }
             }
-            .searchable(text: $teste)
     }
 }
 

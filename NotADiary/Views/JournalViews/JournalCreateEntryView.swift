@@ -70,145 +70,148 @@ struct JournalCreateEntryView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack {
-                    //MARK: Date
-                    HStack {
-                        Text("\(day, format: .dateTime.day().month())")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                        Spacer()
-                    }
-                    Divider()
-                    
-                    //MARK: Title
-                    TextField("Write your title here...", text: $title, axis: .vertical)
-                        .focused($isKeyboardActive)
-                        .padding(.vertical)
-                    Divider()
-                    
-                    //MARK: Text
-                    TextField("Write your text here...", text: $text, axis: .vertical)
-                        .focused($isKeyboardActive)
-                        .padding(.vertical)
-                    Divider()
-                    
-                    //MARK: Feeling
-                    HStack {
-                        Text("Como você está se sentindo?")
-                            .bold()
-                            .font(.title2)
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        Button {
-                            whereToSave.toggle()
-                        } label: {
-                            if !whereToSave {
-                                Label("Salvar pelo app!",systemImage: "theatermasks.fill")
-                            }
-                            else {
-                                Image(systemName:"theatermasks")
-                            }
-                        }
-                        .buttonStyle(.bordered)
-                        .background(whereToSave ? .white : .cyan)
-                        .clipShape(RoundedRectangle(cornerRadius: 90))
-                        
-                        Spacer()
-                        
-                        Button {
-                            whereToSave.toggle()
-                        } label: {
-                            if whereToSave {
-                                Label("Salvar pelo healthKit",systemImage: "heart.fill")
-                            }
-                            else {
-                                Image(systemName:"heart")
-                            }
-                        }
-                        .buttonStyle(.bordered)
-                        .background(whereToSave ? .cyan : .white)
-                        .clipShape(RoundedRectangle(cornerRadius: 90))
-                    }
-                    .font(.title3)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal)
-                    
-                    if whereToSave {
-                        //Valencia por meio de slider
+            ZStack {
+                Color.background.ignoresSafeArea()
+
+                ScrollView {
+                    VStack {
+                        //MARK: Date
                         HStack {
-                            Spacer()
-                            Text(moodFace)
-                                .font(.largeTitle)
+                            Text("\(day, format: .dateTime.day().month())")
+                                .foregroundStyle(.black)
+                                .font(.title)
+                                .fontWeight(.semibold)
                             Spacer()
                         }
-                        Slider(value: $userValence, in: -1...1){}
+                        Divider()
                         
-                        //Label - emocao propriamente dita
-                        HStack{
+                        //MARK: Title
+                        TextField("", text: $title, prompt: Text("Write your title here...").foregroundColor(.gray), axis: .vertical)
+                            .focused($isKeyboardActive)
+                            .padding(.vertical)
+                        Divider()
+                        
+                        //MARK: Text
+                        TextField("", text: $text, prompt: Text("Write your text here...").foregroundColor(.gray), axis: .vertical)
+                            .focused($isKeyboardActive)
+                            .padding(.vertical)
+                        Divider()
+                        
+                        //MARK: Feeling
+                        HStack {
                             Text("Como você está se sentindo?")
+                                .foregroundStyle(.black)
+                                .bold()
+                                .font(.title2)
                             Spacer()
-                            //Resolver
-                            Picker("", selection: $userLabelString){
-                                ForEach(labelsStrings, id: \.self) {
-                                    Text($0)
-                                }
-                            }
                         }
                         
-                        //Resolver
-                        HStack{
-                            Text("Ao que o sentimento está associado? ")
+                        HStack {
+                            Button {
+                                whereToSave.toggle()
+                            } label: {
+                                if !whereToSave {
+                                    Label("Salvar pelo app!",systemImage: "theatermasks.fill")
+                                }
+                                else {
+                                    Image(systemName:"theatermasks")
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                            .background(whereToSave ? .white : .cyan)
+                            .clipShape(RoundedRectangle(cornerRadius: 90))
+                            
                             Spacer()
-                            Picker("", selection: $userAssociationString){
-                                ForEach(associationsStrings, id: \.self) {
-                                    Text($0)
+                            
+                            Button {
+                                whereToSave.toggle()
+                            } label: {
+                                if whereToSave {
+                                    Label("Salvar pelo healthKit",systemImage: "heart.fill")
+                                }
+                                else {
+                                    Image(systemName:"heart")
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                            .background(whereToSave ? .cyan : .white)
+                            .clipShape(RoundedRectangle(cornerRadius: 90))
+                        }
+                        .font(.title3)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal)
+                        
+                        if whereToSave {
+                            //Valencia por meio de slider
+                            HStack {
+                                Spacer()
+                                Text(moodFace)
+                                    .font(.largeTitle)
+                                Spacer()
+                            }
+                            Slider(value: $userValence, in: -1...1){}
+                            
+                            //Label - emocao propriamente dita
+                            HStack{
+                                Text("Como você está se sentindo?")
+                                Spacer()
+                                //Resolver
+                                Picker("", selection: $userLabelString){
+                                    ForEach(labelsStrings, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
+                            }
+                            
+                            //Resolver
+                            HStack{
+                                Text("Ao que o sentimento está associado? ")
+                                Spacer()
+                                Picker("", selection: $userAssociationString){
+                                    ForEach(associationsStrings, id: \.self) {
+                                        Text($0)
+                                    }
                                 }
                             }
                         }
-                    }
-                    else {
-                        MascotGridView(mascotMood: $mascotMood)
-                    }
-                }
-                
-                //MARK: Music
-                if songID != "", let _loadedSong = loadedSong {
-                    SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
-                        Task {
-                            await viewModel.togglePlayPause()
+                        else {
+                            MascotGridView(mascotMood: $mascotMood)
                         }
                     }
-                    .background(.white.opacity(0.7))
-                    .frame(width: 365, height: 71)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                }
-                
-                //MARK: Images
-                ForEach (images, id: \.self) { image in
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 240.0, height: 236)
+                    
+                    //MARK: Music
+                    if songID != "", let _loadedSong = loadedSong {
+                        SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                            Task {
+                                await viewModel.togglePlayPause()
+                            }
+                        }
+                        .background(.white.opacity(0.7))
+                        .frame(width: 365, height: 71)
                         .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .scaledToFill()
-                        .clipped()
+                    }
+                    
+                    //MARK: Images
+                    ForEach (images, id: \.self) { image in
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 240.0, height: 236)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .scaledToFill()
+                            .clipped()
+                    }
+                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
                 }
-                
+                .padding(.horizontal)
+                .onChange(of: userLabelString) { oldValue, newValue in
+                    userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
+                }
+                .onChange(of: userAssociationString) { oldValue, newValue in
+                    userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
+                }
             }
-            .padding(.horizontal)
-            .onChange(of: userLabelString) { oldValue, newValue in
-                userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
-            }
-            .onChange(of: userAssociationString) { oldValue, newValue in
-                userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
-            }
-            
-            ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
         }
-        .background { Color.background.ignoresSafeArea()}
         .scrollDismissesKeyboard(.immediately)
         .refreshable {
             Task {
