@@ -76,7 +76,7 @@ struct MascotView: View {
                 .font(.body)
                 .fontWeight(.semibold)
                 .padding(.top, 12)
-                .padding(.bottom, 20)
+                .padding(.bottom, 89)
         }
         .onAppear() {
             Task {
