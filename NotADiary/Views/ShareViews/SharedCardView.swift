@@ -122,6 +122,13 @@ struct SharedCardView: View {
                     .background { Color.background.ignoresSafeArea()}
                 }
             }
+            .refreshable {
+                Task {
+                    do {
+                        song =  await mpViewModel.fetchSongById(entry.songID)
+                    }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {

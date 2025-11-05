@@ -13,11 +13,19 @@ struct ToolbarJournalEntryFullView: View {
     @Binding var isEdit: Bool
     @State var alert: Bool = false
     
+    var card: Card
     var entry: JournalEntry
     
     var body: some View {
         Text("")
             .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    ShareLink(item: card, preview: SharePreview("\(entry.title)")) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                    }
+                    .tint(.white)
+                }
+                
                 ToolbarItem(placement: .confirmationAction) {
                     Menu {
                         Button {
@@ -26,8 +34,8 @@ struct ToolbarJournalEntryFullView: View {
                             Label("Editar", systemImage: "slider.horizontal.3")
                         }
                         
-                        Button {
-                            ShareLink(item: card, preview: SharePreview("\(entry.title)"))
+                        NavigationLink {
+                            
                         } label: {
                             Label("Compartilhar", systemImage: "square.and.arrow.up")
                         }
