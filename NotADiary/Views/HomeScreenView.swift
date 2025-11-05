@@ -77,15 +77,6 @@ struct HomeScreenView: View {
                         }
                     }
             }
-            //            .task(id: ckViewModel.entries) {
-            //                do {
-            //                    try await ckViewModel.fetchDiaryEntries()
-            //                    print("oi")
-            //                }
-            //                catch {
-            //                    print(error.localizedDescription)
-            //                }
-            //            }
         }
         .onOpenURL { URL in
             sharedURL = URL

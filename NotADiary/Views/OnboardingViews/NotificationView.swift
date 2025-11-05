@@ -19,7 +19,7 @@ struct NotificationView: View {
     
     @State var viewModel = NotificationViewModel()
     
-    //@Environment(CloudKitViewModel.self) var ckViewModel
+    @Environment(CloudKitViewModel.self) var ckViewModel
     
     var body: some View {
         NavigationStack {
@@ -56,7 +56,7 @@ struct NotificationView: View {
                         if !notifications.isEmpty && name != "" {
                             notifications.forEach { notification in
                                 viewModel.scheduleNotification(hour: Int(notification.hour) ?? 0, minute: Int(notification.minute) ?? 0)
-                                //ckViewModel.createPreference(name: name)
+                                ckViewModel.createPreference(name: name)
                             }
                             state = 1
                             isLoading = true
@@ -130,7 +130,7 @@ struct NotificationView: View {
             }
         }
         .onAppear {
-            //viewModel.requestPermission()
+            viewModel.requestPermission()
         }
     }
 }
