@@ -9,5 +9,6 @@ import Foundation
 
 struct Notifications : Hashable {
     let id = UUID()
-    var hour: Date
+    var hour: String
+    var minute: String
 }

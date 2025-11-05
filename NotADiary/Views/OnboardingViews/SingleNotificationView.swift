@@ -8,13 +8,25 @@
 import SwiftUI
 
 struct SingleNotificationView: View {
-    @State var hour: Date
+    @State var notification: Notifications
     
     var body: some View {
         VStack {
-            //Text(hour.formatted(date: , time: ))
-            Text("Notificação padrão do sistema")
+            ZStack {
+                RoundedRectangle(cornerRadius: 16)
+                    .frame(width: 300, height: 60)
+                    .foregroundStyle(.gray)
+                VStack(alignment: .trailing) {
+                    Text("\(notification.hour):\(notification.minute)")
+                    Text("Notificação padrão do sistema")
+                }
+            }
         }
     }
+}
+
+#Preview {
+    @Previewable @State var notifications = Notifications(hour: "10", minute: "23")
+    SingleNotificationView(notification: notifications)
 }
 

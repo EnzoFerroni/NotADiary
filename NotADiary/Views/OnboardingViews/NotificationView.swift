@@ -10,18 +10,23 @@ import SwiftUI
 struct NotificationView: View {
     @Binding var isLoading: Bool
     @Binding var state: Int
+    var name: String
     @State var isShowingSheet: Bool = false
     @State var notifications: [Notifications] = []
     @State var hours: Int = 0
     @State var minutes: Int = 0
     @State var isSelecting: Bool = false
     
+    @State var viewModel = NotificationViewModel()
+    
+    @Environment(CloudKitViewModel.self) var ckViewModel
+    
     var body: some View {
         GeometryReader { g in
             NavigationStack {
                 VStack {
                     ForEach(notifications, id:\.self) { notification in
-                        //SingleNotificationView(hour: notification)
+                        SingleNotificationView(notification: notification)
                     }
                     .onDelete { indexSet in
                         notifications.remove(atOffsets: indexSet)
@@ -44,7 +49,13 @@ struct NotificationView: View {
                     
                     ToolbarItem {
                         Button {
-                            
+                            if !notifications.isEmpty && name != "" {
+                                notifications.forEach { notification in
+                                    viewModel.scheduleNotification(hour: Int(notification.hour) ?? 0, minute: Int(notification.minute) ?? 0)
+                                    ckViewModel.createPreference(name: name)
+                                }
+                                state = 1
+                            }
                         } label: {
                             Text("Salvar")
                         }
@@ -95,7 +106,8 @@ struct NotificationView: View {
                             }
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button {
-                                    //notifications.append()
+                                    notifications.append(Notifications(hour: String(hours), minute: String(minutes)))
+                                    isShowingSheet = false
                                 } label: {
                                     Text("Salvar")
                                 }
@@ -111,6 +123,9 @@ struct NotificationView: View {
                     }
                 }
             }
+            .onAppear {
+                viewModel.requestPermission()
+            }
         }
     }
 }
@@ -118,5 +133,5 @@ struct NotificationView: View {
 #Preview {
     @Previewable @State var isLoading: Bool = false
     @Previewable @State var state: Int = 0
-    NotificationView(isLoading: $isLoading, state: $state)
+    NotificationView(isLoading: $isLoading, state: $state, name: "Pedro")
 }

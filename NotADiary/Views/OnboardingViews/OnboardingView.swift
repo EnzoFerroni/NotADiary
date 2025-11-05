@@ -33,19 +33,6 @@ struct OnboardingView: View {
                     }
                     
                     Spacer()
-                    
-                    Button {
-                        if !name.isEmpty {
-                            //ckViewModel.createPreference(name: name)
-                            isLoading = true
-                            state = 1
-                        }
-                    } label: {
-                        Text("Confirmar")
-                            .padding(.horizontal, 70)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .padding(50)
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -53,7 +40,7 @@ struct OnboardingView: View {
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink {
-                            NotificationView(isLoading: $isLoading, state: $state)
+                            NotificationView(isLoading: $isLoading, state: $state, name: name)
                         } label: {
                             Text("Salvar")
                         }
