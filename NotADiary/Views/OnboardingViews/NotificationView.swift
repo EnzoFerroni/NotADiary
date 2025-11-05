@@ -21,7 +21,7 @@ struct NotificationView: View {
             NavigationStack {
                 VStack {
                     ForEach(notifications, id:\.self) { notification in
-                        SingleNotificationView(hour: notification)
+                        //SingleNotificationView(hour: notification)
                     }
                     .onDelete { indexSet in
                         notifications.remove(atOffsets: indexSet)
