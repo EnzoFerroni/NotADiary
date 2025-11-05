@@ -58,6 +58,7 @@ struct JournalEntryEdit: View {
                                 .font(.title2)
                             Spacer()
                         }
+                        
                         Label("Salvar pelo app!",systemImage: "theatermasks.fill")
                             .foregroundStyle(.white)
                             .padding()
@@ -124,6 +125,38 @@ struct JournalEntryEdit: View {
                             }
                         }
                     }
+                    .toolbar {
+                        ToolbarItem(placement: .bottomBar) {
+                            Button {
+                                presentMusicSheet.toggle()
+                            } label: {
+                                Image(systemName: "music.note")
+                            }
+                            .sheet(isPresented: $presentMusicSheet) {
+                                //MusicView(songSelectedId: $entry, loadedSong: $loadedSong?)
+                            }
+                        }
+                        ToolbarItem(placement: .bottomBar) {
+                            PhotoPickerEmptyEditView(entry: entry)
+                            Image(systemName: "photo.badge.plus.fill")
+                        }
+                        ToolbarSpacer(.flexible, placement: .bottomBar)
+                        ToolbarItem(placement: .bottomBar) {
+                            Button {
+                                isEdit.toggle()
+                                Task {
+                                    do {
+                                        try await ckViewModel.editDiaryEntry(entry: entry)
+                                    }
+                                    catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            } label: {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
                 }
             }
             .padding(.horizontal)
@@ -154,38 +187,6 @@ struct JournalEntryEdit: View {
                     print(error.localizedDescription)
                 }
                 
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button {
-                    presentMusicSheet.toggle()
-                } label: {
-                    Image(systemName: "music.note")
-                }
-                .sheet(isPresented: $presentMusicSheet) {
-                    MusicView(songSelectedId: $entry.songID)
-                }
-            }
-            ToolbarItem(placement: .bottomBar) {
-                PhotoPickerEmptyEditView(entry: entry)
-                Image(systemName: "photo.badge.plus.fill")
-            }
-            ToolbarSpacer(.flexible, placement: .bottomBar)
-            ToolbarItem(placement: .bottomBar) {
-                Button {
-                    isEdit.toggle()
-                    Task {
-                        do {
-                            try await ckViewModel.editDiaryEntry(entry: entry)
-                        }
-                        catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                } label: {
-                    Image(systemName: "checkmark")
-                }
             }
         }
     }

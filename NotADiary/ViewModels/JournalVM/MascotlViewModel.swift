@@ -128,29 +128,29 @@ class MascotViewModel {
     func moodToMascot(value: Int) -> MascotMood {
         switch value {
         case 0:
-            return .happiness
-        case 1:
-            return .ultraHappiness
-        case 2:
-            return .sadness
-        case 3:
             return .ultraSadness
+        case 1:
+            return .sadness
+        case 2:
+            return .happiness
+        case 3:
+            return .ultraHappiness
         case 4:
-            return .anger
+            return .ultraSurprise
         case 5:
-            return .ultraAnger
+            return .surprise
         case 6:
             return .love
         case 7:
             return .ultraLove
         case 8:
-            return .fear
+            return .ultraAnger
         case 9:
-            return .ultraFear
+            return .anger
         case 10:
-            return .surprise
+            return .fear
         case 11:
-            return .ultraSurprise
+            return .ultraFear
         default:
             return .ultraHappiness
         }

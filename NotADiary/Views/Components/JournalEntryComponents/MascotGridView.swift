@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MascotGridView: View {
-    let moods: [String] = ["happiness", "ultraHappiness", "sadness", "ultraSadness", "anger", "ultraAnger", "love", "ultraLove", "fear", "ultraFear", "surprise", "ultraSurprise"]
+    let moods: [String] = ["ultraSadness", "sadness", "happiness", "ultraHappiness", "ultraSurprise", "surprise",  "love", "ultraLove", "ultraAnger", "anger", "fear", "ultraFear"]
     @Binding var mascotMood: Int
     @State var selected: Int = 12
     @State var moodImage: String?
@@ -28,7 +28,7 @@ struct MascotGridView: View {
                     .fontWeight(.semibold)
             }
         }
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], alignment: .center) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 78))], alignment: .center) {
             ForEach(moods.enumerated(), id: \.offset) { i, mood in
                 Button {
                     mascotMood = i
@@ -37,7 +37,7 @@ struct MascotGridView: View {
                 } label: {
                     Image(mood)
                         .resizable()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 85, height: 85)
                 }
             }
         }
