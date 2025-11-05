@@ -10,9 +10,7 @@ import SwiftUI
 struct ToolbarJournalEntryFullView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
-    
     @Binding var isEdit: Bool
-    
     @State var alert: Bool = false
     
     var entry: JournalEntry
@@ -29,7 +27,7 @@ struct ToolbarJournalEntryFullView: View {
                         }
                         
                         Button {
-                            print("share")
+                            ShareLink(item: card, preview: SharePreview("\(entry.title)"))
                         } label: {
                             Label("Compartilhar", systemImage: "square.and.arrow.up")
                         }
@@ -68,8 +66,6 @@ struct ToolbarJournalEntryFullView: View {
                         Text("Você está prestes a deletar este relato, não haverá maneira de recuperá-lo.")
                     })
                 }
-            }
+        }
     }
 }
-
-
