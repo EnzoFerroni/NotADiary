@@ -108,29 +108,37 @@ struct JournalCreateEntryView: View {
                         
                         HStack {
                             Button {
-                                whereToSave.toggle()
+                                withAnimation(.default) {
+                                    whereToSave.toggle()
+                                }
                             } label: {
                                 if !whereToSave {
-                                    Label("Salvar pelo app!",systemImage: "theatermasks.fill")
+                                    Label("Definir pelo app!",systemImage: "theatermasks.fill")
+                                        .foregroundStyle(.white)
                                 }
                                 else {
                                     Image(systemName:"theatermasks")
+                                        .foregroundStyle(.white)
                                 }
                             }
                             .buttonStyle(.bordered)
-                            .background(whereToSave ? .white : .cyan)
+                            .background(whereToSave ? .white : .accentColor)
                             .clipShape(RoundedRectangle(cornerRadius: 90))
                             
                             Spacer()
                             
                             Button {
-                                whereToSave.toggle()
+                                withAnimation(.default) {
+                                    whereToSave.toggle()
+                                }
                             } label: {
                                 if whereToSave {
                                     Label("Salvar pelo healthKit",systemImage: "heart.fill")
+                                        .foregroundStyle(.white)
                                 }
                                 else {
                                     Image(systemName:"heart")
+                                        .foregroundStyle(.white)
                                 }
                             }
                             .buttonStyle(.bordered)
