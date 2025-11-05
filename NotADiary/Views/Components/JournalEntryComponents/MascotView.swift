@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MascotView: View {
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
-
+    
     @State var animationAmount: Double = 0.0
+    @State var x: CGSize = CGSize(width: 0, height: 0)
     
     @State var mViewModel = MascotViewModel()
     @State var moodValue: Int?
@@ -19,34 +20,63 @@ struct MascotView: View {
     @State var moodColor: Color = .gray
     @State var moodMessage: String?
     
+    @Binding var toogleSheet: Bool
+    
+    
     var body: some View {
-        let gradient = LinearGradient(
-            gradient: Gradient(colors: [moodColor, .background]),
-            startPoint: .top,
-            endPoint: .bottom
-            )
         VStack {
             Text(moodMessage ?? "")
-                .font(.body)
+                .font(.title2)
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
                 .foregroundStyle(.text)
+                .padding(.bottom, 64)
+            
             ZStack {
                 Circle()
-                    .fill(gradient)
-                    .frame(width: 220)
-                    .rotationEffect(.degrees(animationAmount))
-                    .onAppear {
-                        withAnimation(.linear(duration: 20).repeatForever(autoreverses: false)) {
-                            animationAmount = 0
-                            animationAmount += 360
-                        }
+                    .fill(moodColor.opacity(0.2))
+                    .frame(width: 328)
+                
+                Button {
+                    toogleSheet.toggle()
+                } label : {
+                    ZStack {
+                        Image(moodImage ?? "")
+                            .resizable()
+                            .frame(width: 328, height: 328)
+                            .overlay(
+                                ZStack {
+                                    Circle()
+                                        .fill(moodColor)
+                                        .stroke(.black, style: .init(lineWidth: 2))
+                                        .frame(width: 40)
+                                    Image(systemName: "plus")
+                                        .foregroundStyle(.black)
+                                        .padding()
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                }
+                                    .padding(.top, 270)
+                                    .padding(.leading, 170)
+                            )
                     }
-                Image(moodImage ?? "")
-                    .resizable()
-                    .frame(width: 220, height: 220)
+                    .offset(CGSize(width: x.width, height: x.height - 5))
+                    .animation(.smooth(duration: 3).repeatForever(autoreverses: true).delay(0), value: x)
+                }
+                .buttonStyle(.plain)
+                .onAppear {
+                    x.height = -5
+                    x.height += 10
+                }
             }
+            
+            Text("Vamos criar uma memória nova?")
+                .foregroundStyle(.black)
+                .font(.body)
+                .fontWeight(.semibold)
+                .padding(.top, 12)
+                .padding(.bottom, 89)
         }
         .onAppear() {
             Task {
@@ -57,6 +87,5 @@ struct MascotView: View {
                 moodMessage = mViewModel.mascotMessage(mood: mood!)
             }
         }
-        .padding(.vertical, 200)
     }
 }

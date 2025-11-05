@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MascotGridView: View {
-    let moods: [String] = ["happiness", "ultraHappiness", "sadness", "ultraSadness", "anger", "ultraAnger", "disgust", "ultraDisgust", "fear", "ultraFear", "surprise", "ultraSurprise"]
+    let moods: [String] = ["happiness", "ultraHappiness", "sadness", "ultraSadness", "anger", "ultraAnger", "love", "ultraLove", "fear", "ultraFear", "surprise", "ultraSurprise"]
     @Binding var mascotMood: Int //alterar para binding depois
     @State var selected: Int = 12
     @State var moodImage: String?

@@ -38,13 +38,13 @@ struct ToolbarEntryView: View {
         NavigationStack {
             Text("")
                 .toolbar {
-//                    ToolbarItem(placement: .bottomBar) {
-//                        Button {
-//                            print("1")
-//                        } label: {
-//                            Image(systemName: "waveform.path.badge.plus")
-//                        }
-//                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            print("vibracao")
+                        } label: {
+                            Image(systemName: "waveform.path.badge.plus")
+                        }
+                    }
                     ToolbarItem(placement: .bottomBar) {
                         Button {
                             presentMusicSheet.toggle()
@@ -70,8 +70,6 @@ struct ToolbarEntryView: View {
                     ToolbarItem (placement: .bottomBar) {
                         Button {
                             relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
-                            
-                            
                             Task {
                                 do {
                                     let entry = try await ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: song, label: "", association: "", valence: userValence))

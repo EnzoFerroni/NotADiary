@@ -16,32 +16,11 @@ struct HomeScreenView: View {
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     @Environment(\.refresh) private var refresh
-        
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                HStack {
-                    Text("Boas Vindas, \(ckViewModel.preference?.name ?? "")!")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                        .multilineTextAlignment(.leading)
-                        .foregroundStyle(.text)
-                    Spacer()
-                }
-                MascotView()
-                Button {
-                    toggleSheet.toggle()
-                } label: {
-                    Text("Novo Registro")
-                        .frame(width: 321, height: 36)
-                        .font(.body)
-                        .fontWeight(.medium)
-                    
-                }
-                .buttonStyle(.glassProminent)
-                .tint(.accent)
-                .padding()
+                MascotView(toogleSheet: $toggleSheet)
                 ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
                     NavigationLink {
                         JournalEntryFullView(entry: entry)
@@ -66,12 +45,10 @@ struct HomeScreenView: View {
                                         print(error.localizedDescription)
                                     }
                                 }
-                            Divider()
                         }
                     }
-                    
                 }
-                
+                ToolbarHomeScreenView()
             }
             .background { Color.background.ignoresSafeArea()}
             .task {
@@ -90,15 +67,15 @@ struct HomeScreenView: View {
                         }
                     }
             }
-//            .task(id: ckViewModel.entries) {
-//                do {
-//                    try await ckViewModel.fetchDiaryEntries()
-//                    print("oi")
-//                }
-//                catch {
-//                    print(error.localizedDescription)
-//                }
-//            }
+            //            .task(id: ckViewModel.entries) {
+            //                do {
+            //                    try await ckViewModel.fetchDiaryEntries()
+            //                    print("oi")
+            //                }
+            //                catch {
+            //                    print(error.localizedDescription)
+            //                }
+            //            }
         }
         .onOpenURL { URL in
             sharedURL = URL

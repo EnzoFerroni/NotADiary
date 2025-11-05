@@ -13,16 +13,29 @@ struct PhotoPickerEditView: View {
 
     @State var pickerImage: PhotosPickerItem?
     @State var image: ImageModel
+    @State var isSmall: Bool
         
     var body: some View {
         VStack {
-            PhotosPicker(selection: $pickerImage, matching: .images){
-                Image(uiImage: image.image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 200, height: 246)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .clipped()
+            if !isSmall {
+                PhotosPicker(selection: $pickerImage, matching: .images){
+                    Image(uiImage: image.image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 200, height: 246)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipped()
+                }
+            }
+            else {
+                PhotosPicker(selection: $pickerImage, matching: .images){
+                    Image(uiImage: image.image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 153, height: 160)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipped()
+                }
             }
         }
         .onChange(of: pickerImage) { oldValue, newValue in

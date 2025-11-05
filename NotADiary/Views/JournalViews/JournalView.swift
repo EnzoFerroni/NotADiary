@@ -14,17 +14,24 @@ struct JournalView: View {
     @State private var viewModel = MusicPlayerViewModel()
     @State var isLoading: Bool = true
     
+    @State var mViewModel = MascotViewModel()
+    @State var moodValue: Int?
+    @State var mood: MascotMood?
+    @State var moodColor: Color = .white
+    
     var entry: JournalEntry
     
     var body: some View {
         VStack {
             HStack {
-                Text(entry.title)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-                    .foregroundStyle(.black)
-                Spacer()
+                if entry.title != "" {
+                    Text(entry.title)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .foregroundStyle(.black)
+                    Spacer()
+                }
             }
             HStack {
                 Text("\(entry.date, format: .dateTime.day().month().year())")
@@ -34,7 +41,7 @@ struct JournalView: View {
             }
             HStack {
                 Text(entry.text)
-                    .lineLimit(7)
+                    .lineLimit(2)
                     .font(.headline)
                     .fontWeight(.regular)
                     .multilineTextAlignment(.leading)
@@ -82,6 +89,18 @@ struct JournalView: View {
                         }
                     }
                 }
+            }
+        }
+        .padding()
+        .background(moodColor)
+        .clipShape(RoundedRectangle(cornerRadius: 30))
+        .shadow(radius: 2, x: 2, y: 3)
+        .padding(.bottom, 12)
+        .onAppear() {
+            Task {
+                moodValue = entry.mood
+                mood = mViewModel.moodToMascot(value: moodValue!)
+                moodColor = mViewModel.mascorMoodColor(mood: mood!)
             }
         }
         .padding(.horizontal)

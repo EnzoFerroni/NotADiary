@@ -21,8 +21,8 @@ class MascotViewModel {
             return "fear"
         case .surprise:
             return "surprise"
-        case .disgust:
-            return "disgust"
+        case .love:
+            return "love"
         case .ultraHappiness:
             return "ultraHappiness"
         case .ultraSadness:
@@ -33,8 +33,8 @@ class MascotViewModel {
             return "ultraFear"
         case .ultraSurprise:
             return "ultraSurprise"
-        case .ultraDisgust:
-            return "ultraDisgust"
+        case .ultraLove:
+            return "ultraLove"
         }
     }
     
@@ -43,27 +43,27 @@ class MascotViewModel {
         case .happiness:
             return "Este mês você se sentiu feliz com mais frequência, vamos continuar assim!"
         case .sadness:
-            return "sadness"
+            return "Este mês você se sentiu triste"
         case .anger:
-            return "anger"
+            return "Este mês você se sentiu bravo"
         case .fear:
-            return "fear"
+            return "Este mês você se sentiu medo"
         case .surprise:
-            return "surprise"
-        case .disgust:
-            return "disgust"
+            return "Este mês você se sentiu surpreso"
+        case .love:
+            return "Este mês você se sentiu amado"
         case .ultraHappiness:
-            return "ultraHappiness"
+            return "Este mês você se sentiu muito feliz!"
         case .ultraSadness:
-            return "ultraSadness"
+            return "Este mês você se sentiu muito triste :("
         case .ultraAnger:
-            return "ultraAnger"
+            return "Este mês você se sentiu muito bravo"
         case .ultraFear:
-            return "ultraFear"
+            return "Este mês você sentiu muito medo"
         case .ultraSurprise:
-            return "ultraSurprise"
-        case .ultraDisgust:
-            return "ultraDisgust"
+            return "Este mês você se sentiu muito surpreso"
+        case .ultraLove:
+            return "Este mês você se sentiu extrememente amado!"
         }
     }
     
@@ -79,8 +79,8 @@ class MascotViewModel {
             return .fearMascot
         case .surprise:
             return .surpriseMascot
-        case .disgust:
-            return .disgustMascot
+        case .love:
+            return .loveMascot
         case .ultraHappiness:
             return .ultraHappinessMascot
         case .ultraSadness:
@@ -91,8 +91,8 @@ class MascotViewModel {
             return .ultraFearMascot
         case .ultraSurprise:
             return .ultraSurpriseMascot
-        case .ultraDisgust:
-            return .ultraDisgustMascot
+        case .ultraLove:
+            return .ultraLoveMascot
         }
     }
     
@@ -111,9 +111,9 @@ class MascotViewModel {
         case 5:
             return .ultraAnger
         case 6:
-            return .disgust
+            return .love
         case 7:
-            return .ultraDisgust
+            return .ultraLove
         case 8:
             return .fear
         case 9:
