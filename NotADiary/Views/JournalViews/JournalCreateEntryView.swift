@@ -170,7 +170,6 @@ struct JournalCreateEntryView: View {
                                     }
                                 }
                             }
-                            
                             //Resolver
                             HStack{
                                 Text("Ao que o sentimento está associado? ")

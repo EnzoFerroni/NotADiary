@@ -67,6 +67,35 @@ class MascotViewModel {
         }
     }
     
+    func moodToName(mood: MascotMood) -> String {
+        switch mood {
+        case .happiness:
+            return "Feliz"
+        case .sadness:
+            return "Triste"
+        case .anger:
+            return "Bravo"
+        case .fear:
+            return "Medo"
+        case .surprise:
+            return "Surpresa"
+        case .love:
+            return "Amor"
+        case .ultraHappiness:
+            return "Radiante"
+        case .ultraSadness:
+            return "Arrasado"
+        case .ultraAnger:
+            return "Irritado"
+        case .ultraFear:
+            return "Muito Medo"
+        case .ultraSurprise:
+            return "Muito Surpreso"
+        case .ultraLove:
+            return "Apaixonado"
+        }
+    }
+    
     func mascorMoodColor(mood: MascotMood) -> Color {
         switch mood {
         case .happiness:

@@ -25,9 +25,7 @@ struct JournalEntryEdit: View {
         NavigationStack {
             ZStack {
                 Color.background.ignoresSafeArea()
-                
                 ScrollView {
-                    
                     VStack {
                         //MARK: Date
                         HStack {
@@ -86,12 +84,6 @@ struct JournalEntryEdit: View {
                                     
                                 }
                             }
-                        }
-                        HStack {
-                            Text("Photo:")
-                                .font(.title)
-                                .padding(.horizontal)
-                            Spacer()
                         }
                         HStack {
                             if ckViewModel.imagesDictionary[entry.id!]?.first?.image != nil {

@@ -9,14 +9,24 @@ import SwiftUI
 
 struct MascotGridView: View {
     let moods: [String] = ["happiness", "ultraHappiness", "sadness", "ultraSadness", "anger", "ultraAnger", "love", "ultraLove", "fear", "ultraFear", "surprise", "ultraSurprise"]
-    @Binding var mascotMood: Int //alterar para binding depois
+    @Binding var mascotMood: Int
     @State var selected: Int = 12
     @State var moodImage: String?
+    @State var moodMascot: MascotMood?
+    @State var mViewModel = MascotViewModel()
+    @State var moodName: String?
+    
     var body: some View {
         if selected == mascotMood {
-            Image(moodImage!)
-                .resizable()
-                .frame(width: 180, height: 180)
+            VStack {
+                Image(moodImage!)
+                    .resizable()
+                    .frame(width: 180, height: 180)
+
+                Text(moodName ?? "")
+                    .font(.body)
+                    .fontWeight(.semibold)
+            }
         }
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], alignment: .center) {
             ForEach(moods.enumerated(), id: \.offset) { i, mood in
@@ -32,5 +42,9 @@ struct MascotGridView: View {
             }
         }
         .padding(.horizontal)
+        .onChange(of: selected, { oldValue, newValue in
+            moodMascot = mViewModel.moodToMascot(value: mascotMood)
+            moodName = mViewModel.moodToName(mood: moodMascot!)
+        })
     }
 }
