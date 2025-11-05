@@ -53,10 +53,10 @@ struct JournalView: View {
                     HStack {
                         RoundedRectangle(cornerRadius: 15)
                             .foregroundStyle(.gray)
-                            .frame(width: 176, height: 154)
+                            .frame(width: 160, height: 140)
                         RoundedRectangle(cornerRadius: 15)
                             .foregroundStyle(.gray)
-                            .frame(width: 176, height: 154)
+                            .frame(width: 160, height: 140)
                     }
                 }
                 HStack {
@@ -65,7 +65,7 @@ struct JournalView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 176, height: 154)
+                                .frame(width: 160, height: 140)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .clipped()
                         }
@@ -73,7 +73,7 @@ struct JournalView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 356, height: 154)
+                                .frame(width: 350, height: 154)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .clipped()
                         }
@@ -83,7 +83,7 @@ struct JournalView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 176, height: 154)
+                                .frame(width: 160, height: 140)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .clipped()
                         }
@@ -93,7 +93,7 @@ struct JournalView: View {
         }
         .padding()
         .background(moodColor)
-        .clipShape(RoundedRectangle(cornerRadius: 30))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(radius: 2, x: 2, y: 3)
         .padding(.bottom, 12)
         .onAppear() {
