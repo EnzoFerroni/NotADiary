@@ -206,7 +206,7 @@ struct JournalCreateEntryView: View {
                 userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
             }
             
-            ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+            ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, loadedSong: $loadedSong, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
         }
         .background { Color.background.ignoresSafeArea()}
         .scrollDismissesKeyboard(.immediately)
