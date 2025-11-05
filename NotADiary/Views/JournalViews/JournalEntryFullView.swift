@@ -15,9 +15,13 @@ struct JournalEntryFullView: View {
     @State var isEdit: Bool = false
     @State var fullImage: Bool = false
     @State var card: Card = Card(images: [], title: "", text: "", date: Date.now, mood: 0, songID: "", label: "", association: "", valence: 0)
+    @State var moodImage: String?
+    @State var moodValue: MascotMood?
     
     @State var mpViewModel = MusicPlayerViewModel()
     @State var song: Song?
+    
+    var mViewModel = MascotViewModel()
     
     var body: some View {
         NavigationStack {
@@ -40,7 +44,9 @@ struct JournalEntryFullView: View {
                                 .foregroundStyle(.subheadline)
                             Spacer()
                         }
-                        Divider()
+                        Image(moodImage ?? "")
+                            .resizable()
+                            .frame(width: 193, height: 193)
                         HStack {
                             Text(entry.text)
                             Spacer()
@@ -77,13 +83,14 @@ struct JournalEntryFullView: View {
                     Task {
                         do {
                             try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                            song = try await mpViewModel.fetchSongById(entry.songID)
-                            
+                            song = await mpViewModel.fetchSongById(entry.songID)
                         }
                         catch {
                             print(error.localizedDescription)
                         }
                     }
+                    moodValue = mViewModel.moodToMascot(value: entry.mood)
+                    moodImage = mViewModel.mascotMoodImage(mood: moodValue!)
                 }
             }
         }

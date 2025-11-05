@@ -26,7 +26,8 @@ struct JournalCreateEntryView: View {
     @State var images: [UIImage] = []
     @State var songID: String = ""
     @State var viewModel = MusicPlayerViewModel()
-    
+    @State var mascotMood: Int = 0
+        
     @FocusState var isKeyboardActive: Bool
     
     let associationsStrings = ["Community","Current Events","Dating","Education","Family","Fitness","Friends","Health","Hobbies","Identity","Money","Partner","Self Care","Spirituality","Tasks","Travel","Weather","Work"]
@@ -135,79 +136,84 @@ struct JournalCreateEntryView: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal)
                     
-                    //Valencia por meio de slider
-                    HStack {
-                        Spacer()
-                        Text(moodFace)
-                            .font(.largeTitle)
-                        Spacer()
-                    }
-                    Slider(value: $userValence, in: -1...1){}
-                    
-                    //Label - emocao propriamente dita
-                    HStack{
-                        Text("Como você está se sentindo?")
-                        Spacer()
+                    if whereToSave {
+                        //Valencia por meio de slider
+                        HStack {
+                            Spacer()
+                            Text(moodFace)
+                                .font(.largeTitle)
+                            Spacer()
+                        }
+                        Slider(value: $userValence, in: -1...1){}
+                        
+                        //Label - emocao propriamente dita
+                        HStack{
+                            Text("Como você está se sentindo?")
+                            Spacer()
+                            //Resolver
+                            Picker("", selection: $userLabelString){
+                                ForEach(labelsStrings, id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                        }
+                        
                         //Resolver
-                        Picker("", selection: $userLabelString){
-                            ForEach(labelsStrings, id: \.self) {
-                                Text($0)
+                        HStack{
+                            Text("Ao que o sentimento está associado? ")
+                            Spacer()
+                            Picker("", selection: $userAssociationString){
+                                ForEach(associationsStrings, id: \.self) {
+                                    Text($0)
+                                }
                             }
                         }
                     }
-                    
-                    //Resolver
-                    HStack{
-                        Text("Ao que o sentimento está associado? ")
-                        Spacer()
-                        Picker("", selection: $userAssociationString){
-                            ForEach(associationsStrings, id: \.self) {
-                                Text($0)
-                            }
-                        }
+                    else {
+                        MascotGridView(mascotMood: $mascotMood)
                     }
-                    
-                    //MARK: Music
-                    if songID != "", let _loadedSong = loadedSong {
-                        SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
-                            Task {
-                                await viewModel.togglePlayPause()
-                            }
-                        }
-                        .background(.white.opacity(0.7))
-                        .frame(width: 365, height: 71)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                    }
-                    
-                    //MARK: Images
-                    ForEach (images, id: \.self) { image in
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 240.0, height: 236)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .scaledToFill()
-                            .clipped()
-                    }
-                    
-                }
-                .padding(.horizontal)
-                .onChange(of: userLabelString) { oldValue, newValue in
-                    userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
-                }
-                .onChange(of: userAssociationString) { oldValue, newValue in
-                    userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
                 }
                 
-                ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: 0, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
-            }
-            .background { Color.background.ignoresSafeArea()}
-            .scrollDismissesKeyboard(.immediately)
-            .refreshable {
-                Task {
-                    if songID != "" {
-                        loadedSong = await viewModel.fetchSongById(songID)
+                //MARK: Music
+                if songID != "", let _loadedSong = loadedSong {
+                    SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                        Task {
+                            await viewModel.togglePlayPause()
+                        }
                     }
+                    .background(.white.opacity(0.7))
+                    .frame(width: 365, height: 71)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                }
+                
+                //MARK: Images
+                ForEach (images, id: \.self) { image in
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 240.0, height: 236)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .scaledToFill()
+                        .clipped()
+                }
+                
+            }
+            .padding(.horizontal)
+            .onChange(of: userLabelString) { oldValue, newValue in
+                userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
+            }
+            .onChange(of: userAssociationString) { oldValue, newValue in
+                userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
+            }
+            
+            ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+        }
+        .background { Color.background.ignoresSafeArea()}
+        .scrollDismissesKeyboard(.immediately)
+        .refreshable {
+            Task {
+                if songID != "" {
+                    loadedSong = await viewModel.fetchSongById(songID)
                 }
             }
         }

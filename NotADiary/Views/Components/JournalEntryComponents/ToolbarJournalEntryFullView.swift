@@ -11,62 +11,60 @@ struct ToolbarJournalEntryFullView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     @Binding var isEdit: Bool
+    @State var alert: Bool = false
     
-    var card: Card
     var entry: JournalEntry
     
     var body: some View {
-        NavigationStack{
-            Text("")
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            print("waveform")
-                        } label: {
-                            Image(systemName: "waveform")
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            print("headphones")
-                        } label: {
-                            Image(systemName: "headphones")
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .bottomBar) {
-                        ShareLink(item: card, preview: SharePreview("\(entry.title)"))
-                    }
-                    
-                    ToolbarSpacer(.flexible, placement: .bottomBar)
-                    
-                    ToolbarItem (placement: .bottomBar) {
+        Text("")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Menu {
                         Button {
                             isEdit.toggle()
                         } label: {
-                            Image(systemName: "slider.horizontal.3")
+                            Label("Editar", systemImage: "slider.horizontal.3")
                         }
-                    }
-                    
-                    ToolbarItem (placement: .confirmationAction) {
+                        
                         Button {
-                            Task {
-                                do {
-                                    try await ckViewModel.removeDiaryEntry(entry: entry)
-                                }
-                                catch {
-                                    print(error.localizedDescription)
-                                }
-                            }
-                            dismiss()
+                            ShareLink(item: card, preview: SharePreview("\(entry.title)"))
                         } label: {
-                            Image(systemName: "trash")
-                                .foregroundStyle(.black)
+                            Label("Compartilhar", systemImage: "square.and.arrow.up")
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.deleteButton)
+                        
+                        Button(role: .destructive) {
+                            alert.toggle()
+                        } label: {
+                            Label("Deletar", systemImage: "trash")
+                        }
+                        
+                    } label: {
+                        Image(systemName: "ellipsis")
                     }
+                    .alert("Deletar Relato", isPresented: $alert, actions: {
+                            Button(role: .destructive){
+                                Task {
+                                    do {
+                                        try await ckViewModel.removeDiaryEntry(entry: entry)
+                                    }
+                                    catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                                dismiss()
+                            } label: {
+                                Text("Deletar")
+                            }
+                        
+                            Button(role: .cancel) {
+                                
+                            } label: {
+                                Text("Cancelar")
+                            }
+                        
+                    }, message: {
+                        Text("Você está prestes a deletar este relato, não haverá maneira de recuperá-lo.")
+                    })
                 }
         }
     }

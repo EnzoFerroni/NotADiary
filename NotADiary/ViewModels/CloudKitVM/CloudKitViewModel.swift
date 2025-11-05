@@ -25,8 +25,10 @@ class CloudKitViewModel {
     var entriesDictionary: [CKRecord.ID : JournalEntry] = [:]
     var entries: [JournalEntry] = []
     
+    var lastThirtyEntries: [JournalEntry] = []
+    
     var imagesDictionary: [CKRecord.ID : [ImageModel]] = [:]
-
+    
     
     func loginButtonPressed() {
         guard name != nil, !name!.isEmpty else { return }
@@ -77,7 +79,7 @@ class CloudKitViewModel {
         }
     }
     
-    func createDiaryEntry(entry: JournalEntry) throws -> JournalEntry {
+    func createDiaryEntry(entry: JournalEntry) async throws -> JournalEntry {
         let newEntry = CKRecord(recordType: "entries")
                 
         newEntry["ID"] = newEntry.recordID.recordName
@@ -94,6 +96,13 @@ class CloudKitViewModel {
         
         entriesDictionary[newEntry.recordID] = entrySet
         sendEntryToDB(record: newEntry)
+        
+        do {
+            try await fetchDiaryEntries()
+        }
+        catch {
+            print(error.localizedDescription)
+        }
         
         return entrySet
     }
@@ -140,6 +149,34 @@ class CloudKitViewModel {
             entries.append(entry)
         }
     }
+    
+    func fetchLastThirtyEntries() async throws {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "entries", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let result = try await container.privateCloudDatabase.records(matching: query)
+        lastThirtyEntries = []
+        
+        let records = result.matchResults.compactMap { try? $0.1.get() }
+                
+        let results = records.prefix(30)
+        
+        results.forEach { record in
+            guard let title = record["title"] as? String else { return }
+            guard let text = record["text"] as? String else { return }
+            guard let date = record["date"] as? Date else { return }
+            guard let mood = record["mood"] as? Int else { return }
+            guard let songID = record["songID"] as? String else { return }
+            guard let label = record["label"] as? String else { return }
+            guard let association = record["association"] as? String else { return }
+            guard let valence = record["valence"] as? Double else { return }
+            
+            let entry = JournalEntry(id: record.recordID, title: title, text: text, date: date, mood: mood, songID: songID, label: label, association: association, valence: valence)
+            
+            lastThirtyEntries.append(entry)
+        }
+    }
+
     
     func removeDiaryEntry(entry: JournalEntry) async throws {
         do {
@@ -194,6 +231,12 @@ class CloudKitViewModel {
         
         let records = result.matchResults.compactMap { try? $0.1.get() }
         
+        if let entryID = entry.id {
+            if imagesDictionary[entryID] != nil {
+                imagesDictionary[entryID] = nil
+            }
+        }
+        
         records.forEach { record in
             guard let entry = record["entry"] as? CKRecord.Reference else { return }
             guard let asset = record["image"] as? CKAsset else { return }
@@ -210,6 +253,7 @@ class CloudKitViewModel {
             }
         }
     }
+    
     
     func removeImageEntry(image: ImageModel) async {
         do {

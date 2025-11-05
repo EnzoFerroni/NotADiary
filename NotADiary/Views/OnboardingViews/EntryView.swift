@@ -40,50 +40,56 @@ struct EntryView: View {
         }
         else {
             if state == 0 {
-                NavigationStack {
-                    VStack {
-                        Text("Já tem uma conta ou deseja criar uma?")
-                            .font(.title2)
-                        
-                        HStack {
-                            Button {
-                                if !ckViewModel.isLogged {
-                                    showingAlert1 = true
-                                }
-                                else {
-                                    state = 1
-                                    isLoading = true
-                                }
-                            } label: {
-                                Text("Já tenho")
-                            }
-                            .buttonStyle(.bordered)
-                            .alert("Já possui conta", isPresented: $showingAlert1) {
-                                Button("OK", role: .confirm) {}
-                            } message: {
-                                Text("Você não possui uma conta ou não está conectado ao iCloud")
-                            }
+                if !ckViewModel.isLogged {
+                    NavigationStack {
+                        VStack {
+                            Text("Já tem uma conta ou deseja criar uma?")
+                                .font(.title2)
                             
-                            Button {
-                                if !viewModel.isSignedInToiCloud || ckViewModel.isLogged {
-                                    showingAlert2 = true
+                            HStack {
+                                Button {
+                                    if !ckViewModel.isLogged {
+                                        showingAlert1 = true
+                                    }
+                                    else {
+                                        state = 1
+                                        isLoading = true
+                                    }
+                                } label: {
+                                    Text("Já tenho")
                                 }
-                                else {
-                                    state = 2
-                                    isLoading = true
+                                .buttonStyle(.bordered)
+                                .alert("Ainda não possui conta :(", isPresented: $showingAlert1) {
+                                    Button("OK", role: .confirm) {}
+                                } message: {
+                                    Text("Você não possui uma conta ou não está conectado ao iCloud")
                                 }
-                            } label: {
-                                Text("Ainda não tenho")
-                            }
-                            .buttonStyle(.bordered)
-                            .alert("Já possui conta", isPresented: $showingAlert2) {
-                                Button("OK", role: .confirm) {}
-                            } message: {
-                                Text("Você não está conectado no iCloud ou já possui uma conta!")
+                                
+                                Button {
+                                    if !viewModel.isSignedInToiCloud || ckViewModel.isLogged {
+                                        showingAlert2 = true
+                                    }
+                                    else {
+                                        state = 2
+                                        isLoading = true
+                                    }
+                                } label: {
+                                    Text("Ainda não tenho")
+                                }
+                                .buttonStyle(.bordered)
+                                .alert("Já possui conta", isPresented: $showingAlert2) {
+                                    Button("OK", role: .confirm) {}
+                                } message: {
+                                    Text("Você não está conectado no iCloud ou já possui uma conta!")
+                                }
                             }
                         }
+                        .navigationTitle("Boas vindas")
                     }
-                    .navigationTitle("Boas vindas")
+                }
+                else {
+                    HomeScreenView()
+                        .environment(ckViewModel)
                 }
             }
             else {
