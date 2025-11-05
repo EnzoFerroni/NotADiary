@@ -10,28 +10,28 @@ import SwiftUI
 struct ToolbarJournalEntryFullView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
-    
     @Binding var isEdit: Bool
-    
     @State var alert: Bool = false
     
+    var card: Card
     var entry: JournalEntry
     
     var body: some View {
         Text("")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
+                    ShareLink(item: card, preview: SharePreview("\(entry.title)")) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                    }
+                    .tint(.white)
+                }
+                
+                ToolbarItem(placement: .confirmationAction) {
                     Menu {
                         Button {
                             isEdit.toggle()
                         } label: {
                             Label("Editar", systemImage: "slider.horizontal.3")
-                        }
-                        
-                        Button {
-                            print("share")
-                        } label: {
-                            Label("Compartilhar", systemImage: "square.and.arrow.up")
                         }
                         
                         Button(role: .destructive) {
@@ -68,8 +68,6 @@ struct ToolbarJournalEntryFullView: View {
                         Text("Você está prestes a deletar este relato, não haverá maneira de recuperá-lo.")
                     })
                 }
-            }
+        }
     }
 }
-
-

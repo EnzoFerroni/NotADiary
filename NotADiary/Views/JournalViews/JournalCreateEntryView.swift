@@ -208,7 +208,7 @@ struct JournalCreateEntryView: View {
                             .scaledToFill()
                             .clipped()
                     }
-                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, loadedSong: $loadedSong, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
                 }
                 .padding(.horizontal)
                 .onChange(of: userLabelString) { oldValue, newValue in
