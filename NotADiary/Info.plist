@@ -17,10 +17,6 @@
 	</array>
 	<key>MusicHapticsSupported</key>
 	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>audio</string>
-	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
