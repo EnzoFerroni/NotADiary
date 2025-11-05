@@ -14,8 +14,8 @@ struct SingleNotificationView: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
-                    .frame(width: 300, height: 60)
-                    .foregroundStyle(.gray)
+                    .frame(width: 360, height: 70)
+                    .foregroundStyle(.notification)
                 VStack(alignment: .trailing) {
                     Text("\(notification.hour):\(notification.minute)")
                     Text("Notificação padrão do sistema")
