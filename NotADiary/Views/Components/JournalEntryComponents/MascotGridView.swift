@@ -8,17 +8,27 @@
 import SwiftUI
 
 struct MascotGridView: View {
-    let moods: [String] = ["happiness", "ultraHappiness", "sadness", "ultraSadness", "anger", "ultraAnger", "love", "ultraLove", "fear", "ultraFear", "surprise", "ultraSurprise"]
-    @Binding var mascotMood: Int //alterar para binding depois
+    let moods: [String] = ["ultraSadness", "sadness", "happiness", "ultraHappiness", "ultraSurprise", "surprise",  "love", "ultraLove", "ultraAnger", "anger", "fear", "ultraFear"]
+    @Binding var mascotMood: Int
     @State var selected: Int = 12
     @State var moodImage: String?
+    @State var moodMascot: MascotMood?
+    @State var mViewModel = MascotViewModel()
+    @State var moodName: String?
+    
     var body: some View {
         if selected == mascotMood {
-            Image(moodImage!)
-                .resizable()
-                .frame(width: 180, height: 180)
+            VStack {
+                Image(moodImage!)
+                    .resizable()
+                    .frame(width: 180, height: 180)
+
+                Text(moodName ?? "")
+                    .font(.body)
+                    .fontWeight(.semibold)
+            }
         }
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], alignment: .center) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 78))], alignment: .center) {
             ForEach(moods.enumerated(), id: \.offset) { i, mood in
                 Button {
                     mascotMood = i
@@ -27,10 +37,14 @@ struct MascotGridView: View {
                 } label: {
                     Image(mood)
                         .resizable()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 85, height: 85)
                 }
             }
         }
         .padding(.horizontal)
+        .onChange(of: selected, { oldValue, newValue in
+            moodMascot = mViewModel.moodToMascot(value: mascotMood)
+            moodName = mViewModel.moodToName(mood: moodMascot!)
+        })
     }
 }
