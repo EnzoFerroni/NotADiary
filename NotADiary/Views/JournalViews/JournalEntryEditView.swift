@@ -133,7 +133,7 @@ struct JournalEntryEdit: View {
                                 Image(systemName: "music.note")
                             }
                             .sheet(isPresented: $presentMusicSheet) {
-                                //MusicView(songSelectedId: $entry, loadedSong: $loadedSong?)
+                                MusicView(songSelectedId: $entry.songID, loadedSong: $loadedSong)
                             }
                         }
                         ToolbarItem(placement: .bottomBar) {
