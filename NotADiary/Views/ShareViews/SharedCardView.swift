@@ -9,7 +9,7 @@ import SwiftUI
 import MusicKit
 
 struct SharedCardView: View {
-    
+    @Environment(\.dismiss) var dismiss
     @State var imageList: [UIImage] = []
     @State var entry: Card = Card(images: [], title: "Dados não disponíveis", text: "Dados não disponíveis", date: Date(), mood: 0, songID: "", label: "", association: "", valence: 0)
     @State var fullImage: Bool = false
@@ -120,6 +120,15 @@ struct SharedCardView: View {
                         }
                     }
                     .background { Color.background.ignoresSafeArea()}
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
                 }
             }
         }
