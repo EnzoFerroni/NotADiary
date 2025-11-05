@@ -19,6 +19,8 @@ struct ToolbarEntryView: View {
     
     @Binding var song: String
     
+    @Binding var loadedSong: Song?
+    
     @State var presentMusicSheet: Bool = false
         
     var text: String
@@ -50,7 +52,7 @@ struct ToolbarEntryView: View {
                             Image(systemName: "music.note")
                         }
                         .sheet(isPresented: $presentMusicSheet) {
-                            MusicView(songSelectedId: $song)
+                            MusicView(songSelectedId: $song, loadedSong: $loadedSong)
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {

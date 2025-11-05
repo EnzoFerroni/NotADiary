@@ -15,6 +15,8 @@ struct MusicView: View {
     
     @Binding var songSelectedId: String
     
+    @Binding var loadedSong: Song?
+    
     @State var isSelected: Bool = false
             
     var body: some View {
@@ -117,7 +119,10 @@ struct MusicView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        dismiss()
+                        Task {
+                            loadedSong = await viewModel.fetchSongById(songSelectedId)
+                            dismiss()
+                        }
                     } label: {
                         Image(systemName: "checkmark")
                     }
