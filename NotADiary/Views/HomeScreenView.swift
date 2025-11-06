@@ -65,9 +65,9 @@ struct HomeScreenView: View {
                 }
             }
             .background { Color.background.ignoresSafeArea()}
-            .task {
-                await HealthManager.shared.requestHealthAuthorization()
-            }
+//            .task {
+//                await HealthManager.shared.requestHealthAuthorization()
+//            }
             .fullScreenCover(isPresented: $toggleSheet){
                 JournalCreateEntryView(entryList: $entryList)
                     .onDisappear {

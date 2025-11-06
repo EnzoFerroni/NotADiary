@@ -176,6 +176,7 @@ struct JournalEntryEdit: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.immediately)
         .background { Color.background.ignoresSafeArea()}
         .refreshable {
             Task {

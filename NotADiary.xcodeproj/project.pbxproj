@@ -296,8 +296,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Permita o acesso à sua biblioteca de mídia e ao Apple Music. Assim, você poderá pesquisar, escolher e anexar músicas aos seus relatos no NotADiary, complementando suas memórias com uma trilha sonora.";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Permita que o NotADiary leia seus dados de 'Estado Emocional'. Isso nos permite exibir seus estados emocionais e sentimentos registrados anteriormente, ajudando a criar um diário mais completo.";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Permita que o NotADiary salve seus dados de 'Estado Emocional'. Assim, quando você registrar um sentimento ou emoção no seu diário, poderemos salvá-lo automaticamente no app Saúde";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Permita que o NotADiary acesse sua galeria para que você possa adicionar fotos aos seus relatos e memórias.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -343,8 +341,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Permita o acesso à sua biblioteca de mídia e ao Apple Music. Assim, você poderá pesquisar, escolher e anexar músicas aos seus relatos no NotADiary, complementando suas memórias com uma trilha sonora.";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Permita que o NotADiary leia seus dados de 'Estado Emocional'. Isso nos permite exibir seus estados emocionais e sentimentos registrados anteriormente, ajudando a criar um diário mais completo.";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Permita que o NotADiary salve seus dados de 'Estado Emocional'. Assim, quando você registrar um sentimento ou emoção no seu diário, poderemos salvá-lo automaticamente no app Saúde";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Permita que o NotADiary acesse sua galeria para que você possa adicionar fotos aos seus relatos e memórias.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
