@@ -27,10 +27,10 @@ struct ToolbarEntryView: View {
     var day: Date
     var mood: Int
     var title: String
-    var userValence: Double
+    var userValence: Double = 0.0
     var whereToSave: Bool
-    var userLabel: HKStateOfMind.Label
-    var userAssociation: HKStateOfMind.Association
+    //var userLabel: HKStateOfMind.Label
+    //var userAssociation: HKStateOfMind.Association
     
     @State private var relato: HKStateOfMind?
         
@@ -69,7 +69,7 @@ struct ToolbarEntryView: View {
                     ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem (placement: .bottomBar) {
                         Button {
-                            relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
+//                            relato = HealthManager.shared.createSample(eventAssociation: userAssociation, userLabel: userLabel, userValence: userValence, endDate: day)
                             Task {
                                 do {
                                     let entry = try await ckViewModel.createDiaryEntry(entry: JournalEntry(id: nil, title: title, text: text, date: day, mood: mood, songID: song, label: "", association: "", valence: userValence))
@@ -79,9 +79,9 @@ struct ToolbarEntryView: View {
                                 catch {
                                     print(error.localizedDescription)
                                 }
-                                if whereToSave {
-                                    await HealthManager.shared.save(sample: relato!)
-                                }
+//                                if whereToSave {
+//                                    await HealthManager.shared.save(sample: relato!)
+//                                }
                                 
                                 // ÖS DORAKM AVAROSKA
                                 dismiss()

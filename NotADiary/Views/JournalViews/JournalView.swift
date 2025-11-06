@@ -58,6 +58,11 @@ struct JournalView: View {
                             .foregroundStyle(.gray)
                             .frame(width: 160, height: 140)
                     }
+                    .onAppear() {
+                        Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { _ in
+                            isLoading = false
+                        }
+                    }
                 }
                 HStack {
                     if let image = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
@@ -73,7 +78,7 @@ struct JournalView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 328, height: 140)
+                                .frame(width: 350, height: 154)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .clipped()
                         }

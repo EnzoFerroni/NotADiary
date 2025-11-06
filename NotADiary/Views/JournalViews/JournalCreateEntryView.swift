@@ -15,14 +15,14 @@ import MusicKit
 struct JournalCreateEntryView: View {
     @State var text: String = ""
     @State var day: Date = Date()
-    @State var userValence: Double = 0.0
+    //@State var userValence: Double = 0.0
     @State var title: String = ""
     @Binding var entryList: [JournalEntry]
     @State var whereToSave: Bool = false
-    @State var userLabel: HKStateOfMind.Label = HKStateOfMind.Label.angry
-    @State var userAssociation: HKStateOfMind.Association = HKStateOfMind.Association.community
-    @State var userLabelString: String = ""
-    @State var userAssociationString: String = ""
+//    @State var userLabel: HKStateOfMind.Label = HKStateOfMind.Label.angry
+//    @State var userAssociation: HKStateOfMind.Association = HKStateOfMind.Association.community
+//    @State var userLabelString: String = ""
+//    @State var userAssociationString: String = ""
     @State var images: [UIImage] = []
     @State var songID: String = ""
     @State var viewModel = MusicPlayerViewModel()
@@ -41,32 +41,32 @@ struct JournalCreateEntryView: View {
     
     @State private var loadedSong: Song?
     
-    var moodFace: String {
-        switch userValence {
-        case -1 ... -0.74:
-            return "😢"
-            
-        case -0.75 ... -0.51:
-            return "☹️"
-            
-        case -0.50 ... -0.26:
-            return "🙁"
-            
-        case -0.25 ... 0.24:
-            return "😑"
-            
-        case 0.25 ... 0.49:
-            return "🙂"
-            
-        case 0.5 ... 0.74:
-            return "😊"
-            
-        case 0.75 ... 1.0:
-            return "😃"
-        default:
-            return "😑"
-        }
-    }
+//    var moodFace: String {
+//        switch userValence {
+//        case -1 ... -0.74:
+//            return "😢"
+//            
+//        case -0.75 ... -0.51:
+//            return "☹️"
+//            
+//        case -0.50 ... -0.26:
+//            return "🙁"
+//            
+//        case -0.25 ... 0.24:
+//            return "😑"
+//            
+//        case 0.25 ... 0.49:
+//            return "🙂"
+//            
+//        case 0.5 ... 0.74:
+//            return "😊"
+//            
+//        case 0.75 ... 1.0:
+//            return "😃"
+//        default:
+//            return "😑"
+//        }
+//    }
     
     var body: some View {
         NavigationStack {
@@ -89,12 +89,15 @@ struct JournalCreateEntryView: View {
                         TextField("", text: $title, prompt: Text("Write your title here...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
+                            .foregroundStyle(.black)
                         Divider()
                         
                         //MARK: Text
                         TextField("", text: $text, prompt: Text("Write your text here...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
+                            .foregroundStyle(.black)
+
                         Divider()
                         
                         //MARK: Feeling
@@ -106,84 +109,84 @@ struct JournalCreateEntryView: View {
                             Spacer()
                         }
                         
-                        HStack {
-                            Button {
-                                withAnimation(.default) {
-                                    whereToSave.toggle()
-                                }
-                            } label: {
-                                if !whereToSave {
-                                    Label("Definir pelo app!",systemImage: "theatermasks.fill")
-                                        .foregroundStyle(.white)
-                                }
-                                else {
-                                    Image(systemName:"theatermasks")
-                                        .foregroundStyle(.white)
-                                }
-                            }
-                            .buttonStyle(.bordered)
-                            .background(whereToSave ? .white : .accentColor)
-                            .clipShape(RoundedRectangle(cornerRadius: 90))
-                            
-                            Spacer()
-                            
-                            Button {
-                                withAnimation(.default) {
-                                    whereToSave.toggle()
-                                }
-                            } label: {
-                                if whereToSave {
-                                    Label("Salvar pelo healthKit",systemImage: "heart.fill")
-                                        .foregroundStyle(.white)
-                                }
-                                else {
-                                    Image(systemName:"heart")
-                                        .foregroundStyle(.white)
-                                }
-                            }
-                            .buttonStyle(.bordered)
-                            .background(whereToSave ? .cyan : .white)
-                            .clipShape(RoundedRectangle(cornerRadius: 90))
-                        }
-                        .font(.title3)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal)
+//                        HStack {
+//                            Button {
+//                                withAnimation(.default) {
+//                                    whereToSave.toggle()
+//                                }
+//                            } label: {
+//                                if !whereToSave {
+//                                    Label("Definir pelo app!",systemImage: "theatermasks.fill")
+//                                        .foregroundStyle(.white)
+//                                }
+//                                else {
+//                                    Image(systemName:"theatermasks")
+//                                        .foregroundStyle(.white)
+//                                }
+//                            }
+//                            .buttonStyle(.bordered)
+//                            .background(whereToSave ? .white : .accentColor)
+//                            .clipShape(RoundedRectangle(cornerRadius: 90))
+//                            
+//                            Spacer()
+//                            
+//                            Button {
+//                                withAnimation(.default) {
+//                                    whereToSave.toggle()
+//                                }
+//                            } label: {
+//                                if whereToSave {
+//                                    Label("Salvar pelo healthKit",systemImage: "heart.fill")
+//                                        .foregroundStyle(.white)
+//                                }
+//                                else {
+//                                    Image(systemName:"heart")
+//                                        .foregroundStyle(.white)
+//                                }
+//                            }
+//                            .buttonStyle(.bordered)
+//                            .background(whereToSave ? .cyan : .white)
+//                            .clipShape(RoundedRectangle(cornerRadius: 90))
+//                        }
+//                        .font(.title3)
+//                        .foregroundStyle(.white)
+//                        .padding(.horizontal)
                         
-                        if whereToSave {
-                            //Valencia por meio de slider
-                            HStack {
-                                Spacer()
-                                Text(moodFace)
-                                    .font(.largeTitle)
-                                Spacer()
-                            }
-                            Slider(value: $userValence, in: -1...1){}
-                            
-                            //Label - emocao propriamente dita
-                            HStack{
-                                Text("Como você está se sentindo?")
-                                Spacer()
-                                //Resolver
-                                Picker("", selection: $userLabelString){
-                                    ForEach(labelsStrings, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                            }
-                            //Resolver
-                            HStack{
-                                Text("Ao que o sentimento está associado? ")
-                                Spacer()
-                                Picker("", selection: $userAssociationString){
-                                    ForEach(associationsStrings, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                            }
-                        }
-                        else {
+//                        if whereToSave {
+//                            //Valencia por meio de slider
+//                            HStack {
+//                                Spacer()
+//                                Text(moodFace)
+//                                    .font(.largeTitle)
+//                                Spacer()
+//                            }
+//                            Slider(value: $userValence, in: -1...1){}
+//                            
+//                            //Label - emocao propriamente dita
+//                            HStack{
+//                                Text("Como você está se sentindo?")
+//                                Spacer()
+//                                //Resolver
+//                                Picker("", selection: $userLabelString){
+//                                    ForEach(labelsStrings, id: \.self) {
+//                                        Text($0)
+//                                    }
+//                                }
+//                            }
+//                            //Resolver
+//                            HStack{
+//                                Text("Ao que o sentimento está associado? ")
+//                                Spacer()
+//                                Picker("", selection: $userAssociationString){
+//                                    ForEach(associationsStrings, id: \.self) {
+//                                        Text($0)
+//                                    }
+//                                }
+//                            }
+//                        }
+                        //else {
                             MascotGridView(mascotMood: $mascotMood)
-                        }
+                        //}
                     }
                     
                     //MARK: Music
@@ -208,15 +211,15 @@ struct JournalCreateEntryView: View {
                             .scaledToFill()
                             .clipped()
                     }
-                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, loadedSong: $loadedSong, text: text, day: day, mood: mascotMood, title: title, userValence: userValence, whereToSave: whereToSave, userLabel: userLabel, userAssociation: userAssociation)
+                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, loadedSong: $loadedSong, text: text, day: day, mood: mascotMood, title: title, whereToSave: whereToSave)
                 }
                 .padding(.horizontal)
-                .onChange(of: userLabelString) { oldValue, newValue in
-                    userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
-                }
-                .onChange(of: userAssociationString) { oldValue, newValue in
-                    userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
-                }
+//                .onChange(of: userLabelString) { oldValue, newValue in
+//                    userLabel = HKStateOfMindParseFunctions.shared.labelStringToHKStateOfMind(string: userLabelString)
+//                }
+//                .onChange(of: userAssociationString) { oldValue, newValue in
+//                    userAssociation = HKStateOfMindParseFunctions.shared.associationStringToHKStateOfMind(string: userAssociationString)
+//                }
             }
         }
         .scrollDismissesKeyboard(.immediately)
