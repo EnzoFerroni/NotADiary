@@ -106,84 +106,84 @@ struct JournalCreateEntryView: View {
                             Spacer()
                         }
                         
-                        HStack {
-                            Button {
-                                withAnimation(.default) {
-                                    whereToSave.toggle()
-                                }
-                            } label: {
-                                if !whereToSave {
-                                    Label("Definir pelo app!",systemImage: "theatermasks.fill")
-                                        .foregroundStyle(.white)
-                                }
-                                else {
-                                    Image(systemName:"theatermasks")
-                                        .foregroundStyle(.white)
-                                }
-                            }
-                            .buttonStyle(.bordered)
-                            .background(whereToSave ? .white : .accentColor)
-                            .clipShape(RoundedRectangle(cornerRadius: 90))
-                            
-                            Spacer()
-                            
-                            Button {
-                                withAnimation(.default) {
-                                    whereToSave.toggle()
-                                }
-                            } label: {
-                                if whereToSave {
-                                    Label("Salvar pelo healthKit",systemImage: "heart.fill")
-                                        .foregroundStyle(.white)
-                                }
-                                else {
-                                    Image(systemName:"heart")
-                                        .foregroundStyle(.white)
-                                }
-                            }
-                            .buttonStyle(.bordered)
-                            .background(whereToSave ? .cyan : .white)
-                            .clipShape(RoundedRectangle(cornerRadius: 90))
-                        }
-                        .font(.title3)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal)
+//                        HStack {
+//                            Button {
+//                                withAnimation(.default) {
+//                                    whereToSave.toggle()
+//                                }
+//                            } label: {
+//                                if !whereToSave {
+//                                    Label("Definir pelo app!",systemImage: "theatermasks.fill")
+//                                        .foregroundStyle(.white)
+//                                }
+//                                else {
+//                                    Image(systemName:"theatermasks")
+//                                        .foregroundStyle(.white)
+//                                }
+//                            }
+//                            .buttonStyle(.bordered)
+//                            .background(whereToSave ? .white : .accentColor)
+//                            .clipShape(RoundedRectangle(cornerRadius: 90))
+//                            
+//                            Spacer()
+//                            
+//                            Button {
+//                                withAnimation(.default) {
+//                                    whereToSave.toggle()
+//                                }
+//                            } label: {
+//                                if whereToSave {
+//                                    Label("Salvar pelo healthKit",systemImage: "heart.fill")
+//                                        .foregroundStyle(.white)
+//                                }
+//                                else {
+//                                    Image(systemName:"heart")
+//                                        .foregroundStyle(.white)
+//                                }
+//                            }
+//                            .buttonStyle(.bordered)
+//                            .background(whereToSave ? .cyan : .white)
+//                            .clipShape(RoundedRectangle(cornerRadius: 90))
+//                        }
+//                        .font(.title3)
+//                        .foregroundStyle(.white)
+//                        .padding(.horizontal)
                         
-                        if whereToSave {
-                            //Valencia por meio de slider
-                            HStack {
-                                Spacer()
-                                Text(moodFace)
-                                    .font(.largeTitle)
-                                Spacer()
-                            }
-                            Slider(value: $userValence, in: -1...1){}
-                            
-                            //Label - emocao propriamente dita
-                            HStack{
-                                Text("Como você está se sentindo?")
-                                Spacer()
-                                //Resolver
-                                Picker("", selection: $userLabelString){
-                                    ForEach(labelsStrings, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                            }
-                            //Resolver
-                            HStack{
-                                Text("Ao que o sentimento está associado? ")
-                                Spacer()
-                                Picker("", selection: $userAssociationString){
-                                    ForEach(associationsStrings, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                            }
-                        }
-                        else {
+//                        if whereToSave {
+//                            //Valencia por meio de slider
+//                            HStack {
+//                                Spacer()
+//                                Text(moodFace)
+//                                    .font(.largeTitle)
+//                                Spacer()
+//                            }
+//                            Slider(value: $userValence, in: -1...1){}
+//                            
+//                            //Label - emocao propriamente dita
+//                            HStack{
+//                                Text("Como você está se sentindo?")
+//                                Spacer()
+//                                //Resolver
+//                                Picker("", selection: $userLabelString){
+//                                    ForEach(labelsStrings, id: \.self) {
+//                                        Text($0)
+//                                    }
+//                                }
+//                            }
+//                            //Resolver
+//                            HStack{
+//                                Text("Ao que o sentimento está associado? ")
+//                                Spacer()
+//                                Picker("", selection: $userAssociationString){
+//                                    ForEach(associationsStrings, id: \.self) {
+//                                        Text($0)
+//                                    }
+//                                }
+//                            }
+//                        }
+                        //else {
                             MascotGridView(mascotMood: $mascotMood)
-                        }
+                        //}
                     }
                     
                     //MARK: Music
