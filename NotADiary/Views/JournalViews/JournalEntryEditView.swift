@@ -41,6 +41,7 @@ struct JournalEntryEdit: View {
                         TextField("", text: $entry.title, prompt: Text("Write your title here...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
+                            .foregroundStyle(.black)
                         Divider()
                         
                         
@@ -48,6 +49,7 @@ struct JournalEntryEdit: View {
                         TextField("", text: $entry.text, prompt: Text("Write your text here...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
+                            .foregroundStyle(.black)
                         Divider()
                         
                         //MARK: Feeling

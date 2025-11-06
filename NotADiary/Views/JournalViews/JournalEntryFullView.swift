@@ -36,6 +36,8 @@ struct JournalEntryFullView: View {
                                 Text(entry.title)
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
+                                    .foregroundStyle(.black)
+
                                 Spacer()
                             }
                             HStack {
@@ -50,6 +52,8 @@ struct JournalEntryFullView: View {
                                 .frame(width: 193, height: 193)
                             HStack {
                                 Text(entry.text)
+                                    .foregroundStyle(.black)
+
                                 Spacer()
                             }
                             

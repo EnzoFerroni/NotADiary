@@ -19,37 +19,41 @@ struct HomeScreenView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                MascotView(toogleSheet: $toggleSheet)
-                ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
-                    NavigationLink {
-                        JournalEntryFullView(entry: entry)
-                            .onDisappear {
-                                Task {
-                                    do {
-                                        try await ckViewModel.fetchDiaryEntries()
-                                    }
-                                    catch {
-                                        print(error.localizedDescription)
+            ZStack {
+                Color.background
+                ScrollView {
+                    MascotView(toogleSheet: $toggleSheet)
+                    ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
+                        NavigationLink {
+                            JournalEntryFullView(entry: entry)
+                                .onDisappear {
+                                    Task {
+                                        do {
+                                            try await ckViewModel.fetchDiaryEntries()
+                                        }
+                                        catch {
+                                            print(error.localizedDescription)
+                                        }
                                     }
                                 }
+                        } label: {
+                            VStack {
+                                JournalView(entry: entry)
+                                    .task {
+                                        do {
+                                            try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                                        }
+                                        catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
                             }
-                    } label: {
-                        VStack {
-                            JournalView(entry: entry)
-                                .task {
-                                    do {
-                                        try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                                    }
-                                    catch {
-                                        print(error.localizedDescription)
-                                    }
-                                }
                         }
                     }
                 }
                 //ToolbarHomeScreenView()
             }
+            .padding(.horizontal)
             .refreshable {
                 Task {
                     do {

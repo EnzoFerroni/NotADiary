@@ -89,12 +89,15 @@ struct JournalCreateEntryView: View {
                         TextField("", text: $title, prompt: Text("Write your title here...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
+                            .foregroundStyle(.black)
                         Divider()
                         
                         //MARK: Text
                         TextField("", text: $text, prompt: Text("Write your text here...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
+                            .foregroundStyle(.black)
+
                         Divider()
                         
                         //MARK: Feeling
