@@ -29,53 +29,55 @@ struct JournalEntryFullView: View {
                 JournalEntryEdit(isEdit: $isEdit, entry: entry)
             }
             else {
-                ScrollView {
-                    VStack {
-                        HStack {
-                            Text(entry.title)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("\(entry.date, format: .dateTime.day().month().year())")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.subheadline)
-                            Spacer()
-                        }
-                        Image(moodImage ?? "")
-                            .resizable()
-                            .frame(width: 193, height: 193)
-                        HStack {
-                            Text(entry.text)
-                            Spacer()
-                        }
-                        
-                        ZStack {
-                            //Placeholder for Music Card
-                            RoundedRectangle(cornerRadius: 15)
-                                .frame(width: 365, height: 71)
-                                .foregroundStyle(.white)
-                            if song != nil {
-                                SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
-                                    Task {
-                                        await mpViewModel.togglePlayPause()
-                                    }
-                                }
-                                .background(.white.opacity(0.7))
-                                .frame(width: 365, height: 71)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                                
+                ZStack {
+                    ScrollView {
+                        VStack {
+                            HStack {
+                                Text(entry.title)
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                Spacer()
                             }
+                            HStack {
+                                Text("\(entry.date, format: .dateTime.day().month().year())")
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.subheadline)
+                                Spacer()
+                            }
+                            Image(moodImage ?? "")
+                                .resizable()
+                                .frame(width: 193, height: 193)
+                            HStack {
+                                Text(entry.text)
+                                Spacer()
+                            }
+                            
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .frame(width: 365, height: 71)
+                                    .foregroundStyle(.white)
+                                if song != nil {
+                                    SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
+                                        Task {
+                                            await mpViewModel.togglePlayPause()
+                                        }
+                                    }
+                                    .background(.white.opacity(0.7))
+                                    .frame(width: 365, height: 71)
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                                    
+                                }
+                            }
+                            
+                            ImagesGridView(entry: entry)
+                            
                         }
+                        .padding(.horizontal)
                         
-                        ImagesGridView(entry: entry)
-                        
+                        ToolbarJournalEntryFullView(isEdit: $isEdit, card: card, entry: entry)
                     }
-                    .padding(.horizontal)
-                    
-                    ToolbarJournalEntryFullView(isEdit: $isEdit, card: card, entry: entry)
+                    //MusicCardFullView(entry: entry)
                 }
                 
                 .onAppear() {

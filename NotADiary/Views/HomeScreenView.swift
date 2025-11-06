@@ -48,7 +48,7 @@ struct HomeScreenView: View {
                         }
                     }
                 }
-                ToolbarHomeScreenView()
+                //ToolbarHomeScreenView()
             }
             .refreshable {
                 Task {

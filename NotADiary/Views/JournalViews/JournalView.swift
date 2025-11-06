@@ -58,6 +58,11 @@ struct JournalView: View {
                             .foregroundStyle(.gray)
                             .frame(width: 160, height: 140)
                     }
+                    .onAppear() {
+                        Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { _ in
+                            isLoading = false
+                        }
+                    }
                 }
                 HStack {
                     if let image = ckViewModel.imagesDictionary[entry.id!]?.first?.image {
