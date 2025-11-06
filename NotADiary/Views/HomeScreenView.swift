@@ -50,6 +50,16 @@ struct HomeScreenView: View {
                 }
                 ToolbarHomeScreenView()
             }
+            .refreshable {
+                Task {
+                    do {
+                        try await ckViewModel.fetchDiaryEntries()
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
             .background { Color.background.ignoresSafeArea()}
             .task {
                 await HealthManager.shared.requestHealthAuthorization()
@@ -67,15 +77,6 @@ struct HomeScreenView: View {
                         }
                     }
             }
-            //            .task(id: ckViewModel.entries) {
-            //                do {
-            //                    try await ckViewModel.fetchDiaryEntries()
-            //                    print("oi")
-            //                }
-            //                catch {
-            //                    print(error.localizedDescription)
-            //                }
-            //            }
         }
         .onOpenURL { URL in
             sharedURL = URL
