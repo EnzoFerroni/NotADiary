@@ -28,7 +28,7 @@ struct MascotGridView: View {
                     .fontWeight(.semibold)
             }
         }
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 78))], alignment: .center) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 76))], alignment: .center) {
             ForEach(moods.enumerated(), id: \.offset) { i, mood in
                 Button {
                     mascotMood = i
