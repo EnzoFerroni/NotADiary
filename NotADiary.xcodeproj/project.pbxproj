@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C78E94412EB925DE0088FE30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E943F2EB9257C0088FE30 /* CloudKit.framework */; };
-		C78E94452EB9262A0088FE30 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E94442EB9262A0088FE30 /* HealthKit.framework */; };
 		C78E94472EB926320088FE30 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E94462EB926320088FE30 /* MusicKit.framework */; };
+		C7ABB3952EBD052800898B5D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E94442EB9262A0088FE30 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,8 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7ABB3952EBD052800898B5D /* HealthKit.framework in Frameworks */,
 				C78E94412EB925DE0088FE30 /* CloudKit.framework in Frameworks */,
-				C78E94452EB9262A0088FE30 /* HealthKit.framework in Frameworks */,
 				C78E94472EB926320088FE30 /* MusicKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,7 +310,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tessaro.NotADiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -357,7 +357,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tessaro.NotADiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
