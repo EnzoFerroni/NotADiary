@@ -108,6 +108,5 @@ struct JournalView: View {
                 moodColor = mViewModel.mascorMoodColor(mood: mood!)
             }
         }
-        .padding(.horizontal)
     }
 }
