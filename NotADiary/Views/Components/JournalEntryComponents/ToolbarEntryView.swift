@@ -22,6 +22,8 @@ struct ToolbarEntryView: View {
     @Binding var loadedSong: Song?
     
     @State var presentMusicSheet: Bool = false
+    @State var presentHapticSheet: Bool = false
+    @State var selectedHaptic: String?
         
     var text: String
     var day: Date
@@ -40,7 +42,7 @@ struct ToolbarEntryView: View {
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         Button {
-                            print("vibracao")
+                            presentHapticSheet.toggle()
                         } label: {
                             Image(systemName: "waveform.path.badge.plus")
                         }
@@ -50,9 +52,6 @@ struct ToolbarEntryView: View {
                             presentMusicSheet.toggle()
                         } label: {
                             Image(systemName: "music.note")
-                        }
-                        .sheet(isPresented: $presentMusicSheet) {
-                            MusicView(songSelectedId: $song, loadedSong: $loadedSong)
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {
@@ -98,6 +97,12 @@ struct ToolbarEntryView: View {
                             Image(systemName: "xmark")
                         }
                     }
+                }
+                .sheet(isPresented: $presentHapticSheet) {
+                    HapticSelectionView(selectedHaptic: $selectedHaptic)
+                }
+                .sheet(isPresented: $presentMusicSheet) {
+                    MusicView(songSelectedId: $song, loadedSong: $loadedSong)
                 }
         }
     }
