@@ -22,31 +22,39 @@ struct HomeScreenView: View {
             ZStack {
                 Color.background
                 ScrollView {
-                    MascotView(toogleSheet: $toggleSheet)
-                    ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
-                        NavigationLink {
-                            JournalEntryFullView(entry: entry)
-                                .onDisappear {
-                                    Task {
-                                        do {
-                                            try await ckViewModel.fetchDiaryEntries()
-                                        }
-                                        catch {
-                                            print(error.localizedDescription)
+                    if ckViewModel.entries.isEmpty {
+                        ProgressView("Carregando seus relatos...")
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .padding()
+                    } else {
+                        MascotView(toogleSheet: $toggleSheet)
+                        ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
+                            NavigationLink {
+                                JournalEntryFullView(entry: entry)
+                                    .onDisappear {
+                                        Task {
+                                            do {
+                                                try await ckViewModel.fetchDiaryEntries()
+                                            }
+                                            catch {
+                                                print(error.localizedDescription)
+                                            }
                                         }
                                     }
+                            } label: {
+                                VStack {
+                                    JournalView(entry: entry)
+                                        .task {
+                                            do {
+                                                try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                                            }
+                                            catch {
+                                                print(error.localizedDescription)
+                                            }
+                                        }
                                 }
-                        } label: {
-                            VStack {
-                                JournalView(entry: entry)
-                                    .task {
-                                        do {
-                                            try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                                        }
-                                        catch {
-                                            print(error.localizedDescription)
-                                        }
-                                    }
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: ckViewModel.entries)
                             }
                         }
                     }

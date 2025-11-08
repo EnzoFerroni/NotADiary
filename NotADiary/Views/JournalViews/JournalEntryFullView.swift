@@ -37,7 +37,7 @@ struct JournalEntryFullView: View {
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.black)
-
+                                
                                 Spacer()
                             }
                             HStack {
@@ -53,35 +53,42 @@ struct JournalEntryFullView: View {
                             HStack {
                                 Text(entry.text)
                                     .foregroundStyle(.black)
-
+                                
                                 Spacer()
                             }
                             
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 15)
-                                    .frame(width: 365, height: 71)
-                                    .foregroundStyle(.white)
-                                if song != nil {
-                                    SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
-                                        Task {
-                                            await mpViewModel.togglePlayPause()
-                                        }
-                                    }
-                                    .background(.white.opacity(0.7))
-                                    .frame(width: 365, height: 71)
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                                    
-                                }
-                            }
-                            
                             ImagesGridView(entry: entry)
-                            
                         }
                         .padding(.horizontal)
                         
                         ToolbarJournalEntryFullView(isEdit: $isEdit, card: card, entry: entry)
                     }
-                    //MusicCardFullView(entry: entry)
+                    
+//                    if song != nil {
+//                        VStack {
+//                            Spacer()
+//                            SongAudioHapticsRow(
+//                                song: song!,
+//                                isPlaying: true,
+//                                onPlayPause: {
+//                                    Task {
+//                                        await mpViewModel.togglePlayPause()
+//                                    }
+//                                },
+//                                showMic: true,
+//                                showWaveform: true,
+//                                onMic: { print("Mic tapped!") },
+//                                onWaveform: { print("Waveform tapped!") }
+//                            )
+//                            .frame(height: 71)
+//                            .clipShape(RoundedRectangle(cornerRadius: 15))
+//                            .padding()
+//                            .shadow(radius: 8)
+//                        }
+//                        .edgesIgnoringSafeArea(.bottom)
+//                        .transition(.move(edge: .bottom).combined(with: .opacity))
+//                        .animation(.spring(), value: song)
+//                    }
                 }
                 
                 .onAppear() {
