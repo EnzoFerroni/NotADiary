@@ -86,14 +86,14 @@ struct JournalCreateEntryView: View {
                         Divider()
                         
                         //MARK: Title
-                        TextField("", text: $title, prompt: Text("Write your title here...").foregroundColor(.gray), axis: .vertical)
+                        TextField("", text: $title, prompt: Text("Escreva o título...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
                             .foregroundStyle(.black)
                         Divider()
                         
                         //MARK: Text
-                        TextField("", text: $text, prompt: Text("Write your text here...").foregroundColor(.gray), axis: .vertical)
+                        TextField("", text: $text, prompt: Text("Escreva o texto...").foregroundColor(.gray), axis: .vertical)
                             .focused($isKeyboardActive)
                             .padding(.vertical)
                             .foregroundStyle(.black)
