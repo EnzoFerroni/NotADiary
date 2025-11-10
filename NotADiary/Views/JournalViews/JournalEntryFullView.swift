@@ -18,6 +18,8 @@ struct JournalEntryFullView: View {
     @State var moodImage: String?
     @State var moodValue: MascotMood?
     
+    @State var toggle: Bool = false
+    
     @State var mpViewModel = MusicPlayerViewModel()
     @State var song: Song?
     
@@ -57,40 +59,30 @@ struct JournalEntryFullView: View {
                                 Spacer()
                             }
                             
+                            if song != nil {
+                                SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
+                                    Task {
+                                        if !toggle {
+                                            await mpViewModel.playSong(song!)
+                                            toggle = true
+                                        }
+                                        else {
+                                            await mpViewModel.togglePlayPause()
+                                            toggle = false
+                                        }
+                                    }
+                                }
+                                .background(.white.opacity(0.7))
+                                .frame(width: 365, height: 71)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                            }
                             ImagesGridView(entry: entry)
                         }
                         .padding(.horizontal)
                         
                         ToolbarJournalEntryFullView(isEdit: $isEdit, card: card, entry: entry)
                     }
-                    
-//                    if song != nil {
-//                        VStack {
-//                            Spacer()
-//                            SongAudioHapticsRow(
-//                                song: song!,
-//                                isPlaying: true,
-//                                onPlayPause: {
-//                                    Task {
-//                                        await mpViewModel.togglePlayPause()
-//                                    }
-//                                },
-//                                showMic: true,
-//                                showWaveform: true,
-//                                onMic: { print("Mic tapped!") },
-//                                onWaveform: { print("Waveform tapped!") }
-//                            )
-//                            .frame(height: 71)
-//                            .clipShape(RoundedRectangle(cornerRadius: 15))
-//                            .padding()
-//                            .shadow(radius: 8)
-//                        }
-//                        .edgesIgnoringSafeArea(.bottom)
-//                        .transition(.move(edge: .bottom).combined(with: .opacity))
-//                        .animation(.spring(), value: song)
-//                    }
                 }
-                
                 .onAppear() {
                     card = FuncsCardModel.shared.entryToCard(entry: entry, imagesDictionary: ckViewModel.imagesDictionary)
                     Task {
