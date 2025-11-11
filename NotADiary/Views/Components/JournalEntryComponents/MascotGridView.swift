@@ -26,6 +26,7 @@ struct MascotGridView: View {
                 Text(moodName ?? "")
                     .font(.body)
                     .fontWeight(.semibold)
+                    .foregroundStyle(.black)
             }
         }
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 76))], alignment: .center) {
@@ -41,7 +42,6 @@ struct MascotGridView: View {
                 }
             }
         }
-        .padding(.horizontal)
         .onChange(of: selected, { oldValue, newValue in
             moodMascot = mViewModel.moodToMascot(value: mascotMood)
             moodName = mViewModel.moodToName(mood: moodMascot!)

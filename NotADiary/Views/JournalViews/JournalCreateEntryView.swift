@@ -64,8 +64,6 @@ struct JournalCreateEntryView: View {
                             .focused($isKeyboardActive)
                             .padding(.vertical)
                             .foregroundStyle(.black)
-
-                        Divider()
                         
                         //MARK: Feeling
                         HStack {
@@ -81,7 +79,7 @@ struct JournalCreateEntryView: View {
                     
                     //MARK: Music
                     if songID != "", let _loadedSong = loadedSong {
-                        SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                        SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                             Task {
                                 await viewModel.togglePlayPause()
                             }

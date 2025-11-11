@@ -21,7 +21,11 @@ struct HomeScreenView: View {
         NavigationStack {
             ZStack {
                 Color.background
-                ScrollView {
+                ScrollView (showsIndicators: false) {
+                    Circle()
+                        .frame(height: 40)
+                        .foregroundStyle(.clear)
+                    
                     MascotView(toogleSheet: $toggleSheet)
                     ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
