@@ -15,6 +15,7 @@ struct MascotGridView: View {
     @State var moodMascot: MascotMood?
     @State var mViewModel = MascotViewModel()
     @State var moodName: String?
+    @State var haptics1: Bool = false
     
     var body: some View {
         if selected == mascotMood {
@@ -32,6 +33,7 @@ struct MascotGridView: View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 76))], alignment: .center) {
             ForEach(moods.enumerated(), id: \.offset) { i, mood in
                 Button {
+                    haptics1.toggle()
                     mascotMood = i
                     selected = mascotMood
                     moodImage = moods[selected]
@@ -40,6 +42,8 @@ struct MascotGridView: View {
                         .resizable()
                         .frame(width: 85, height: 85)
                 }
+                .sensoryFeedback(.increase, trigger: haptics1)
+                
             }
         }
         .onChange(of: selected, { oldValue, newValue in

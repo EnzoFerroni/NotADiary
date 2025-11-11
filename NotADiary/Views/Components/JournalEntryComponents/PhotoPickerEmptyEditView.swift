@@ -13,13 +13,18 @@ struct PhotoPickerEmptyEditView: View {
     
     @State var pickerImage: [PhotosPickerItem] = []
     @State var image: [UIImage] = []
-    
+    @State var haptics1: Bool = false
+
     let entry: JournalEntry
     var body: some View {
         VStack {
             PhotosPicker(selection: $pickerImage, matching: .images){
                 Label("Adicione uma foto", systemImage: "photo")
+                    .onTapGesture {
+                        haptics1.toggle()
+                    }
             }
+            .sensoryFeedback(.selection, trigger: haptics1)
             
             ForEach (image, id: \.self) { images in
                 if !image.isEmpty {

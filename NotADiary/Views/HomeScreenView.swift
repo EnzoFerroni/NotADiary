@@ -13,6 +13,7 @@ struct HomeScreenView: View {
     @State var searchText: String = ""
     @State var sharedURL: URL? = nil
     @State var toggleShared: Bool = false
+    @State var haptics1: Bool = false
     
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     @Environment(\.refresh) private var refresh
@@ -54,8 +55,11 @@ struct HomeScreenView: View {
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: ckViewModel.entries)
+                            .onTapGesture {
+                                haptics1.toggle()
+                            }
                         }
-                        
+                        .sensoryFeedback(.increase, trigger: haptics1)
                     }
                 }
             }

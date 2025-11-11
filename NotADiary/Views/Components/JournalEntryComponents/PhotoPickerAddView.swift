@@ -9,17 +9,22 @@ import SwiftUI
 import PhotosUI
 
 struct PhotoPickerAddView: View {
-    @State var pickerImage: [PhotosPickerItem] = []
-    
     @Binding var image: [UIImage]
-    
+
+    @State var pickerImage: [PhotosPickerItem] = []
+    @State var haptics1: Bool = false
+        
     var isEdit: Bool
     
     var body: some View {
         VStack {
             PhotosPicker(selection: $pickerImage, matching: .images){
                 Label("Adicione uma foto", systemImage: "photo")
+                    .onTapGesture {
+                        haptics1.toggle()
+                    }
             }
+            .sensoryFeedback(.selection, trigger: haptics1)
             
             ForEach (image, id: \.self) { images in
                 if !image.isEmpty && isEdit {

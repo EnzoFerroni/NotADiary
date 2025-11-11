@@ -12,16 +12,16 @@ struct MascotView: View {
     
     @State var animationAmount: Double = 0.0
     @State var x: CGSize = CGSize(width: 0, height: 0)
-    
     @State var mViewModel = MascotViewModel()
     @State var moodValue: Int?
     @State var mood: MascotMood?
     @State var moodImage: String?
     @State var moodColor: Color = .gray
     @State var moodMessage: String?
+    @State var haptics1: Bool = false
+    @State var haptics2: Bool = false
     
     @Binding var toogleSheet: Bool
-    
     
     var body: some View {
         VStack {
@@ -44,7 +44,6 @@ struct MascotView: View {
                         }
                 }
             }
-            
             else {
                 if ckViewModel.entries.isEmpty {
                     Text("Como você está se sentindo hoje?")
@@ -61,6 +60,7 @@ struct MascotView: View {
                             .frame(width: 328)
                         
                         Button {
+                            haptics1.toggle()
                             toogleSheet.toggle()
                         } label : {
                             ZStack {
@@ -87,6 +87,7 @@ struct MascotView: View {
                             .animation(.smooth(duration: 3).repeatForever(autoreverses: true).delay(0), value: x)
                         }
                         .buttonStyle(.plain)
+                        .sensoryFeedback(.selection, trigger: haptics1)
                         .onAppear {
                             x.height = -5
                             x.height += 10
@@ -108,6 +109,7 @@ struct MascotView: View {
                             .frame(width: 328)
                         
                         Button {
+                            haptics2.toggle()
                             toogleSheet.toggle()
                         } label : {
                             ZStack {
@@ -133,6 +135,7 @@ struct MascotView: View {
                             .offset(CGSize(width: x.width, height: x.height - 5))
                             .animation(.smooth(duration: 3).repeatForever(autoreverses: true).delay(0), value: x)
                         }
+                        .sensoryFeedback(.selection, trigger: haptics2)
                         .buttonStyle(.plain)
                         .onAppear {
                             x.height = -5
@@ -141,6 +144,7 @@ struct MascotView: View {
                     }
                 }
             }
+            
             Text("Vamos criar uma memória nova?")
                 .foregroundStyle(.black)
                 .font(.body)
