@@ -22,44 +22,38 @@ struct HomeScreenView: View {
             ZStack {
                 Color.background
                 ScrollView {
-                    if ckViewModel.entries.isEmpty {
-                        ProgressView("Carregando seus relatos...")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .padding()
-                    } else {
-                        MascotView(toogleSheet: $toggleSheet)
-                        ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
-                            NavigationLink {
-                                JournalEntryFullView(entry: entry)
-                                    .onDisappear {
-                                        Task {
-                                            do {
-                                                try await ckViewModel.fetchDiaryEntries()
-                                            }
-                                            catch {
-                                                print(error.localizedDescription)
-                                            }
+                    MascotView(toogleSheet: $toggleSheet)
+                    ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
+                        NavigationLink {
+                            JournalEntryFullView(entry: entry)
+                                .onDisappear {
+                                    Task {
+                                        do {
+                                            try await ckViewModel.fetchDiaryEntries()
+                                        }
+                                        catch {
+                                            print(error.localizedDescription)
                                         }
                                     }
-                            } label: {
-                                VStack {
-                                    JournalView(entry: entry)
-                                        .task {
-                                            do {
-                                                try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
-                                            }
-                                            catch {
-                                                print(error.localizedDescription)
-                                            }
-                                        }
                                 }
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
-                                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: ckViewModel.entries)
+                        } label: {
+                            VStack {
+                                JournalView(entry: entry)
+                                    .task {
+                                        do {
+                                            try await ckViewModel.fetchImageByDiaryEntry(entry: entry)
+                                        }
+                                        catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
                             }
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: ckViewModel.entries)
                         }
+                        
                     }
                 }
-                //ToolbarHomeScreenView()
             }
             .padding(.horizontal)
             .refreshable {
@@ -73,9 +67,6 @@ struct HomeScreenView: View {
                 }
             }
             .background { Color.background.ignoresSafeArea()}
-//            .task {
-//                await HealthManager.shared.requestHealthAuthorization()
-//            }
             .fullScreenCover(isPresented: $toggleSheet){
                 JournalCreateEntryView(entryList: $entryList)
                     .onDisappear {
