@@ -169,6 +169,10 @@ class MascotViewModel {
             counts[$0] = (counts[$0] ?? 0) + 1
         }
         
+        if monthMood.count == 1 {
+            return monthMood[0]
+        }
+        
         if let (value, _) = counts.max(by: {$0.1 < $1.1}) {
             return value
         }

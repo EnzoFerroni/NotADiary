@@ -10,7 +10,6 @@ import MusicKit
 import MediaAccessibility
 
 struct SongRow: View {
-    @State var isEdit: Bool
     let song: Song
     let hapticsManager: MusicHapticsManager
         
@@ -43,7 +42,7 @@ struct SongRow: View {
                             ZStack {
                                 Color.gray
                                 Image(systemName: "music.note")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                             }
                         @unknown default:
                             Color.gray
@@ -57,12 +56,11 @@ struct SongRow: View {
                         .foregroundStyle(.white)
                 }
                 
-                
                 VStack(alignment: .leading) {
                     Text(song.title)
-                        .foregroundColor(isEdit ? .black : .white)
+                        .foregroundColor(.black)
                     Text(song.artistName)
-                        .foregroundColor(isEdit ? .black : .gray)
+                        .foregroundColor(.gray)
                         .font(.caption)
                 }
                 
@@ -78,8 +76,10 @@ struct SongRow: View {
                 }
             }
             .padding()
-            .background(viewModel.isPlaying && viewModel.currentSong?.id == song.id ? Color.white.opacity(0.5) : Color.white.opacity(0.1))
+            .background(viewModel.isPlaying && viewModel.currentSong?.id == song.id ? Color.white.opacity(1) : Color.white.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: 16))
+            .shadow(radius: 2, x: 2, y: 3)
+
         }
         .task {
             await checkHaptics()

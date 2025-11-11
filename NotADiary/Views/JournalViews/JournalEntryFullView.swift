@@ -43,7 +43,7 @@ struct JournalEntryFullView: View {
                                 Spacer()
                             }
                             HStack {
-                                Text("\(entry.date, format: .dateTime.day().month().year())")
+                                Text("\(entry.date, format: .dateTime.day().month())")
                                     .font(.subheadline)
                                     .fontWeight(.medium)
                                     .foregroundStyle(.subheadline)
@@ -60,7 +60,7 @@ struct JournalEntryFullView: View {
                             }
                             
                             if song != nil {
-                                SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
+                                SongRow(song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
                                     Task {
                                         if !toggle {
                                             await mpViewModel.playSong(song!)

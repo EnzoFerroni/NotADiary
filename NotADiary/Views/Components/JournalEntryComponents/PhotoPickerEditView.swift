@@ -14,6 +14,8 @@ struct PhotoPickerEditView: View {
     @State var pickerImage: PhotosPickerItem?
     @State var image: ImageModel
     @State var isSmall: Bool
+    @State var haptics1: Bool = false
+    @State var haptics2: Bool = false
         
     var body: some View {
         VStack {
@@ -25,6 +27,10 @@ struct PhotoPickerEditView: View {
                         .frame(width: 200, height: 246)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .clipped()
+                        .onTapGesture {
+                            haptics1.toggle()
+                        }
+                        .sensoryFeedback(.selection, trigger: haptics1)
                 }
             }
             else {
@@ -35,6 +41,10 @@ struct PhotoPickerEditView: View {
                         .frame(width: 153, height: 160)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .clipped()
+                        .onTapGesture {
+                            haptics2.toggle()
+                        }
+                        .sensoryFeedback(.selection, trigger: haptics2)
                 }
             }
         }

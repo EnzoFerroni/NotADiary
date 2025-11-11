@@ -96,11 +96,6 @@ struct JournalView: View {
                 }
             }
         }
-        .padding()
-        .background(moodColor)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(radius: 2, x: 2, y: 3)
-        .padding(.bottom, 12)
         .onAppear() {
             Task {
                 moodValue = entry.mood
@@ -108,5 +103,11 @@ struct JournalView: View {
                 moodColor = mViewModel.mascorMoodColor(mood: mood!)
             }
         }
+        .padding()
+        .background(moodColor)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(radius: 2, x: 2, y: 3)
+        .padding(.horizontal)
+        .padding(.bottom, 12)
     }
 }

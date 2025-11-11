@@ -71,7 +71,7 @@ struct JournalEntryEdit: View {
                         MascotGridView(mascotMood: $entry.mood)
                         
                         if entry.songID != "", let _loadedSong = loadedSong {
-                            SongRow(isEdit: true, song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                            SongRow(song: _loadedSong, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                                 Task {
                                     await viewModel.togglePlayPause()
                                 }

@@ -10,26 +10,36 @@ import MusicKit
 
 struct MusicView: View {
     @Environment(\.dismiss) private var dismiss
+    
     @State private var viewModel = MusicPlayerViewModel()
     @State private var searchText: String = ""
-    
-    @Binding var songSelectedId: String
-    
-    @Binding var loadedSong: Song?
-    
     @State var isSelected: Bool = false
-            
+
+    @Binding var songSelectedId: String
+    @Binding var loadedSong: Song?
+                
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.black.ignoresSafeArea()
-                
+                Color.background.ignoresSafeArea()
+                if searchText.isEmpty && songSelectedId.isEmpty {
+                    VStack {
+                        Image("music")
+                            .resizable()
+                            .frame(width: 300, height: 300)
+                            .scaledToFit()
+                        Text("Parece que você ainda não buscou nenhuma música...")
+                            .multilineTextAlignment(.center)
+                            .font(.title3)
+                            .foregroundStyle(.black)
+                    }
+                }
                 if viewModel.isAuthorized {
                     VStack(spacing: 0) {
-                        ScrollView {
+                        ScrollView (showsIndicators: false){
                             LazyVStack(spacing: 10) {
                                 ForEach(viewModel.songs) { song in
-                                    SongRow(isEdit: false, song: song, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
+                                    SongRow(song: song, hapticsManager: viewModel.hapticsManager, viewModel: $viewModel) {
                                         Task {
                                             await viewModel.playSong(song)
                                         }
@@ -53,52 +63,82 @@ struct MusicView: View {
                                 }
                             }
                         }
-                        
                         Spacer()
                     }
                     
                     if let currentSong = viewModel.currentSong {
                         VStack {
                             Spacer()
-                            
-                            VStack(spacing: 10) {
-                                Text(currentSong.title)
-                                    .foregroundColor(.white)
-                                    .font(.headline)
-                                
-                                if viewModel.hapticsManager.isHapticsActive {
-                                    if viewModel.hapticsManager.isHapticsAvailable {
-                                        HStack {
-                                            Image(systemName: "waveform")
-                                                .foregroundColor(.green)
-                                            Text("Haptics ON")
-                                                .foregroundColor(.green)
-                                                .font(.caption)
+                            HStack {
+                                AsyncImage(url: currentSong.artwork?.url(width: 55, height: 55)) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: 55, height: 55)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                    case .failure(_):
+                                        ZStack {
+                                            Color.gray
+                                            Image(systemName: "music.note")
+                                                .foregroundColor(.black)
                                         }
-                                    } else {
-                                        Text("No haptic track")
-                                            .foregroundColor(.orange)
-                                            .font(.caption)
+                                    @unknown default:
+                                        Color.gray
                                     }
                                 }
+                                .frame(width: 55, height: 55)
+                                .cornerRadius(8)
                                 
+                                VStack (alignment: .leading){
+                                    Text(currentSong.title)
+                                        .foregroundColor(.black)
+                                        .font(.body)
+                                        .fontWeight(.semibold)
+                                        .lineLimit(1)
+                                    Text(currentSong.artistName)
+                                        .foregroundColor(.black)
+                                        .font(.subheadline)
+                                        .lineLimit(1)
+                                    
+                                    if viewModel.hapticsManager.isHapticsActive {
+                                        if viewModel.hapticsManager.isHapticsAvailable {
+                                            HStack {
+                                                Image(systemName: "waveform")
+                                                    .foregroundColor(.green)
+                                                Text("Haptics ON")
+                                                    .foregroundColor(.green)
+                                                    .font(.caption)
+                                            }
+                                        } else {
+                                            Text("No haptic track")
+                                                .foregroundColor(.orange)
+                                                .font(.caption)
+                                        }
+                                    }
+                                }
+                                Spacer()
+
                                 Button {
                                     Task {
                                         await viewModel.togglePlayPause()
                                     }
                                 } label: {
-                                    Image(systemName: viewModel.isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                                        .font(.system(size: 60))
-                                        .foregroundColor(.white)
+                                    Image(systemName: viewModel.isPlaying ? "pause.circle" : "play.circle")
+                                        .font(.system(size: 48))
+                                        .foregroundColor(.black)
                                 }
                             }
                             .padding()
-                            .background(Color.gray)
-                            .cornerRadius(20)
-                            .padding()
+                            .glassEffect(.clear, in: .capsule)
+                            
                         }
+                        .padding()
                     }
-                } else {
+                }
+                else {
                     VStack {
                         ProgressView()
                             .tint(.white)

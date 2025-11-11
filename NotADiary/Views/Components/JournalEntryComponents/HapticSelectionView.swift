@@ -17,13 +17,21 @@ struct HapticSelectionView: View {
     
     init(selectedHaptic: Binding<String?>) {
         self._selectedHaptic = selectedHaptic
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
     }
     
     var body: some View {
         NavigationStack {
             List {
                 // MARK: - Joy Section
-                Section("Alegria") {
+                Section(header: Label {
+                    Text("Alegria")
+                } icon: {
+                    Image("ultraHappiness")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }) {
                     HapticRowView(
                         name: "Saltitante",
                         isSelected: selectedHaptic == "joy_bouncy",
@@ -60,9 +68,14 @@ struct HapticSelectionView: View {
                         }
                     )
                 }
-                
                 // MARK: - Sadness Section
-                Section("Tristeza") {
+                Section(header: Label {
+                    Text("Tristeza")
+                } icon: {
+                    Image("ultraSadness")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }) {
                     HapticRowView(
                         name: "Pesado",
                         isSelected: selectedHaptic == "sadness_heavy",
@@ -99,9 +112,14 @@ struct HapticSelectionView: View {
                         }
                     )
                 }
-                
                 // MARK: - Fear Section
-                Section("Medo") {
+                Section(header: Label {
+                    Text("Medo")
+                } icon: {
+                    Image("ultraFear")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }) {
                     HapticRowView(
                         name: "Peito Apertado",
                         isSelected: selectedHaptic == "fear_tight_chest",
@@ -140,7 +158,13 @@ struct HapticSelectionView: View {
                 }
                 
                 // MARK: - Love Section
-                Section("Amor") {
+                Section(header: Label {
+                    Text("Amor")
+                } icon: {
+                    Image("ultraLove")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }) {
                     HapticRowView(
                         name: "Batimento Cardíaco",
                         isSelected: selectedHaptic == "love_heartbeat",
@@ -179,7 +203,13 @@ struct HapticSelectionView: View {
                 }
                 
                 // MARK: - Anger Section
-                Section("Raiva") {
+                Section(header: Label {
+                    Text("Raiva")
+                } icon: {
+                    Image("ultraAnger")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }) {
                     HapticRowView(
                         name: "Fúria",
                         isSelected: selectedHaptic == "anger_rage",
@@ -218,7 +248,13 @@ struct HapticSelectionView: View {
                 }
                 
                 // MARK: - Surprise Section
-                Section("Surpresa") {
+                Section(header: Label {
+                    Text("Surpresa")
+                } icon: {
+                    Image("ultraSurprise")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }) {
                     HapticRowView(
                         name: "Suspiro",
                         isSelected: selectedHaptic == "surprise_gasp",
@@ -256,6 +292,9 @@ struct HapticSelectionView: View {
                     )
                 }
             }
+            .scrollIndicators(.hidden)
+            .foregroundStyle(.black)
+            .shadow(radius: 7, x: 2, y: 3)
             .navigationTitle("Selecionar Vibração")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -267,6 +306,8 @@ struct HapticSelectionView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.background)
         }
     }
 }
@@ -280,7 +321,7 @@ struct HapticRowView: View {
         Button(action: action) {
             HStack {
                 Text(name)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                 
                 Spacer()
                 
@@ -290,9 +331,11 @@ struct HapticRowView: View {
                 }
                 
                 Image(systemName: "waveform.path")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.black)
             }
         }
+        .listRowBackground(Color.white)
+
     }
 }
 

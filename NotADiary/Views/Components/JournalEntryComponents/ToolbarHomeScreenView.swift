@@ -13,14 +13,17 @@ struct ToolbarHomeScreenView: View {
     var body: some View {
         Text("")
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button {
-                        //toggleSheet.toggle()
-                        print("pessoinha")
-                    } label: {
-                        Image(systemName: "person.crop.circle")
-                    }
-                }
+                Text("")
+//                ToolbarItem(placement: .confirmationAction) {
+//                    Button {
+//                        //toggleSheet.toggle()
+//                        print("pessoinha")
+//                    } label: {
+//                        Image(systemName: "")
+//                    }
+//                    .buttonStyle(.plain)
+                    //Text("")
+                //}
             }
     }
 }
