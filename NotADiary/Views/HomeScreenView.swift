@@ -55,9 +55,9 @@ struct HomeScreenView: View {
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: ckViewModel.entries)
-                            .onTapGesture {
-                                haptics1.toggle()
-                            }
+                        }
+                        .onTapGesture {
+                            haptics1.toggle()
                         }
                         .sensoryFeedback(.increase, trigger: haptics1)
                     }
