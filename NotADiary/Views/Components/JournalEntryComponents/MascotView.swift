@@ -25,52 +25,63 @@ struct MascotView: View {
     
     var body: some View {
         VStack {
-            Text(moodMessage ?? "")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .foregroundStyle(.text)
-                .padding(.bottom, 64)
-            
-            ZStack {
-                Circle()
-                    .fill(moodColor.opacity(0.2))
-                    .frame(width: 328)
-                
-                Button {
-                    toogleSheet.toggle()
-                } label : {
-                    ZStack {
-                        Image(moodImage ?? "")
-                            .resizable()
-                            .frame(width: 328, height: 328)
-                            .overlay(
-                                ZStack {
-                                    Circle()
-                                        .fill(moodColor)
-                                        .stroke(.black, style: .init(lineWidth: 2))
-                                        .frame(width: 40)
-                                    Image(systemName: "plus")
-                                        .foregroundStyle(.black)
-                                        .padding()
-                                        .font(.title2)
-                                        .fontWeight(.semibold)
-                                }
-                                    .padding(.top, 270)
-                                    .padding(.leading, 170)
-                            )
-                    }
-                    .offset(CGSize(width: x.width, height: x.height - 5))
-                    .animation(.smooth(duration: 3).repeatForever(autoreverses: true).delay(0), value: x)
-                }
-                .buttonStyle(.plain)
-                .onAppear {
-                    x.height = -5
-                    x.height += 10
+            if moodImage == nil {
+                ZStack {
+                    ProgressView("Carregando sua emoção...")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding()
+                    Circle()
+                        .fill(moodColor.opacity(0.2))
+                        .frame(width: 328)
                 }
             }
-            
+            else {
+                Text(moodMessage ?? "")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .foregroundStyle(.text)
+                    .padding(.bottom, 64)
+                
+                ZStack {
+                    Circle()
+                        .fill(moodColor.opacity(0.2))
+                        .frame(width: 328)
+                    
+                    Button {
+                        toogleSheet.toggle()
+                    } label : {
+                        ZStack {
+                            Image(moodImage ?? "")
+                                .resizable()
+                                .frame(width: 328, height: 328)
+                                .overlay(
+                                    ZStack {
+                                        Circle()
+                                            .fill(moodColor)
+                                            .stroke(.black, style: .init(lineWidth: 2))
+                                            .frame(width: 40)
+                                        Image(systemName: "plus")
+                                            .foregroundStyle(.black)
+                                            .padding()
+                                            .font(.title2)
+                                            .fontWeight(.semibold)
+                                    }
+                                        .padding(.top, 270)
+                                        .padding(.leading, 170)
+                                )
+                        }
+                        .offset(CGSize(width: x.width, height: x.height - 5))
+                        .animation(.smooth(duration: 3).repeatForever(autoreverses: true).delay(0), value: x)
+                    }
+                    .buttonStyle(.plain)
+                    .onAppear {
+                        x.height = -5
+                        x.height += 10
+                    }
+                }
+            }
             Text("Vamos criar uma memória nova?")
                 .foregroundStyle(.black)
                 .font(.body)

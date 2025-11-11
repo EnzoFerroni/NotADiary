@@ -18,6 +18,8 @@ struct JournalEntryFullView: View {
     @State var moodImage: String?
     @State var moodValue: MascotMood?
     
+    @State var toggle: Bool = false
+    
     @State var mpViewModel = MusicPlayerViewModel()
     @State var song: Song?
     
@@ -37,7 +39,7 @@ struct JournalEntryFullView: View {
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.black)
-
+                                
                                 Spacer()
                             }
                             HStack {
@@ -53,37 +55,34 @@ struct JournalEntryFullView: View {
                             HStack {
                                 Text(entry.text)
                                     .foregroundStyle(.black)
-
+                                
                                 Spacer()
                             }
                             
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 15)
-                                    .frame(width: 365, height: 71)
-                                    .foregroundStyle(.white)
-                                if song != nil {
-                                    SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
-                                        Task {
+                            if song != nil {
+                                SongRow(isEdit: true, song: song!, hapticsManager: mpViewModel.hapticsManager, viewModel: $mpViewModel) {
+                                    Task {
+                                        if !toggle {
+                                            await mpViewModel.playSong(song!)
+                                            toggle = true
+                                        }
+                                        else {
                                             await mpViewModel.togglePlayPause()
+                                            toggle = false
                                         }
                                     }
-                                    .background(.white.opacity(0.7))
-                                    .frame(width: 365, height: 71)
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                                    
                                 }
+                                .background(.white.opacity(0.7))
+                                .frame(width: 365, height: 71)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
                             }
-                            
                             ImagesGridView(entry: entry)
-                            
                         }
                         .padding(.horizontal)
                         
                         ToolbarJournalEntryFullView(isEdit: $isEdit, card: card, entry: entry)
                     }
-                    //MusicCardFullView(entry: entry)
                 }
-                
                 .onAppear() {
                     card = FuncsCardModel.shared.entryToCard(entry: entry, imagesDictionary: ckViewModel.imagesDictionary)
                     Task {

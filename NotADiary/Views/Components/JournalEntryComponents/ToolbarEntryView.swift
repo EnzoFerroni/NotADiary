@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import HealthKit
 import MusicKit
 
 
@@ -34,7 +33,7 @@ struct ToolbarEntryView: View {
     //var userLabel: HKStateOfMind.Label
     //var userAssociation: HKStateOfMind.Association
     
-    @State private var relato: HKStateOfMind?
+    //@State private var relato: HKStateOfMind?
         
     var body: some View {
         NavigationStack {

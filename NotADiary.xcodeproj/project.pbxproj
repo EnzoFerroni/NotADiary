@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		C78E94412EB925DE0088FE30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E943F2EB9257C0088FE30 /* CloudKit.framework */; };
 		C78E94472EB926320088FE30 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E94462EB926320088FE30 /* MusicKit.framework */; };
-		C7ABB3952EBD052800898B5D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C78E94442EB9262A0088FE30 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C711609A2E9439290045BE26 /* NotADiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotADiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C78E943F2EB9257C0088FE30 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		C78E94442EB9262A0088FE30 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		C78E94462EB926320088FE30 /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -45,7 +43,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ABB3952EBD052800898B5D /* HealthKit.framework in Frameworks */,
 				C78E94412EB925DE0088FE30 /* CloudKit.framework in Frameworks */,
 				C78E94472EB926320088FE30 /* MusicKit.framework in Frameworks */,
 			);
@@ -75,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				C78E94462EB926320088FE30 /* MusicKit.framework */,
-				C78E94442EB9262A0088FE30 /* HealthKit.framework */,
 				C78E943F2EB9257C0088FE30 /* CloudKit.framework */,
 			);
 			name = Frameworks;
@@ -308,7 +304,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.6;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tessaro.NotADiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -353,7 +350,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.6;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tessaro.NotADiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

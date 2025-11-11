@@ -85,7 +85,12 @@ class MusicPlayerViewModel {
             musicPlayer.pause()
             isPlaying = false
         } else {
-            try? await musicPlayer.play()
+            do {
+                try await musicPlayer.play()
+            }
+            catch {
+                print(error.localizedDescription)
+            }
             isPlaying = true
         }
     }
