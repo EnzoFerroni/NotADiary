@@ -13,7 +13,7 @@ struct MascotView: View {
     @State var animationAmount: Double = 0.0
     @State var x: CGSize = CGSize(width: 0, height: 0)
     @State var mViewModel = MascotViewModel()
-    @State var moodValue: Int?
+    @Binding var moodValue: Int
     @State var mood: MascotMood?
     @State var moodImage: String?
     @State var moodColor: Color = .gray
@@ -34,13 +34,10 @@ struct MascotView: View {
                         .fill(moodColor.opacity(0.2))
                         .frame(width: 328)
                         .onAppear() {
-                            Task {
-                                moodValue = await mViewModel.avarageMood(viewModel: ckViewModel)
-                                mood = mViewModel.moodToMascot(value: moodValue!)
-                                moodColor = mViewModel.mascorMoodColor(mood: mood!)
-                                moodImage = mViewModel.mascotMoodImage(mood: mood!)
-                                moodMessage = mViewModel.mascotMessage(mood: mood!)
-                            }
+                            mood = mViewModel.moodToMascot(value: moodValue)
+                            moodColor = mViewModel.mascorMoodColor(mood: mood!)
+                            moodImage = mViewModel.mascotMoodImage(mood: mood!)
+                            moodMessage = mViewModel.mascotMessage(mood: mood!)
                         }
                 }
             }
@@ -153,13 +150,10 @@ struct MascotView: View {
                 .padding(.bottom, 89)
         }
         .onAppear() {
-            Task {
-                moodValue = await mViewModel.avarageMood(viewModel: ckViewModel)
-                mood = mViewModel.moodToMascot(value: moodValue!)
-                moodColor = mViewModel.mascorMoodColor(mood: mood!)
-                moodImage = mViewModel.mascotMoodImage(mood: mood!)
-                moodMessage = mViewModel.mascotMessage(mood: mood!)
-            }
+            mood = mViewModel.moodToMascot(value: moodValue)
+            moodColor = mViewModel.mascorMoodColor(mood: mood!)
+            moodImage = mViewModel.mascotMoodImage(mood: mood!)
+            moodMessage = mViewModel.mascotMessage(mood: mood!)
         }
     }
 }

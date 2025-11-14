@@ -21,6 +21,7 @@ struct JournalCreateEntryView: View {
     @State var songID: String = ""
     @State var viewModel = MusicPlayerViewModel()
     @State var mascotMood: Int = 0
+    @Binding var averageMood: Int
         
     @FocusState var isKeyboardActive: Bool
     
@@ -99,7 +100,7 @@ struct JournalCreateEntryView: View {
                             .scaledToFill()
                             .clipped()
                     }
-                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, loadedSong: $loadedSong, text: text, day: day, mood: mascotMood, title: title, whereToSave: whereToSave)
+                    ToolbarEntryView(entryList: $entryList, images: $images, song: $songID, loadedSong: $loadedSong, averageMood: $averageMood, text: text, day: day, mood: mascotMood, title: title, whereToSave: whereToSave)
                 }
                 .padding(.horizontal)
             }
