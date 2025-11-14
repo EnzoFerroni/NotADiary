@@ -15,6 +15,8 @@ struct HomeScreenView: View {
     @State var toggleShared: Bool = false
     @State var haptics1: Bool = false
     
+    @State var averageMood: Int = 0
+    
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
     @Environment(\.refresh) private var refresh
     
@@ -27,7 +29,7 @@ struct HomeScreenView: View {
                         .frame(height: 40)
                         .foregroundStyle(.clear)
                     
-                    MascotView(toogleSheet: $toggleSheet)
+                    MascotView(moodValue: $averageMood, toogleSheet: $toggleSheet)
                     ForEach(Array(ckViewModel.entries.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             JournalEntryFullView(entry: entry)
@@ -76,7 +78,7 @@ struct HomeScreenView: View {
             }
             .background { Color.background.ignoresSafeArea()}
             .fullScreenCover(isPresented: $toggleSheet){
-                JournalCreateEntryView(entryList: $entryList)
+                JournalCreateEntryView(entryList: $entryList, averageMood: $averageMood)
                     .onDisappear {
                         Task {
                             do {

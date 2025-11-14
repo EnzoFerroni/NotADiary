@@ -26,7 +26,7 @@ class NotificationViewModel {
         
         let content = UNMutableNotificationContent()
         content.title = "Lembrete de NotADiary"
-        content.body = "Notificação padraão de horáio!"
+        content.body = "Como foi seu dia?"
         content.sound = .default
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)

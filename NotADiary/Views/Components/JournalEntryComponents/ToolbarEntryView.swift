@@ -12,6 +12,8 @@ import MusicKit
 struct ToolbarEntryView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(CloudKitViewModel.self) var ckViewModel: CloudKitViewModel
+    
+    @State var mascotViewModel = MascotViewModel()
 
     @Binding var entryList: [JournalEntry]
     @Binding var images: [UIImage]
@@ -25,6 +27,8 @@ struct ToolbarEntryView: View {
     @State var haptics2: Bool = false
     @State var haptics3: Bool = false
     @State var haptics4: Bool = false
+    
+    @Binding var averageMood: Int
         
     var text: String
     var day: Date
@@ -89,7 +93,7 @@ struct ToolbarEntryView: View {
 //                                if whereToSave {
 //                                    await HealthManager.shared.save(sample: relato!)
 //                                }
-                                
+                                averageMood = await mascotViewModel.avarageMood(viewModel: ckViewModel)
                                 // ÖS DORAKM AVAROSKA
                                 dismiss()
                             }

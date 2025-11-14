@@ -61,6 +61,10 @@ struct NotificationView: View {
                             state = 1
                             isLoading = true
                         }
+                        else if name != "" {
+                            state = 1
+                            isLoading = true
+                        }
                     } label: {
                         Text("Salvar")
                     }
