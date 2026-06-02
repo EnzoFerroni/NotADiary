@@ -46,21 +46,6 @@ Um mascote acompanha cada entrada, mudando de humor de acordo com a emoção reg
 - Conta iCloud (para sincronização)
 - Assinatura do Apple Music (para as funcionalidades de música)
 
-## 🚀 Como rodar
-
-```bash
-git clone <repo-url>
-cd NotADiary
-open NotADiary.xcodeproj
-```
-
-No Xcode:
-
-1. Selecione um time de desenvolvimento válido em **Signing & Capabilities**.
-2. O app usa os recursos de **iCloud (CloudKit)**, **Push Notifications** e **Music Haptics** — certifique-se de que estão habilitados no seu perfil de provisionamento.
-3. Ajuste o `iCloud container identifier` em `NotADiary.entitlements` para o seu próprio container.
-4. Compile e rode em um **dispositivo físico** (a háptica e o MusicKit não funcionam plenamente no simulador).
-
 ## 📁 Estrutura do projeto
 
 ```
