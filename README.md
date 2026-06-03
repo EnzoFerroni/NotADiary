@@ -31,6 +31,7 @@ mirrors your mood.
 ## 📑 Table of Contents
 
 - [About](#-about)
+- [Screenshots](#-screenshots)
 - [Meet the Mascot](#-meet-the-mascot)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
@@ -51,6 +52,18 @@ vibration patterns (haptics) carefully designed for each feeling.
 
 A mascot follows along with every entry, shifting its mood to match the emotion you
 log — giving your journal real personality.
+
+---
+
+## 📱 Screenshots
+
+<div align="center">
+
+| Log your feelings | Learn about yourself | Share what you love |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/log-feelings.png" width="240"/> | <img src="docs/screenshots/learn-about-yourself.png" width="240"/> | <img src="docs/screenshots/share-with-loved-ones.png" width="240"/> |
+
+</div>
 
 ---
 
