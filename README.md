@@ -7,7 +7,7 @@
 ### An emotional journal for iOS that goes beyond words. 🐾
 
 Capture how you feel with text, photos, music, and **haptic feedback** that turns
-every emotion into a physical sensation — guided by a little dachshund mascot that
+every emotion into a physical sensation — guided by a little puppy mascot that
 mirrors your mood.
 
 <br/>
@@ -69,7 +69,7 @@ log — giving your journal real personality.
 
 ## 🐶 Meet the Mascot
 
-The dachshund reacts to your entry with **12 mood states** (six base emotions, each
+The puppy reacts to your entry with **12 mood states** (six base emotions, each
 with an *ultra* variant). Here are the six core moods:
 
 <div align="center">
@@ -220,5 +220,5 @@ Released under the [MIT License](LICENSE). © 2026 Enzo Ferroni, Francisco Losad
 
 <div align="center">
 <br/>
-<sub>Made with 💜, haptics and a very expressive dachshund.</sub>
+<sub>Made with 💜, haptics and a very expressive puppy.</sub>
 </div>
